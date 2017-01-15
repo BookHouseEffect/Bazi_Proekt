@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80DBB1DE-00B3-4188-8704-0B4526656650}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bazi_Repository</RootNamespace>
+    <AssemblyName>Bazi_Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Devart.Data.Linq, Version=4.5.1141.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Implementation\AccountManager.cs" />
+    <Compile Include="Implementation\AddressManager.cs" />
+    <Compile Include="Implementation\AirplaneManager.cs" />
+    <Compile Include="Implementation\AirplaneTypeManager.cs" />
+    <Compile Include="Implementation\AirportManager.cs" />
+    <Compile Include="Implementation\BaseManager.cs" />
+    <Compile Include="Implementation\CompanyManager.cs" />
+    <Compile Include="Implementation\EmployeeManager.cs" />
+    <Compile Include="Implementation\FlightManager.cs" />
+    <Compile Include="Implementation\FlightSchemeManager.cs" />
+    <Compile Include="Implementation\ISeatManager.cs" />
+    <Compile Include="Implementation\PassengerManager.cs" />
+    <Compile Include="Implementation\PersonManager.cs" />
+    <Compile Include="Implementation\PriceManager.cs" />
+    <Compile Include="Implementation\RoleManager.cs" />
+    <Compile Include="Implementation\ClassManager.cs" />
+    <Compile Include="Implementation\ScheduleManager.cs" />
+    <Compile Include="Implementation\SeatsManager.cs" />
+    <Compile Include="Implementation\SubFlightManager.cs" />
+    <Compile Include="Implementation\TicketsManager.cs" />
+    <Compile Include="Interfaces\IAccountManager.cs" />
+    <Compile Include="Interfaces\IAddressManager.cs" />
+    <Compile Include="Interfaces\IAirplaneManager.cs" />
+    <Compile Include="Interfaces\IAirplaneTypeManager.cs" />
+    <Compile Include="Interfaces\IAirportManager.cs" />
+    <Compile Include="Interfaces\IClassManager.cs" />
+    <Compile Include="Interfaces\ICompanyManager.cs" />
+    <Compile Include="Interfaces\IEmployeeManager.cs" />
+    <Compile Include="Interfaces\IFlightManager.cs" />
+    <Compile Include="Interfaces\IFlightSchemeManager.cs" />
+    <Compile Include="Interfaces\IPassengerManager.cs" />
+    <Compile Include="Interfaces\IPersonManager.cs" />
+    <Compile Include="Interfaces\IPriceManager.cs" />
+    <Compile Include="Interfaces\IRoleManager.cs" />
+    <Compile Include="Interfaces\IScheduleManager.cs" />
+    <Compile Include="Interfaces\ISeatsManager.cs" />
+    <Compile Include="Interfaces\ISubFlightManager.cs" />
+    <Compile Include="Interfaces\ITicketsManager.cs" />
+    <Compile Include="Interfaces\IViewsManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepoBaseResponse.cs" />
+    <Compile Include="RepositoryRequests\RepoAccountRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoAirplaneRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoAirplaneTypeRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoAirportRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoBaseRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoAddressRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoClassRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoCompanyRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoEmployeeRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoFlightRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoFlightSchemeRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoPassengerRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoPersonRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoPriceRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoRoleRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoScheduleRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoSeatsRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoSubFlightRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoTicketRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bazi_Data_Access\Bazi_Data_Access.csproj">
+      <Project>{0a4eacdc-0b8f-4dab-adb5-c309500c5dd8}</Project>
+      <Name>Bazi_Data_Access</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
