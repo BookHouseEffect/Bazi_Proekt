@@ -40,7 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AccountService.cs" />
+    <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="PasswordCryptography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AccountRequest.cs" />
+    <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Responses\AccountResponse.cs" />
+    <Compile Include="Responses\BaseResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bazi_Data_Access\Bazi_Data_Access.csproj">
@@ -52,12 +59,7 @@
       <Name>Bazi_Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Implementation\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Requests\" />
-    <Folder Include="Responses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
