@@ -17,5 +17,12 @@ namespace Bazi_Business.Responses
         {
             this.StatusCode = HttpStatusCode.OK;
         }
+
+        public void SetInternalServerErrorMessage(Exception ex)
+        {
+            this.StatusCode = HttpStatusCode.InternalServerError;
+            this.Exception = ex;
+            this.Message = "A problem occured in our servers. We are working on it. Please, try again later.";
+        }
     }
 }

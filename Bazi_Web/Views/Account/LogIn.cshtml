@@ -11,7 +11,7 @@
         </div>
         <div class="panel panel-body">
             @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { id = "logInForm", @Class = "", role = "form" }))
-        {
+            {
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     @Html.ValidationSummary(true, "", new { @Class = "text-danger", style = "list-style-type: none;" })
@@ -33,7 +33,7 @@
                 </div>
 
                 <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Login</button>
-                }
-            </div>
+            }
+        </div>
     </div>
 </div>

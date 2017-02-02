@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
@@ -21,16 +22,49 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    
                     @if (User == null)
                     {
-                        <li id="user1">@Html.ActionLink("Register", "Register", new { controller = "Account" }, new { @Class = "glyphicon glyphicon-user" })</li>
-                        <li id="user2">@Html.ActionLink("Log In", "LogIn", new { controller = "Account" }, new { @Class = "glyphicon glyphicon-log-in" })</li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Passenger Account", "Register", "Account",
+                                        "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER.ToString(), "glyphicon glyphicon-user")
+                                </li>
+                                <li>
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Company Account", "Register", "Account",
+                                        "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY.ToString(), "glyphicon glyphicon-plane")
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Log In", "LogIn", "Account", null, "glyphicon glyphicon-log-in")
+                        </li>
                     }
                     else
                     {
-                        <li id="user1">@Html.ActionLink(String.Format(" Welcome, {0}", @User.UserName), "", new { controller = "" },
-                                      new { @Class = "glyphicon glyphicon-user", title = String.Format(" Welcome, {0}", @User.UserName) })</li>
-                        <li id="user2">@Html.ActionLink("Sign Out", "SignOut", new { controller = "Account" }, new { @Class = "glyphicon glyphicon-log-out" })</li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome, @User.UserName<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li id="user1">
+                                    @*TODO Add account settings link configuration*@
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Account Settings", "", "", null, "glyphicon glyphicon-cog")
+                                </li>
+
+                                @if (User.Roles.Contains("Company")) { 
+                                    <li>
+                                        @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Register Employee Account", "Register", "Account",
+                                            "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.EMPLOYEE.ToString(), "glyphicon glyphicon-briefcase")
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            @**TODO Add log out configuration button*@
+                            @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Sign Out", "LogOut", "Account", null, "glyphicon glyphicon-log-out")
+                        </li>
                     }
                 </ul>
             </div>
@@ -41,11 +75,14 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Airplace Conpany Management System</p>
         </footer>
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/SiteScripts/General.js"></script>
 </body>
 </html>

@@ -39,9 +39,7 @@ namespace Bazi_Business.Implementation
             }
             catch (Exception ex)
             {
-                response.StatusCode = HttpStatusCode.InternalServerError;
-                response.Message = "A problem occured in our servers. We are working on it. Please, try again later.";
-                response.Account = null;
+                response.SetInternalServerErrorMessage(ex);
             }
 
             
@@ -70,6 +68,26 @@ namespace Bazi_Business.Implementation
         public RegisterResponse Register(RegisterRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public GetRegisterableRolesResponse GetRegisterableRoles()
+        {
+            GetRegisterableRolesResponse returnResponse = new GetRegisterableRolesResponse();
+
+            RoleManager manager = new RoleManager();
+            RepoBaseResponse<ICollection<Ulogi>> response = manager.GetRoleList();
+            if (response.Status != HttpStatusCode.OK)
+            {
+                returnResponse.SetInternalServerErrorMessage(response.Exception);
+                return returnResponse;
+            }
+
+            foreach (Ulogi u in response.ReturnedResult)
+            {
+                if (u.UlogaIme != "Employee")
+                    returnResponse.RegistrableRoleList.Add(u);
+            }
+            return returnResponse;
         }
     }
 }

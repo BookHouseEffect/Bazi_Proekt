@@ -1,11 +1,8 @@
 ﻿using Bazi_Business.Requests;
 using Bazi_Business.Responses;
-using Bazi_Repository.Implementation;
 using Bazi_Web.Models;
-using Db201617zVaProektRnabContext;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,34 +13,74 @@ namespace Bazi_Web.Controllers
 {
     public class AccountController : BaseController
     {
-        // GET: Account
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public enum AccountTypes { PASSENGER, COMPANY, EMPLOYEE }
 
         [HttpGet]
-        public ActionResult Register()
+        public ActionResult Register(AccountTypes accountType)
         {
-            return View();
+            //TODO don't allow account registration for signed users, except for company
+            switch (accountType)
+            {
+                case AccountTypes.PASSENGER:
+                    return View(new PassengersViewModel() { SelectedAccountType = accountType });
+                case AccountTypes.EMPLOYEE:
+                    if (User.Roles.Contains("Company"))
+                        return View(new EmployeeViewModel() { SelectedAccountType = accountType });
+                    else
+                        return Redirect("~/"); //TODO redirect to forbidden
+                case AccountTypes.COMPANY:
+                    return View(new CompanyViewModel() { SelectedAccountType = accountType });
+                default:
+                    return Redirect("~/"); //TODO Redirect to not found page
+            }
+
         }
 
-        /*TODO Requires a model*/
-        //[HttpPost]
-        //public ActionResult Register(SignUpViewModel model)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public ActionResult Register(AccountBaseModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                switch (((RegisterViewModel)model).SelectedAccountType)
+                {
+                    case AccountTypes.PASSENGER: return View((PassengersViewModel)model);
+                    case AccountTypes.EMPLOYEE:
+                        if (User.Roles.Contains("Company"))
+                            return View((EmployeeViewModel)model);
+                        else return Redirect("~/"); //TODO redirect to forbidden
+                    case AccountTypes.COMPANY:
+                        return View((CompanyViewModel) model);
+                    default:
+                        return Redirect("~/"); //TODO Redirect to not found page
+                }
+            }
+
+            //TODO Perform registration Process
+            switch (((RegisterViewModel)model).SelectedAccountType)
+            {
+                case AccountTypes.PASSENGER: return View((PassengersViewModel)model);
+                case AccountTypes.EMPLOYEE:
+                    if (User.Roles.Contains("Company"))
+                        return View((EmployeeViewModel)model);
+                    else return Redirect("~/"); //TODO redirect to forbidden
+                case AccountTypes.COMPANY:
+                    return View((CompanyViewModel)model);
+                default:
+                    return Redirect("~/"); //TODO Redirect to not found page
+            }
+        } 
 
         [HttpGet]
         public ActionResult LogIn()
         {
+            //TODO check if the user is already logged in before showing the login form
             return View();
         }
 
         [HttpPost]
         public ActionResult LogIn(LogInViewModel model)
         {
+            //TODO do not allow login if the user is already logged
             if (!ModelState.IsValid)
                 return View(model);
             LogInResponse response = AccountService.LogIn(
@@ -70,6 +107,24 @@ namespace Bazi_Web.Controllers
                 return RedirectToAction("", ""); //TODO Redirect to worker Panel
             } else
                 return RedirectToAction("", ""); //TODO Redirect to error 500 page Panel.
+        }
+
+        [HttpGet]
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+            cookie.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie);
+            return RedirectToAction("Index", "Home", null);
+        }
+
+        [HttpGet]
+        public JsonResult Address(string attributeName, string attributeValue)
+        {
+
+            return new JsonResult();
         }
     }
 }

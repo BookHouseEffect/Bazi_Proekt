@@ -1,0 +1,56 @@
+﻿@model Bazi_Web.Models.AddressViewModel
+
+<div class="panel-group">
+    <h3 class="text-primary">Address Information</h3>
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.StateName, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.StateName, new { @Class = "form-control", id="addressStateName" })
+            @Html.ValidationMessageFor(m => m.StateName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.RegionName, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.RegionName, new { @Class = "form-control", id = "addressRegionName" })
+            @Html.ValidationMessageFor(m => m.RegionName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CityName, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.CityName, new { @Class = "form-control", id = "addressCityName" })
+            @Html.ValidationMessageFor(m => m.CityName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ZipCode, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.ZipCode, new { @Class = "form-control", id = "addressZipName" })
+            @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.StreetName, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.StreetName, new { @Class = "form-control", id = "addressStreetName" })
+            @Html.ValidationMessageFor(m => m.StreetName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.StreetNumber, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.StreetNumber, new { @Class = "form-control", id = "addressStreetNumber" })
+            @Html.ValidationMessageFor(m => m.StreetNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <hr/>
+</div>

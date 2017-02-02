@@ -21,11 +21,6 @@ body {
     margin: auto;
 }
 
-.glyphicon-user:before,
-.glyphicon-log-in:before,
-.glyphicon-log-out:before {
-    margin:10px;
-}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {

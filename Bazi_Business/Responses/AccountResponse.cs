@@ -16,4 +16,14 @@ namespace Bazi_Business.Responses
     {
 
     }
+
+    public class GetRegisterableRolesResponse : BaseResponse
+    {
+        public ICollection<Ulogi> RegistrableRoleList { get; set; }
+
+        public GetRegisterableRolesResponse() : base()
+        {
+            RegistrableRoleList = new List<Ulogi>();
+        }
+    }
 }

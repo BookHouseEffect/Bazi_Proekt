@@ -26,20 +26,5 @@ namespace UnitTests
             Assert.AreEqual(prva, (roleManager.GetRoleById(new RepoGetRoleByIdRequest { RoleId = prva.UlogaId })).ReturnedResult);
             Assert.AreEqual(prva, (roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = prva.UlogaIme })).ReturnedResult);
         }
-
-        [TestMethod]
-        public void AccountTest()
-        {
-            AccountManager acm = new AccountManager();
-
-            RepoBaseResponse<Akaunti> response = acm.GetAccountById(new RepoGetAccountByIdRequest { Id = 1 });
-            Assert.AreEqual(HttpStatusCode.OK, response.Status);
-
-            RepoBaseResponse<Akaunti> response2 = 
-                acm.ChangePassword(new RepoChangePasswordRequest { Id = 1, PasswordHash = "0", SecurityStamp = "0" });
-            Assert.AreEqual(HttpStatusCode.OK, response2.Status);
-            Assert.AreEqual("0", response.ReturnedResult.BezbednostnaMarka);
-            Assert.AreEqual("0", response.ReturnedResult.LozinkaHash);
-        }
     }
 }

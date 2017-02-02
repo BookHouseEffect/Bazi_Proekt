@@ -1,7 +1,42 @@
-﻿
+﻿@model Bazi_Web.Models.AccountBaseModel
+@using Bazi_Web.Models
 @{
     ViewBag.Title = "Register";
 }
 
-<h2>Register</h2>
+<div class="row well-lg">
+    <div class="panel panel-info col-md-offset-2 col-md-8">
+        <div class="panel panel-heading">
+            <h2>Plase register the @(((RegisterViewModel)Model).SelectedAccountType) account</h2>
+        </div>
+        <div class="panel panel-body">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "registerForm", @Class = "", role = "form" }))
+            {
+                <div class="form-horizontal">
+
+                    @Html.Hidden("ModelType", Model.GetType())
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @Class = "text-danger", style = "list-style-type: none;" })
+
+                    @Html.Partial("RegisterPartialView", (RegisterViewModel) Model)
+                    @switch (((RegisterViewModel)Model).SelectedAccountType) {
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER:
+                            @Html.Partial("PersonPartialView", (Bazi_Web.Models.PersonViewModel)Model)
+                            @Html.Partial("PassportPartialView", (Bazi_Web.Models.PassengersViewModel)Model)
+                            break;
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.EMPLOYEE:
+                            @Html.Partial("PersonPartialView", (Bazi_Web.Models.PersonViewModel)Model)
+                            @Html.Partial("EmployeePartialView", (Bazi_Web.Models.EmployeeViewModel)Model)
+                            break;
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY:
+                            @Html.Partial("CompanyPartialView", (Bazi_Web.Models.CompanyViewModel)Model);
+                            break;
+                    }
+
+                    <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Register</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
