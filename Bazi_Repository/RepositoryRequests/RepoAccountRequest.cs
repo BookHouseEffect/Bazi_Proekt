@@ -7,6 +7,8 @@ namespace Bazi_Repository.RepositoryRequests
     {
         public Akaunti Account { get; set; }
         public Ulogi Role { get; set; }
+        public String PasswordHash { get; set; }
+        public String SecurityStamp { get; set; }
     }
 
     public class RepoGetAccountByUserNameRequest : RepoBaseRequest

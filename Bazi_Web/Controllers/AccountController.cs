@@ -1,6 +1,7 @@
 ﻿using Bazi_Business.Requests;
 using Bazi_Business.Responses;
 using Bazi_Web.Models;
+using Db201617zVaProektRnabContext;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,71 +19,86 @@ namespace Bazi_Web.Controllers
         [HttpGet]
         public ActionResult Register(AccountTypes accountType)
         {
-            //TODO don't allow account registration for signed users, except for company
-            switch (accountType)
-            {
-                case AccountTypes.PASSENGER:
-                    return View(new PassengersViewModel() { SelectedAccountType = accountType });
-                case AccountTypes.EMPLOYEE:
-                    if (User.Roles.Contains("Company"))
-                        return View(new EmployeeViewModel() { SelectedAccountType = accountType });
-                    else
-                        return Redirect("~/"); //TODO redirect to forbidden
-                case AccountTypes.COMPANY:
-                    return View(new CompanyViewModel() { SelectedAccountType = accountType });
-                default:
-                    return Redirect("~/"); //TODO Redirect to not found page
+            if (User != null && User.Identity.IsAuthenticated) {
+                if (accountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
+                    return View(new EmployeeViewModel() { SelectedAccountType = accountType });
+                return Redirect("~/");
             }
-
+            if (accountType == AccountTypes.COMPANY)
+                return View(new CompanyViewModel() { SelectedAccountType = accountType });
+            if (accountType == AccountTypes.PASSENGER)
+                return View(new PassengersViewModel() { SelectedAccountType = accountType });
+            return Redirect("~/");
         }
 
         [HttpPost]
         public ActionResult Register(AccountBaseModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                switch (((RegisterViewModel)model).SelectedAccountType)
-                {
-                    case AccountTypes.PASSENGER: return View((PassengersViewModel)model);
-                    case AccountTypes.EMPLOYEE:
-                        if (User.Roles.Contains("Company"))
-                            return View((EmployeeViewModel)model);
-                        else return Redirect("~/"); //TODO redirect to forbidden
-                    case AccountTypes.COMPANY:
-                        return View((CompanyViewModel) model);
-                    default:
-                        return Redirect("~/"); //TODO Redirect to not found page
+            RegisterViewModel submodel = (RegisterViewModel)model;
+            if (User != null && User.Identity.IsAuthenticated) {
+                if (!ModelState.IsValid){
+                    if(submodel.SelectedAccountType == AccountTypes.EMPLOYEE)
+                        return View((EmployeeViewModel)model);
+                    return Redirect("~/");
                 }
+
+                //TODO employe registration
+                if (submodel.SelectedAccountType == AccountTypes.EMPLOYEE)
+                    return View((EmployeeViewModel)model);
+                return Redirect("~/");
             }
 
-            //TODO Perform registration Process
-            switch (((RegisterViewModel)model).SelectedAccountType)
-            {
-                case AccountTypes.PASSENGER: return View((PassengersViewModel)model);
-                case AccountTypes.EMPLOYEE:
-                    if (User.Roles.Contains("Company"))
-                        return View((EmployeeViewModel)model);
-                    else return Redirect("~/"); //TODO redirect to forbidden
-                case AccountTypes.COMPANY:
+            if (!ModelState.IsValid) {
+                if (submodel.SelectedAccountType == AccountTypes.COMPANY)
                     return View((CompanyViewModel)model);
-                default:
-                    return Redirect("~/"); //TODO Redirect to not found page
+                if (submodel.SelectedAccountType == AccountTypes.PASSENGER)
+                    return View((PassengersViewModel)model);
+                return HttpNotFound();
             }
+
+            //TODO perform company, passenger registration
+            if (submodel.SelectedAccountType == AccountTypes.COMPANY)
+            {
+                CompanyViewModel companyModel = (CompanyViewModel)model;
+                RegisterCompanyResponse companyResponse = 
+                    AccountService.RegisterCompany(new RegisterCompanyRequest
+                    {
+                        CompanyAccount = companyModel.ParseToAkaunti(),
+                        CompanyAddress = companyModel.Address.ParseToAdresi(),
+                        Company = companyModel.ParseToAviokompanii(),
+                        Password = companyModel.Password
+                    });
+
+                if (companyResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    ModelState.AddModelError(String.Empty, companyResponse.Message);
+                    return View(model);
+                }
+                else
+                    return RedirectToAction("Login");
+            }
+            if (submodel.SelectedAccountType == AccountTypes.PASSENGER)
+                return View((PassengersViewModel)model);
+            return HttpNotFound();
         } 
 
         [HttpGet]
         public ActionResult LogIn()
         {
-            //TODO check if the user is already logged in before showing the login form
+            if (User != null && User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             return View();
         }
 
         [HttpPost]
         public ActionResult LogIn(LogInViewModel model)
         {
-            //TODO do not allow login if the user is already logged
+            if (User != null && User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             if (!ModelState.IsValid)
                 return View(model);
+
             LogInResponse response = AccountService.LogIn(
                 new LogInRequest { Username = model.Username, Password = model.Password });
             if (response.StatusCode != HttpStatusCode.OK) {

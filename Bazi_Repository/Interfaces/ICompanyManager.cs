@@ -7,10 +7,10 @@ namespace Bazi_Repository.Interfaces
 {
     interface ICompanyManager
     {
-        RepoBaseResponse<Boolean> RegisterCompany(RepoRegisterCompanyRequest requset);
+        RepoBaseResponse<Aviokompanii> RegisterCompany(RepoRegisterCompanyRequest request);
         RepoBaseResponse<Aviokompanii> GetCompanyById(RepoGetCompanyByIdRequest request);
-        RepoBaseResponse<Aviokompanii> GetCompanyByName(RepoGetCompanyByNameRequest request);
-        RepoBaseResponse<ICollection<Aviokompanii>> GetCompanyList();
+        RepoBaseResponse<ICollection<Aviokompanii>> GetCompaniesByName(RepoGetCompaniesByNameRequest request);
+        RepoBaseResponse<ICollection<Aviokompanii>> GetCompanyList(RepoGetCompanyListRequest request);
         RepoBaseResponse<Aviokompanii> UpdateCompanyInfo(RepoUpdateCompanyInfoRequest request);
         RepoBaseResponse<Aviokompanii> UpdateCompanyAddressInfo(RepoUpdateCompanyAddressInfoRequest request);
 

@@ -11,7 +11,8 @@ namespace Bazi_Business.Interfaces
     interface IAccountService
     {
         LogInResponse LogIn(LogInRequest request);
-        RegisterResponse Register(RegisterRequest request);
-        
+        RegisterCompanyResponse RegisterCompany(RegisterCompanyRequest request);
+        RegisterPassengerResponse RegisterPassenger(RegisterPassengerRequest request);
+        RegisterEmployeeResponse RegisterEmployee(RegisterEmployeeRequest request);
     }
 }

@@ -4,8 +4,8 @@
     <Generation>
       <GeneratedFiles>
         <File Name="RnabDataModel.Db201617zVaProektRnabDataContext.cs" />
-        <File Name="RnabDataModel.TipNaAvioni.cs" />
         <File Name="RnabDataModel.Aviokompanii.cs" />
+        <File Name="RnabDataModel.TipNaAvioni.cs" />
         <File Name="RnabDataModel.Sedishta.cs" />
         <File Name="RnabDataModel.Letovi.cs" />
         <File Name="RnabDataModel.Klasi.cs" />
@@ -19,11 +19,11 @@
         <File Name="RnabDataModel.PlanoviNaLetanje.cs" />
         <File Name="RnabDataModel.Aerodromi.cs" />
         <File Name="RnabDataModel.Denovi.cs" />
+        <File Name="RnabDataModel.Vraboteni.cs" />
         <File Name="RnabDataModel.DenoviNaLetanje.cs" />
         <File Name="RnabDataModel.Ulogi.cs" />
         <File Name="RnabDataModel.Akaunti.cs" />
         <File Name="RnabDataModel.Lugje.cs" />
-        <File Name="RnabDataModel.Vraboteni.cs" />
         <File Name="RnabDataModel.KlasiSoMedianaRezervaciiPoKlasa.cs" />
         <File Name="RnabDataModel.Brojac.cs" />
         <File Name="RnabDataModel.AviokompanijaSoNajgolemProfit.cs" />

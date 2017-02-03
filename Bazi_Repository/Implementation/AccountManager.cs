@@ -8,11 +8,23 @@ namespace Bazi_Repository.Implementation
 {
     sealed public class AccountManager : BaseManager, IAccountManager
     {
-        public AccountManager() { }
+
+        public AccountManager(): base() { }
+        public AccountManager(Db201617zVaProektRnabDataContext e) : base(e) { }
 
         private Akaunti GetById(int id)
         {
-            return Context.Akaunti.Where(x => x.AkauntId == id).Single();
+            return Context.Akaunti.Where(x => x.AkauntId == id).SingleOrDefault();
+        }
+
+        private Akaunti GetByUserName(string username)
+        {
+            return Context.Akaunti.Where(x => x.KorisnichkoIme == username).SingleOrDefault();
+        }
+
+        private Akaunti GetByEmail(string email)
+        {
+            return Context.Akaunti.Where(x => x.EmailAdresa == email).SingleOrDefault();
         }
 
         public RepoBaseResponse<Akaunti> ChangePassword(RepoChangePasswordRequest request)
@@ -37,7 +49,7 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<Akaunti> response = new RepoBaseResponse<Akaunti>();
             try
             {
-                response.ReturnedResult = Context.Akaunti.Where(x => x.EmailAdresa == request.Email).Single();
+                response.ReturnedResult = GetByEmail(request.Email);
             }
             catch (Exception ex)
             {
@@ -51,7 +63,7 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<Akaunti> response = new RepoBaseResponse<Akaunti>();
             try
             {
-                response.ReturnedResult = Context.Akaunti.Where(x => x.KorisnichkoIme == request.Username).Single();
+                response.ReturnedResult = GetByUserName(request.Username);
             }
             catch (Exception ex)
             {
@@ -63,7 +75,7 @@ namespace Bazi_Repository.Implementation
         public RepoBaseResponse<Akaunti> RegisterAccount(RepoRegisterAccountRequest request)
         {
             RepoBaseResponse<Akaunti> response = new RepoBaseResponse<Akaunti>();
-            RoleManager roleManager = new RoleManager();
+            RoleManager roleManager = new RoleManager(this.Context);
             try
             {
                 RepoBaseResponse<Ulogi> currentRoleResponse = roleManager.GetRoleById(new RepoGetRoleByIdRequest { RoleId = request.Role.UlogaId });
@@ -71,7 +83,14 @@ namespace Bazi_Repository.Implementation
                     throw currentRoleResponse.Exception;
                 if (!Object.Equals(request.Role, currentRoleResponse.ReturnedResult))
                     throw new Exception("Inconsistent Role Received.");
+                if (GetByEmail(request.Account.EmailAdresa) != null)
+                    throw new Exception("The email address already exist. Choose another one.");
+                if (GetByUserName(request.Account.KorisnichkoIme) != null)
+                    throw new Exception("The usernamealready exist. Choose another one.");
+
                 request.Account.UlogaId = currentRoleResponse.ReturnedResult.UlogaId;
+                request.Account.LozinkaHash = request.PasswordHash;
+                request.Account.BezbednostnaMarka = request.SecurityStamp;
                 Context.Akaunti.InsertOnSubmit(request.Account);
                 Context.SubmitChanges();
                 response.ReturnedResult = request.Account;

@@ -51,7 +51,6 @@
     <Compile Include="Implementation\EmployeeManager.cs" />
     <Compile Include="Implementation\FlightManager.cs" />
     <Compile Include="Implementation\FlightSchemeManager.cs" />
-    <Compile Include="Implementation\ISeatManager.cs" />
     <Compile Include="Implementation\PassengerManager.cs" />
     <Compile Include="Implementation\PersonManager.cs" />
     <Compile Include="Implementation\PriceManager.cs" />

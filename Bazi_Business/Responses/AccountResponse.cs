@@ -12,9 +12,19 @@ namespace Bazi_Business.Responses
         public Akaunti Account { get; set; }
     }
 
-    public class RegisterResponse : BaseResponse
+    public class RegisterCompanyResponse : BaseResponse
     {
+        public Aviokompanii RegisteredCompany { get; set; }
+    }
 
+    public class RegisterPassengerResponse : BaseResponse
+    {
+        //TODO Add body context
+    }
+
+    public class RegisterEmployeeResponse : BaseResponse
+    {
+        //TODO Add body context
     }
 
     public class GetRegisterableRolesResponse : BaseResponse

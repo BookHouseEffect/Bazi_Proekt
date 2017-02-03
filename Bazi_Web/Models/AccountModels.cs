@@ -68,6 +68,11 @@ namespace Bazi_Web.Models
 
         public AccountTypes SelectedAccountType { get; set; }
 
+        public Akaunti ParseToAkaunti()
+        {
+            return new Akaunti { EmailAdresa = this.EmailAddress, KorisnichkoIme = this.Username };
+        }
+
     }
 
     public class PersonViewModel : RegisterViewModel
@@ -156,6 +161,11 @@ namespace Bazi_Web.Models
         {
             Address = new AddressViewModel();
         }
+
+        public Aviokompanii ParseToAviokompanii()
+        {
+            return new Aviokompanii { ImeNaKompanija = this.CompanyName };
+        }
     }
 
     public class AddressViewModel {
@@ -178,7 +188,8 @@ namespace Bazi_Web.Models
         [Required(AllowEmptyStrings = false,
             ErrorMessage = "Please, enter the zip code:")]
         [Display(Name = "Zip Code:")]
-        public string ZipCode { get; set; }
+        [DataType(DataType.PostalCode)]
+        public int ZipCode { get; set; }
 
         [Display(Name = "Region name:")]
         public string RegionName { get; set; }
@@ -187,5 +198,10 @@ namespace Bazi_Web.Models
             ErrorMessage = "Please, enter the state name:")]
         [Display(Name = "State name:")]
         public string StateName { get; set; }
+
+        public Adresi ParseToAdresi()
+        {
+            return new Adresi { Broj = this.StreetNumber, Drzhava = this.StateName, Grad = this.CityName, ImeNaUlica = this.StreetName, Oblast = this.RegionName, PoshtenskiBroj = this.ZipCode };
+        }
     }
 }

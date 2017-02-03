@@ -10,6 +10,7 @@ using Bazi_Repository.Implementation;
 using Bazi_Repository;
 using Db201617zVaProektRnabContext;
 using System.Net;
+using Bazi_Repository.RepositoryRequests;
 
 namespace Bazi_Business.Implementation
 {
@@ -65,11 +66,53 @@ namespace Bazi_Business.Implementation
             return response;
         }
 
-        public RegisterResponse Register(RegisterRequest request)
+        public RegisterCompanyResponse RegisterCompany(RegisterCompanyRequest request)
+        {
+            RegisterCompanyResponse response = new RegisterCompanyResponse();
+            try
+            {
+                HashedAndSaltedPassword hashAndSalt =  PasswordCryptography.CryptPassword(request.Password);
+
+                CompanyManager companyManager = new CompanyManager();
+                RepoBaseResponse<Aviokompanii> repoResponse =
+                    companyManager.RegisterCompany(new RepoRegisterCompanyRequest
+                    {
+                        Account = request.CompanyAccount,
+                        Address = request.CompanyAddress,
+                        CompanyName = request.Company.ImeNaKompanija,
+                        PasswordHash = hashAndSalt.PasswordHash,
+                        SecurityStamp = hashAndSalt.PasswordSalt
+                    });
+
+                if (repoResponse.Status == HttpStatusCode.OK)
+                    response.RegisteredCompany = repoResponse.ReturnedResult;
+                else
+                {
+                    response.StatusCode = HttpStatusCode.InternalServerError;
+                    response.Exception = repoResponse.Exception;
+                }
+
+                response.Message = repoResponse.Message;
+
+            } catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+
+            return response;
+        }
+
+        public RegisterPassengerResponse RegisterPassenger(RegisterPassengerRequest request)
         {
             throw new NotImplementedException();
         }
 
+        public RegisterEmployeeResponse RegisterEmployee(RegisterEmployeeRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO Add GetRegisterableRoles into interface if required
         public GetRegisterableRolesResponse GetRegisterableRoles()
         {
             GetRegisterableRolesResponse returnResponse = new GetRegisterableRolesResponse();
@@ -89,5 +132,7 @@ namespace Bazi_Business.Implementation
             }
             return returnResponse;
         }
+
+
     }
 }

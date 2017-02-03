@@ -9,7 +9,8 @@ namespace Bazi_Repository.Implementation
 {
     sealed public class RoleManager : BaseManager, IRoleManager
     {
-        public RoleManager() { }
+        public RoleManager(): base() { }
+        public RoleManager(Db201617zVaProektRnabDataContext e) : base(e) { }
 
         public RepoBaseResponse<Ulogi> GetRoleById(RepoGetRoleByIdRequest request)
         {
