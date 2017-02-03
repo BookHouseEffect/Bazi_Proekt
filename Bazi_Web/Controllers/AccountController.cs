@@ -56,7 +56,6 @@ namespace Bazi_Web.Controllers
                 return HttpNotFound();
             }
 
-            //TODO perform company, passenger registration
             if (submodel.SelectedAccountType == AccountTypes.COMPANY)
             {
                 CompanyViewModel companyModel = (CompanyViewModel)model;
@@ -78,7 +77,26 @@ namespace Bazi_Web.Controllers
                     return RedirectToAction("Login");
             }
             if (submodel.SelectedAccountType == AccountTypes.PASSENGER)
-                return View((PassengersViewModel)model);
+            {
+                PassengersViewModel passengerModel = (PassengersViewModel)model;
+                RegisterPassengerResponse passengerResponse =
+                    AccountService.RegisterPassenger(new RegisterPassengerRequest
+                    {
+                        PassengerAccount = passengerModel.ParseToAkaunti(),
+                        PassengerAddress = passengerModel.Address.ParseToAdresi(),
+                        Person = passengerModel.ParseToLugje(),
+                        Passenger = passengerModel.ParseToPatnici(),
+                        Password = passengerModel.Password
+                    });
+
+                if (passengerResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    ModelState.AddModelError(String.Empty, passengerResponse.Message);
+                    return View(model);
+                }
+                else
+                    return RedirectToAction("Login");
+            }
             return HttpNotFound();
         } 
 
@@ -134,13 +152,6 @@ namespace Bazi_Web.Controllers
             cookie.Expires = DateTime.Now.AddYears(-1);
             Response.Cookies.Add(cookie);
             return RedirectToAction("Index", "Home", null);
-        }
-
-        [HttpGet]
-        public JsonResult Address(string attributeName, string attributeValue)
-        {
-
-            return new JsonResult();
         }
     }
 }

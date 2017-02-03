@@ -19,7 +19,7 @@ namespace Bazi_Business.Responses
 
     public class RegisterPassengerResponse : BaseResponse
     {
-        //TODO Add body context
+        public Patnici RegisterdPassenger { get; set; }
     }
 
     public class RegisterEmployeeResponse : BaseResponse

@@ -72,7 +72,6 @@ namespace Bazi_Web.Models
         {
             return new Akaunti { EmailAdresa = this.EmailAddress, KorisnichkoIme = this.Username };
         }
-
     }
 
     public class PersonViewModel : RegisterViewModel
@@ -108,6 +107,11 @@ namespace Bazi_Web.Models
                     ErrorMessage = "Please enter your ID Number")]
         [Display(Name = "ID Number:")]
         public string IDCardNumber { get; set; }
+
+        public Lugje ParseToLugje()
+        {
+            return new Lugje { BrojNaLicnaKarta = this.IDCardNumber, DataNaRagjanje = this.DateOfBirth, Ime = this.Name, Pol = this.Gender == "0" ? false : true, Prezime = this.Surname };
+        }
     }
 
     public class PassengersViewModel : PersonViewModel
@@ -135,6 +139,11 @@ namespace Bazi_Web.Models
         public DateTime DateOfExpire { get; set; }
 
         public AddressViewModel Address { get; set; }
+
+        public Patnici ParseToPatnici()
+        {
+            return new Patnici { BrojNaPasosh = this.PassportNumber, DatumNaIzdavanje = this.DateOfIssue, Izdadenod = this.Authority, DatumNaIstekuvanje = this.DateOfExpire, Status = true };
+        }
 
         public PassengersViewModel()
         {

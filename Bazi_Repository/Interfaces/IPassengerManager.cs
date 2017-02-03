@@ -7,7 +7,7 @@ namespace Bazi_Repository.Interfaces
 {
     interface IPassengerManager
     {
-        RepoBaseResponse<Boolean> AddPassengerAccount(RepoAddPassengerAccountRequest request);
+        RepoBaseResponse<Patnici> AddPassengerAccount(RepoAddPassengerAccountRequest request);
         RepoBaseResponse<Patnici> GetPassengerAccountById(RepoGetPassengerAccountByIdRequest request);
         RepoBaseResponse<Patnici> GetPassengerAccountByPassport(RepoGetPassengerAccountByPassportRequest request);
         RepoBaseResponse<ICollection<Patnici>> GetPassengersByAccount(RepoGetPassengersByAccountRequest request);

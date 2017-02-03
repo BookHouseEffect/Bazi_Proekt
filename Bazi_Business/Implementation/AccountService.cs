@@ -104,7 +104,40 @@ namespace Bazi_Business.Implementation
 
         public RegisterPassengerResponse RegisterPassenger(RegisterPassengerRequest request)
         {
-            throw new NotImplementedException();
+            RegisterPassengerResponse response = new RegisterPassengerResponse();
+            try
+            {
+                HashedAndSaltedPassword hashAndSalt = PasswordCryptography.CryptPassword(request.Password);
+
+                PassengerManager passengerManager = new PassengerManager();
+                RepoBaseResponse<Patnici> repoResponse =
+                    passengerManager.AddPassengerAccount(new RepoAddPassengerAccountRequest
+                    {
+                        Account = request.PassengerAccount,
+                        Address = request.PassengerAddress,
+                        Person = request.Person, 
+                        Passenger = request.Passenger,
+                        PasswordHash = hashAndSalt.PasswordHash,
+                        SecurityStamp = hashAndSalt.PasswordSalt
+                    });
+
+                if (repoResponse.Status == HttpStatusCode.OK)
+                    response.RegisterdPassenger = repoResponse.ReturnedResult;
+                else
+                {
+                    response.StatusCode = HttpStatusCode.InternalServerError;
+                    response.Exception = repoResponse.Exception;
+                }
+
+                response.Message = repoResponse.Message;
+
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+
+            return response;
         }
 
         public RegisterEmployeeResponse RegisterEmployee(RegisterEmployeeRequest request)

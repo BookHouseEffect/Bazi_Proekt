@@ -5,10 +5,12 @@ namespace Bazi_Repository.RepositoryRequests
 {
     public class RepoAddPassengerAccountRequest : RepoBaseRequest
     {
-        public int AccountId { get; set; }
+        public Akaunti Account { get; set; }
         public Lugje Person { get; set; }
         public Patnici Passenger { get; set; }
         public Adresi Address { get; set; }
+        public String PasswordHash { get; set; }
+        public String SecurityStamp { get; set; }
     }
 
     public class RepoGetPassengerAccountByIdRequest : RepoBaseRequest

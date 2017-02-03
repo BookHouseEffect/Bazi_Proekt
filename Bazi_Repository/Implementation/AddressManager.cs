@@ -151,7 +151,7 @@ namespace Bazi_Repository.Implementation
                         response.ReturnedResult = newAddressExistance;
                     else
                     {
-                        int usageCount = address.Aerodromis_AdresaId.Count() + address.Aviokompaniis_AdresaId.Count();
+                        int usageCount = address.Aerodromis_AdresaId.Count() + address.Aviokompaniis_AdresaId.Count() + address.Patnicis_AdresaId.Count();
                         if (usageCount > 1)
                             return AddNewAddress(
                                 new RepoAddNewAddressRequest { Address = request.NewAddress });
