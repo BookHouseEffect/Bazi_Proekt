@@ -24,7 +24,7 @@ namespace Bazi_Business.Responses
 
     public class RegisterEmployeeResponse : BaseResponse
     {
-        //TODO Add body context
+        public Vraboteni RegisteredEmployee { get; set; }
     }
 
     public class GetRegisterableRolesResponse : BaseResponse

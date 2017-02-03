@@ -22,13 +22,13 @@ namespace Bazi_Web.Controllers
             if (User != null && User.Identity.IsAuthenticated) {
                 if (accountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
                     return View(new EmployeeViewModel() { SelectedAccountType = accountType });
-                return Redirect("~/");
+                return RedirectToAction("~/");
             }
             if (accountType == AccountTypes.COMPANY)
                 return View(new CompanyViewModel() { SelectedAccountType = accountType });
             if (accountType == AccountTypes.PASSENGER)
                 return View(new PassengersViewModel() { SelectedAccountType = accountType });
-            return Redirect("~/");
+            return RedirectToAction("~/");
         }
 
         [HttpPost]
@@ -37,15 +37,33 @@ namespace Bazi_Web.Controllers
             RegisterViewModel submodel = (RegisterViewModel)model;
             if (User != null && User.Identity.IsAuthenticated) {
                 if (!ModelState.IsValid){
-                    if(submodel.SelectedAccountType == AccountTypes.EMPLOYEE)
+                    if(submodel.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
                         return View((EmployeeViewModel)model);
-                    return Redirect("~/");
+                    return RedirectToAction("~/");
                 }
 
-                //TODO employe registration
-                if (submodel.SelectedAccountType == AccountTypes.EMPLOYEE)
-                    return View((EmployeeViewModel)model);
-                return Redirect("~/");
+                if (submodel.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
+                {
+                    EmployeeViewModel employeeModel = (EmployeeViewModel)model;
+                    RegisterEmployeeResponse employeeResponse =
+                        AccountService.RegisterEmployee(new RegisterEmployeeRequest
+                        {
+                            EmployeeAccount = employeeModel.ParseToAkaunti(),
+                            Person = employeeModel.ParseToLugje(),
+                            Employee = employeeModel.ParseToVraboteni(),
+                            CompanyAccountId = User.UserId,
+                            Password = employeeModel.Password
+                        });
+
+                    if (employeeResponse.StatusCode != HttpStatusCode.OK)
+                    {
+                        ModelState.AddModelError(String.Empty, employeeResponse.Message);
+                        return View(model);
+                    }
+                    else
+                        return RedirectToAction("~/");
+                }
+                return RedirectToAction("~/");
             }
 
             if (!ModelState.IsValid) {

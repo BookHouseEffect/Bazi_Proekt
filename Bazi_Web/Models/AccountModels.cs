@@ -153,8 +153,11 @@ namespace Bazi_Web.Models
     }
 
     public class EmployeeViewModel : PersonViewModel
-    {
-        
+    {        
+        public Vraboteni ParseToVraboteni()
+        {
+            return new Vraboteni();
+        }
     }
 
     public class CompanyViewModel : RegisterViewModel

@@ -12,6 +12,9 @@ namespace Bazi_Repository.Implementation
 {
     public class PassengerManager : BaseManager, IPassengerManager
     {
+        public PassengerManager(): base() { }
+        public PassengerManager(Db201617zVaProektRnabDataContext e) : base(e) { }
+
         private Patnici GetById(int passengerId, int accountId)
         {
             return Context.Patnici.Where(x => x.PatnikId == passengerId && x.AkauntId == accountId).SingleOrDefault();

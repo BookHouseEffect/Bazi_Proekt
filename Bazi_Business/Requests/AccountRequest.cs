@@ -37,5 +37,6 @@ namespace Bazi_Business.Requests
         public Akaunti EmployeeAccount { get; set; }
         public Lugje Person { get; set; }
         public Vraboteni Employee { get; set; }
+        public Int32 CompanyAccountId { get; set; }
     }
 }

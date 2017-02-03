@@ -142,30 +142,40 @@ namespace Bazi_Business.Implementation
 
         public RegisterEmployeeResponse RegisterEmployee(RegisterEmployeeRequest request)
         {
-            throw new NotImplementedException();
-        }
-
-        //TODO Add GetRegisterableRoles into interface if required
-        public GetRegisterableRolesResponse GetRegisterableRoles()
-        {
-            GetRegisterableRolesResponse returnResponse = new GetRegisterableRolesResponse();
-
-            RoleManager manager = new RoleManager();
-            RepoBaseResponse<ICollection<Ulogi>> response = manager.GetRoleList();
-            if (response.Status != HttpStatusCode.OK)
+            RegisterEmployeeResponse response = new RegisterEmployeeResponse();
+            try
             {
-                returnResponse.SetInternalServerErrorMessage(response.Exception);
-                return returnResponse;
+                HashedAndSaltedPassword hashAndSalt = PasswordCryptography.CryptPassword(request.Password);
+
+                EmployeeManager employeeManager = new EmployeeManager();
+                RepoBaseResponse<Vraboteni> repoResponse =
+                    employeeManager.AddEmployeeAccount(new RepoAddEmployeeAccountRequest
+                    {
+                        Account = request.EmployeeAccount,
+                        Person = request.Person,
+                        Employee = request.Employee, 
+                        CompanyAccountId = request.CompanyAccountId,
+                        PasswordHash = hashAndSalt.PasswordHash,
+                        SecurityStamp = hashAndSalt.PasswordSalt
+                    });
+
+                if (repoResponse.Status == HttpStatusCode.OK)
+                    response.RegisteredEmployee = repoResponse.ReturnedResult;
+                else
+                {
+                    response.StatusCode = HttpStatusCode.InternalServerError;
+                    response.Exception = repoResponse.Exception;
+                }
+
+                response.Message = repoResponse.Message;
+
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
             }
 
-            foreach (Ulogi u in response.ReturnedResult)
-            {
-                if (u.UlogaIme != "Employee")
-                    returnResponse.RegistrableRoleList.Add(u);
-            }
-            return returnResponse;
+            return response;
         }
-
-
     }
 }

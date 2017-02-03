@@ -10,6 +10,10 @@ namespace Bazi_Repository.Implementation
 {
     public class CompanyManager : BaseManager, ICompanyManager
     {
+
+        public CompanyManager(): base() { }
+        public CompanyManager(Db201617zVaProektRnabDataContext e) : base(e) { }
+
         private Aviokompanii GetById(int id)
         {
             return Context.Aviokompanii.Where(x => x.KompanijaId == id).Single();
@@ -116,7 +120,7 @@ namespace Bazi_Repository.Implementation
                     response.Message += "\nThe address information was not saved. Log in to insert data again.";
 
                 if (accountCreated && !companyCreated)
-                    response.Message += "\nThe company information was not saved. Log in to inser data again";
+                    response.Message += "\nThe company information was not saved. Log in to insert data again";
             }
 
             return response;
