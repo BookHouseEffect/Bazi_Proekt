@@ -1,0 +1,129 @@
+﻿@model List<Bazi_Web.Models.InformationViewModel>
+@using Bazi_Web.Models
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th style="width:33%">Name</th>
+            <th style="width:33%">Surname</th>
+            <th style="width:33%">Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PassengersViewModel p in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(p)+1)</td>
+                <td>@p.Name</td>
+                <td>@p.Surname</td>
+                <td>@(p.DateOfExpire > DateTime.Now ? "Valid" : "Expired")</td>
+                <td>
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#passenger_@p.PassengerId">View Details</a>
+                    <div id="passenger_@p.PassengerId" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@p.Name @p.Surname's details</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table-bordered table table-striped table-condensed table-hover">
+                                        <tr><th>Gender:</th><td>@(p.Gender == "0" ? "Male" : "Female")</td></tr>
+                                        <tr><th>Date of birth:</th><td>@p.DateOfBirth.ToString("dd/MM/yyyy")</tr>
+                                        <tr><th>ID number:</th> <td>@p.IDCardNumber</td></tr>
+                                        <tr><th>Passport number:</th> <td>@p.PassportNumber</td></tr>
+                                        <tr><th>Date of issue:</th><td>@p.DateOfIssue.ToString("dd/MM/yyyy")</td></tr>
+                                        <tr><th>Authority:</th><td>@p.Authority</td></tr>
+                                        <tr><th>Date of expire:</th><td>@p.DateOfExpire.ToString("dd/MM/yyyy")</td></tr>
+                                        @if (p.Address != null)
+                                        {
+                                            <tr><th>Street name:</th> <td>@p.Address.StreetName</td></tr>
+                                            <tr><th>Street number:</th> <td>@p.Address.StreetNumber</td></tr>
+                                            <tr><th>City:</th> <td>@p.Address.CityName</td></tr>
+                                            <tr><th>Zip Code:</th><td>@p.Address.ZipCode</td></tr>
+                                            <tr><th>Region:</th> <td>@p.Address.RegionName</td></tr>
+                                            <tr><th>State:</th><td>@p.Address.StateName</td></tr>
+                                        }
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-warning" data-toggle="modal" data-target="#edit_passenger_@p.PassengerId">Edit</a>
+                    <div id="edit_passenger_@p.PassengerId" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Edit @p.Name @p.Surname's details</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @using (Ajax.BeginForm("UpdatePassenger", "Account", new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "passenger-target-id"
+                                    }))
+                                    {
+                                        <div id="passenger-target-id">
+                                            @Html.Partial("UpdatePassenger", p)
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit" value="Submit">Update</button>
+                                    }
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+    @*<tfoot>
+        <tr>
+            <td>
+                <a class="btn btn-warning" data-toggle="modal" data-target="#add_passenger_0">Add New Passenger</a>
+                <div id="add_passenger_0" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add New Passenger</h4>
+                            </div>
+                            <div class="modal-body">
+                                @using (Ajax.BeginForm("UpdatePassenger", "Account", new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "passenger-target-id"
+                                }))
+                                {
+                                    <div id="passenger-target-id">
+                                        @Html.Partial("UpdatePassenger", p)
+                                    </div>
+
+                                        <button class="btn btn-primary" type="submit" value="Submit">Update</button>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </td>
+        </tr>
+    </tfoot>*@
+</table>

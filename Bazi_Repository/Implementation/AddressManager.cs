@@ -43,7 +43,16 @@ namespace Bazi_Repository.Implementation
                     response.ReturnedResult = checkedAddress;
                 else
                 {
-                    Context.Adresi.InsertOnSubmit(request.Address);
+                    Adresi address = new Adresi
+                    {
+                        Broj = request.Address.Broj,
+                        Drzhava = request.Address.Drzhava,
+                        Grad = request.Address.Grad,
+                        ImeNaUlica = request.Address.ImeNaUlica,
+                        Oblast = request.Address.Oblast,
+                        PoshtenskiBroj = request.Address.PoshtenskiBroj
+                    };
+                    Context.Adresi.InsertOnSubmit(address);
                     Context.SubmitChanges();
                     response.ReturnedResult = request.Address;
                 }
@@ -157,10 +166,13 @@ namespace Bazi_Repository.Implementation
                                 new RepoAddNewAddressRequest { Address = request.NewAddress });
                         else
                         {
-                            foreach (PropertyInfo property in typeof(Adresi).GetProperties())
-                            {
-                                property.SetValue(address, property.GetValue(request.NewAddress, null), null);
-                            }
+                            address.Broj = request.NewAddress.Broj;
+                            address.Drzhava = request.NewAddress.Drzhava;
+                            address.Grad = request.NewAddress.Grad;
+                            address.ImeNaUlica = request.NewAddress.ImeNaUlica;
+                            address.Oblast = request.NewAddress.Oblast;
+                            address.PoshtenskiBroj = request.NewAddress.PoshtenskiBroj;
+
                             Context.SubmitChanges();
                             response.ReturnedResult = address;
                         }

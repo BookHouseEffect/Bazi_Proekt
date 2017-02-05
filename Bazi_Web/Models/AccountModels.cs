@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Bazi_Web.Models
 {
-    public class AccountBaseModelBinder : DefaultModelBinder
+    public class InformationBaseModelBinder : DefaultModelBinder
     {
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
         {
@@ -20,7 +20,7 @@ namespace Bazi_Web.Models
                 (string)typeValue.ConvertTo(typeof(string)),
                 true
             );
-            if (!typeof(AccountBaseModel).IsAssignableFrom(type))
+            if (!typeof(InformationViewModel).IsAssignableFrom(type))
             {
                 throw new InvalidOperationException("Bad Type");
             }
@@ -30,10 +30,35 @@ namespace Bazi_Web.Models
         }
     }
 
-    public abstract class AccountBaseModel
+    public class ChangePassword
     {
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter your current password")]
+        [Display(Name = "Old Password:")]
+        [DataType(DataType.Password)]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!-\\/:-@\\[-`{-~])[!-~]{8,20}$",
+            ErrorMessage = "The password must be between 8 and 20 character including at least one uppercase character, at least one lowercase character, at least one number and one special character.")]
+        public string OldPassword { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter your new password")]
+        [Display(Name = "New Password:")]
+        [DataType(DataType.Password)]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!-\\/:-@\\[-`{-~])[!-~]{8,20}$",
+            ErrorMessage = "The password must be between 8 and 20 character including at least one uppercase character, at least one lowercase character, at least one number and one special character.")]
+        public string NewPassword { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please reenter your new password.")]
+        [Display(Name = "Repeat New Password:")]
+        [DataType(DataType.Password)]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Passwords must match.")]
+        public string RepeatePassword { get; set; }
+    }
+
+    public class AccountBaseModel
+    {
+        public int AccountId { get; set; }
+
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please enter your username")]
+            ErrorMessage = "Please enter your username.")]
         [Display(Name = "Username:")]
         public string Username { get; set; }
 
@@ -53,41 +78,93 @@ namespace Bazi_Web.Models
 
     public class RegisterViewModel : AccountBaseModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter an email address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter an email address.")]
         [Display(Name = "Email Adderss:")]
         [DataType(DataType.EmailAddress)]
         [RegularExpression("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
-            ErrorMessage = "Enter a valid email address")]
+            ErrorMessage = "Enter a valid email address.")]
         public string EmailAddress { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please reenter your password")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please reenter your password.")]
         [Display(Name = "Repeat Password:")]
         [DataType(DataType.Password)]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Passwords must match")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Passwords must match.")]
         public string RepeatePassword { get; set; }
 
         public AccountTypes SelectedAccountType { get; set; }
+        public InformationViewModel Infomation { get; set; }
+
+        public RegisterViewModel() { }
+
+        public RegisterViewModel(AccountTypes accountType)
+        {
+            this.SelectedAccountType = accountType;
+            switch (accountType)
+            {
+                case AccountTypes.EMPLOYEE:
+                    this.Infomation = new EmployeeViewModel();
+                    break;
+                case AccountTypes.COMPANY:
+                    this.Infomation = new CompanyViewModel();
+                    break;
+                case AccountTypes.PASSENGER:
+                    this.Infomation = new PassengersViewModel();
+                    break;
+                default:
+                    throw new Exception("No such account type.");
+            }
+        }
 
         public Akaunti ParseToAkaunti()
         {
-            return new Akaunti { EmailAdresa = this.EmailAddress, KorisnichkoIme = this.Username };
+            return new Akaunti { AkauntId = this.AccountId, EmailAdresa = this.EmailAddress, KorisnichkoIme = this.Username };
         }
     }
 
-    public class PersonViewModel : RegisterViewModel
+    public class EditViewModel{
+
+        public AccountTypes SelectedAccountType { get; set; }
+        public ICollection<InformationViewModel> Infomation { get; set; }
+        public ChangePassword Passwords { get; set; } = new ChangePassword();
+
+        public EditViewModel() {}
+
+        public EditViewModel(ICollection<Patnici> passengers) {
+            this.SelectedAccountType = AccountTypes.PASSENGER;
+            this.Infomation = new List<InformationViewModel>();
+            foreach (Patnici p in passengers)
+                this.Infomation.Add(new PassengersViewModel(p));
+        }
+
+        public EditViewModel(Aviokompanii company)
+        {
+            this.SelectedAccountType = AccountTypes.COMPANY;
+            this.Infomation = new List<InformationViewModel>();
+            this.Infomation.Add(new CompanyViewModel(company)); 
+        }
+    }
+
+    public abstract class InformationViewModel
     {
+
+    }
+
+    public class PersonViewModel : InformationViewModel
+    {
+        public int PersonId { get; set; }
+
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please enter your name")]
+            ErrorMessage = "Please enter your name.")]
         [Display(Name = "Name:")]
         public string Name { get; set; }
 
         [Required(AllowEmptyStrings = false,
-                    ErrorMessage = "Please enter your surname")]
+                    ErrorMessage = "Please enter your surname.")]
         [Display(Name = "Surname:")]
         public string Surname { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, choose your gender:")]
+            ErrorMessage = "Please, choose your gender.")]
         [Display(Name = "Gender:")]
         public String Gender { get; set; }
 
@@ -98,43 +175,60 @@ namespace Bazi_Web.Models
             };
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter your date of birth:")]
+            ErrorMessage = "Please, enter your date of birth.")]
         [Display(Name = "Date of birth:")]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd'/'MM'/'yyyy}")]
         public DateTime DateOfBirth { get; set; }
 
         [Required(AllowEmptyStrings = false,
-                    ErrorMessage = "Please enter your ID Number")]
+                    ErrorMessage = "Please enter your ID Number.")]
         [Display(Name = "ID Number:")]
         public string IDCardNumber { get; set; }
 
         public Lugje ParseToLugje()
         {
-            return new Lugje { BrojNaLicnaKarta = this.IDCardNumber, DataNaRagjanje = this.DateOfBirth, Ime = this.Name, Pol = this.Gender == "0" ? false : true, Prezime = this.Surname };
+            return new Lugje {CovekId = PersonId, BrojNaLicnaKarta = this.IDCardNumber, DataNaRagjanje = this.DateOfBirth, Ime = this.Name, Pol = this.Gender == "0" ? false : true, Prezime = this.Surname };
+        }
+
+        public PersonViewModel() { }
+
+        public PersonViewModel(Lugje l)
+        {
+            this.PersonId = l.CovekId;
+            this.Name = l.Ime;
+            this.Surname = l.Prezime;
+            this.Gender = l.Pol ? "1" : "0";
+            this.DateOfBirth = l.DataNaRagjanje;
+            this.IDCardNumber = l.BrojNaLicnaKarta;
         }
     }
 
     public class PassengersViewModel : PersonViewModel
     {
+        public int PassengerId { get; set; }
+
         [Required(AllowEmptyStrings = false,
-                    ErrorMessage = "Please enter your Passport number")]
+                    ErrorMessage = "Please enter your Passport number.")]
         [Display(Name = "Passport number:")]
         public string PassportNumber { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the date of passport issue:")]
+            ErrorMessage = "Please, enter the date of passport issue.")]
         [Display(Name = "Date of passport issue:")]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd'/'MM'/'yyyy}")]
         public DateTime DateOfIssue { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the authority:")]
+            ErrorMessage = "Please, enter the authority.")]
         [Display(Name = "Authority:")]
         public string Authority { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the date of passport expire:")]
+            ErrorMessage = "Please, enter the date of passport expire.")]
         [Display(Name = "Date of passport expire:")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd'/'MM'/'yyyy}")]
         [DataType(DataType.Date)]
         public DateTime DateOfExpire { get; set; }
 
@@ -142,12 +236,22 @@ namespace Bazi_Web.Models
 
         public Patnici ParseToPatnici()
         {
-            return new Patnici { BrojNaPasosh = this.PassportNumber, DatumNaIzdavanje = this.DateOfIssue, Izdadenod = this.Authority, DatumNaIstekuvanje = this.DateOfExpire, Status = true };
+            return new Patnici {PatnikId = PassengerId, BrojNaPasosh = this.PassportNumber, DatumNaIzdavanje = this.DateOfIssue, Izdadenod = this.Authority, DatumNaIstekuvanje = this.DateOfExpire, Status = (this.DateOfExpire > DateTime.Now) };
         }
 
         public PassengersViewModel()
         {
             Address = new AddressViewModel();
+        }
+
+        public PassengersViewModel(Patnici p) : base(p.Lugje_CovekId)
+        {
+            this.PassengerId = p.PatnikId;
+            this.PassportNumber = p.BrojNaPasosh;
+            this.DateOfIssue = p.DatumNaIzdavanje;
+            this.Authority = p.Izdadenod;
+            this.DateOfExpire = p.DatumNaIstekuvanje;
+            this.Address = new AddressViewModel(p.Adresi_AdresaId);
         }
 
     }
@@ -160,10 +264,12 @@ namespace Bazi_Web.Models
         }
     }
 
-    public class CompanyViewModel : RegisterViewModel
+    public class CompanyViewModel : InformationViewModel
     {
+        public int CompanyId { get; set; }
+
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please enter the company name")]
+            ErrorMessage = "Please enter the company name.")]
         [Display(Name = "Company name:")]
         public string CompanyName { get; set; }
 
@@ -174,31 +280,40 @@ namespace Bazi_Web.Models
             Address = new AddressViewModel();
         }
 
+        public CompanyViewModel(Aviokompanii company)
+        {
+            this.CompanyId = company.KompanijaId;
+            this.CompanyName = company.ImeNaKompanija;
+            this.Address = new AddressViewModel(company.Adresi_AdresaId);
+        }
+
         public Aviokompanii ParseToAviokompanii()
         {
-            return new Aviokompanii { ImeNaKompanija = this.CompanyName };
+            return new Aviokompanii {KompanijaId = this.CompanyId, ImeNaKompanija = this.CompanyName };
         }
     }
 
     public class AddressViewModel {
 
+        public int AddressId { get; set; }
+
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the steet name:")]
+            ErrorMessage = "Please, enter the steet name.")]
         [Display(Name = "Steet name:")]
         public string StreetName { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the steet number:")]
+            ErrorMessage = "Please, enter the steet number.")]
         [Display(Name = "Steet number:")]
         public string StreetNumber { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the city name:")]
+            ErrorMessage = "Please, enter the city name.")]
         [Display(Name = "City name:")]
         public string CityName { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the zip code:")]
+            ErrorMessage = "Please, enter the zip code.")]
         [Display(Name = "Zip Code:")]
         [DataType(DataType.PostalCode)]
         public int ZipCode { get; set; }
@@ -207,13 +322,26 @@ namespace Bazi_Web.Models
         public string RegionName { get; set; }
 
         [Required(AllowEmptyStrings = false,
-            ErrorMessage = "Please, enter the state name:")]
+            ErrorMessage = "Please, enter the state name.")]
         [Display(Name = "State name:")]
         public string StateName { get; set; }
 
+        public AddressViewModel() { }
+
+        public AddressViewModel(Adresi address)
+        {
+            this.AddressId = address.AdresaId;
+            this.CityName = address.Grad;
+            this.RegionName = address.Oblast;
+            this.StateName = address.Drzhava;
+            this.StreetName = address.ImeNaUlica;
+            this.StreetNumber = address.Broj;
+            this.ZipCode = address.PoshtenskiBroj;
+        }
+
         public Adresi ParseToAdresi()
         {
-            return new Adresi { Broj = this.StreetNumber, Drzhava = this.StateName, Grad = this.CityName, ImeNaUlica = this.StreetName, Oblast = this.RegionName, PoshtenskiBroj = this.ZipCode };
+            return new Adresi {AdresaId = this.AddressId, Broj = this.StreetNumber, Drzhava = this.StateName, Grad = this.CityName, ImeNaUlica = this.StreetName, Oblast = this.RegionName, PoshtenskiBroj = this.ZipCode };
         }
     }
 }

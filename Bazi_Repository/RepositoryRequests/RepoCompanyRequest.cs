@@ -17,6 +17,11 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 Id { get; set; }
     }
 
+    public class RepoGetCompanyByAccountIdRequest : RepoBaseRequest
+    {
+        public Int32 AccountId { get; set; }
+    }
+
     public class RepoGetCompaniesByNameRequest : RepoBaseRequest
     {
         public String CompanyName { get; set; }

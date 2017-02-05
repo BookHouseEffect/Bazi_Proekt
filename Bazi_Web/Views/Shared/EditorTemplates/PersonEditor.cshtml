@@ -4,6 +4,8 @@
     <h3 class="text-primary">Personal Information</h3>
     <hr />
 
+    @Html.HiddenFor(m=>m.PersonId)
+
     <div class="form-group">
         @Html.LabelFor(m => m.IDCardNumber, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">
@@ -39,8 +41,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.DateOfBirth, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">
-            <div class='input-group date' id="birthday-datetimepicker">
-                @Html.TextBoxFor(m => m.DateOfBirth, new { @Class = "form-control" })
+            <div class="input-group date birthday-datetimepicker">
+                @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control"})
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>

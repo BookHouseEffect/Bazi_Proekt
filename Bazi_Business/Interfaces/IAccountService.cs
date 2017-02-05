@@ -14,5 +14,10 @@ namespace Bazi_Business.Interfaces
         RegisterCompanyResponse RegisterCompany(RegisterCompanyRequest request);
         RegisterPassengerResponse RegisterPassenger(RegisterPassengerRequest request);
         RegisterEmployeeResponse RegisterEmployee(RegisterEmployeeRequest request);
+        ChangePasswordResponse ChangePassword(ChangePasswordRequest request);
+        GetCompanyInfoResponse GetComapnyInfo(GetCompanyInfoRequest request);
+        GetPassengerInfoResponse GetPassengerInfo(GetPassengerInfoRequest request);
+        UpdateCompanyResponse UpdateCompany(UpdateCompanyRequest request);
+        UpdatePassengerResponse UpdatePassenger(UpdatePassengerRequest request);
     }
 }

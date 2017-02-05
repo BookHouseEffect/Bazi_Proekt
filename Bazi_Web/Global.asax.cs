@@ -6,6 +6,7 @@ using System.Web.Security;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Bazi_Web.Models;
+using System.Globalization;
 
 namespace Bazi_Web
 {
@@ -16,7 +17,7 @@ namespace Bazi_Web
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            ModelBinders.Binders.Add(new KeyValuePair<Type, IModelBinder>(typeof(AccountBaseModel), new AccountBaseModelBinder()));
+            ModelBinders.Binders.Add(new KeyValuePair<Type, IModelBinder>(typeof(InformationViewModel), new InformationBaseModelBinder()));
         }
 
         protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)

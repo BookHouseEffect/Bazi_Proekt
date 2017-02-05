@@ -8,54 +8,44 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bazi_Web.Properties
-{
-
-
+namespace Bazi_Web.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Employee")]
-        public string EmployeeRole
-        {
-            get
-            {
+        public string EmployeeRole {
+            get {
                 return ((string)(this["EmployeeRole"]));
             }
         }
-
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Employer")]
-        public string EmployerRole
-        {
-            get
-            {
-                return ((string)(this["EmployerRole"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("Company")]
+        public string CompanyRole {
+            get {
+                return ((string)(this["CompanyRole"]));
             }
         }
-
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Passenger")]
-        public string PassengerRole
-        {
-            get
-            {
+        public string PassengerRole {
+            get {
                 return ((string)(this["PassengerRole"]));
             }
         }

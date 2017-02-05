@@ -120,10 +120,12 @@ namespace Bazi_Repository.Implementation
                                 new RepoAddNewPersonRequest { Person = request.NewPerson });
                         else
                         {
-                            foreach (PropertyInfo property in typeof(Lugje).GetProperties())
-                            {
-                                property.SetValue(person, property.GetValue(request.NewPerson, null), null);
-                            }
+                            person.BrojNaLicnaKarta = request.NewPerson.BrojNaLicnaKarta;
+                            person.DataNaRagjanje = request.NewPerson.DataNaRagjanje;
+                            person.Ime = request.NewPerson.Ime;
+                            person.Prezime = request.NewPerson.Prezime;
+                            person.Pol = request.NewPerson.Pol;
+
                             Context.SubmitChanges();
                             response.ReturnedResult = person;
                         }

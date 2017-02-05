@@ -39,4 +39,40 @@ namespace Bazi_Business.Requests
         public Vraboteni Employee { get; set; }
         public Int32 CompanyAccountId { get; set; }
     }
+
+    public class ChangePasswordRequest : BaseRequest
+    {
+        public int AccoundId { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+    }
+
+    public class GetCompanyInfoRequest : BaseRequest
+    {
+        public int AccountId { get; set; }
+    }
+
+    public class GetPassengerInfoRequest : BaseRequest
+    {
+        public int AccountId { get; set; }
+    }
+
+    public class UpdateCompanyRequest : BaseRequest
+    {
+        public int AkauntId { get; set; }
+        public int CompanyId { get; set; }
+
+        public Aviokompanii Company { get; set; }
+        public Adresi Address { get; set; }
+    }
+
+    public class UpdatePassengerRequest : BaseRequest
+    {
+        public int AkauntId { get; set; }
+        public int PassengerId { get; set; }
+        
+        public Patnici Passenger { get; set; }
+        public Adresi Address { get; set; }
+        public Lugje Person { get; set; }
+    }
 }

@@ -179,5 +179,19 @@ namespace Bazi_Repository.Implementation
             }
             return response;
         }
+
+        public RepoBaseResponse<Aviokompanii> GetCompanyByAccountId(RepoGetCompanyByAccountIdRequest request)
+        {
+            RepoBaseResponse<Aviokompanii> response = new RepoBaseResponse<Aviokompanii>();
+            try
+            {
+                response.ReturnedResult = Context.Aviokompanii.Where(x => x.AkauntId == request.AccountId).Single();
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
+        }
     }
 }

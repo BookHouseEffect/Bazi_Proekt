@@ -4,6 +4,8 @@
     <h3 class="text-primary">Address Information</h3>
     <hr />
 
+    @Html.HiddenFor(x => x.AddressId)
+
     <div class="form-group">
         @Html.LabelFor(m => m.StateName, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">

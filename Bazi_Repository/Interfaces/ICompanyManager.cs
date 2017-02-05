@@ -9,6 +9,7 @@ namespace Bazi_Repository.Interfaces
     {
         RepoBaseResponse<Aviokompanii> RegisterCompany(RepoRegisterCompanyRequest request);
         RepoBaseResponse<Aviokompanii> GetCompanyById(RepoGetCompanyByIdRequest request);
+        RepoBaseResponse<Aviokompanii> GetCompanyByAccountId(RepoGetCompanyByAccountIdRequest request);
         RepoBaseResponse<ICollection<Aviokompanii>> GetCompaniesByName(RepoGetCompaniesByNameRequest request);
         RepoBaseResponse<ICollection<Aviokompanii>> GetCompanyList(RepoGetCompanyListRequest request);
         RepoBaseResponse<Aviokompanii> UpdateCompanyInfo(RepoUpdateCompanyInfoRequest request);

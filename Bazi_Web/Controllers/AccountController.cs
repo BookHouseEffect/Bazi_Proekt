@@ -17,42 +17,41 @@ namespace Bazi_Web.Controllers
         public enum AccountTypes { PASSENGER, COMPANY, EMPLOYEE }
 
         [HttpGet]
-        public ActionResult Register(AccountTypes accountType)
+        public ActionResult Register(AccountTypes accountType = AccountTypes.PASSENGER)
         {
+            RegisterViewModel model = new RegisterViewModel(accountType);
+
             if (User != null && User.Identity.IsAuthenticated) {
-                if (accountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
-                    return View(new EmployeeViewModel() { SelectedAccountType = accountType });
-                return RedirectToAction("~/");
+                if (!(accountType == AccountTypes.EMPLOYEE && User.IsInRole(Properties.Settings.Default.CompanyRole)))
+                    return RedirectToAction("Index", "Home");
+                return View(model);
             }
-            if (accountType == AccountTypes.COMPANY)
-                return View(new CompanyViewModel() { SelectedAccountType = accountType });
-            if (accountType == AccountTypes.PASSENGER)
-                return View(new PassengersViewModel() { SelectedAccountType = accountType });
-            return RedirectToAction("~/");
+            if (!(accountType == AccountTypes.COMPANY || accountType == AccountTypes.PASSENGER))
+                return RedirectToAction("Index", "Home");
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Register(AccountBaseModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
-            RegisterViewModel submodel = (RegisterViewModel)model;
             if (User != null && User.Identity.IsAuthenticated) {
-                if (!ModelState.IsValid){
-                    if(submodel.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
-                        return View((EmployeeViewModel)model);
-                    return RedirectToAction("~/");
+                if (!ModelState.IsValid) {
+                    if (!(model.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole(Properties.Settings.Default.CompanyRole)))
+                        return RedirectToAction("Index", "Home");
+                    return View(model);
                 }
 
-                if (submodel.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole("Company"))
+                if (model.SelectedAccountType == AccountTypes.EMPLOYEE && User.IsInRole(Properties.Settings.Default.CompanyRole))
                 {
-                    EmployeeViewModel employeeModel = (EmployeeViewModel)model;
+                    EmployeeViewModel employeeModel = (EmployeeViewModel)model.Infomation;
                     RegisterEmployeeResponse employeeResponse =
                         AccountService.RegisterEmployee(new RegisterEmployeeRequest
                         {
-                            EmployeeAccount = employeeModel.ParseToAkaunti(),
+                            EmployeeAccount = model.ParseToAkaunti(),
                             Person = employeeModel.ParseToLugje(),
                             Employee = employeeModel.ParseToVraboteni(),
                             CompanyAccountId = User.UserId,
-                            Password = employeeModel.Password
+                            Password = model.Password
                         });
 
                     if (employeeResponse.StatusCode != HttpStatusCode.OK)
@@ -61,29 +60,27 @@ namespace Bazi_Web.Controllers
                         return View(model);
                     }
                     else
-                        return RedirectToAction("~/");
+                        return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("~/");
+                return RedirectToAction("Index", "Home");
             }
 
             if (!ModelState.IsValid) {
-                if (submodel.SelectedAccountType == AccountTypes.COMPANY)
-                    return View((CompanyViewModel)model);
-                if (submodel.SelectedAccountType == AccountTypes.PASSENGER)
-                    return View((PassengersViewModel)model);
+                if (model.SelectedAccountType == AccountTypes.COMPANY || model.SelectedAccountType == AccountTypes.PASSENGER)
+                    return View(model);
                 return HttpNotFound();
             }
 
-            if (submodel.SelectedAccountType == AccountTypes.COMPANY)
+            if (model.SelectedAccountType == AccountTypes.COMPANY)
             {
-                CompanyViewModel companyModel = (CompanyViewModel)model;
-                RegisterCompanyResponse companyResponse = 
+                CompanyViewModel companyModel = (CompanyViewModel)model.Infomation;
+                RegisterCompanyResponse companyResponse =
                     AccountService.RegisterCompany(new RegisterCompanyRequest
                     {
-                        CompanyAccount = companyModel.ParseToAkaunti(),
+                        CompanyAccount = model.ParseToAkaunti(),
                         CompanyAddress = companyModel.Address.ParseToAdresi(),
                         Company = companyModel.ParseToAviokompanii(),
-                        Password = companyModel.Password
+                        Password = model.Password
                     });
 
                 if (companyResponse.StatusCode != HttpStatusCode.OK)
@@ -94,17 +91,17 @@ namespace Bazi_Web.Controllers
                 else
                     return RedirectToAction("Login");
             }
-            if (submodel.SelectedAccountType == AccountTypes.PASSENGER)
+            if (model.SelectedAccountType == AccountTypes.PASSENGER)
             {
-                PassengersViewModel passengerModel = (PassengersViewModel)model;
+                PassengersViewModel passengerModel = (PassengersViewModel)model.Infomation;
                 RegisterPassengerResponse passengerResponse =
                     AccountService.RegisterPassenger(new RegisterPassengerRequest
                     {
-                        PassengerAccount = passengerModel.ParseToAkaunti(),
+                        PassengerAccount = model.ParseToAkaunti(),
                         PassengerAddress = passengerModel.Address.ParseToAdresi(),
                         Person = passengerModel.ParseToLugje(),
                         Passenger = passengerModel.ParseToPatnici(),
-                        Password = passengerModel.Password
+                        Password = model.Password
                     });
 
                 if (passengerResponse.StatusCode != HttpStatusCode.OK)
@@ -116,7 +113,7 @@ namespace Bazi_Web.Controllers
                     return RedirectToAction("Login");
             }
             return HttpNotFound();
-        } 
+        }
 
         [HttpGet]
         public ActionResult LogIn()
@@ -150,16 +147,115 @@ namespace Bazi_Web.Controllers
             string encTicket = FormsAuthentication.Encrypt(authTicket);
             HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
             Response.Cookies.Add(faCookie);
- 
+
             if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.PassengerRole))) {
                 return RedirectToAction("", ""); //TODO Redirect to passenger Panel
-            } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.EmployerRole))){
+            } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.CompanyRole))) {
                 return RedirectToAction("", ""); //TODO Redirect to company Panel
-            } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.EmployeeRole))){
+            } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.EmployeeRole))) {
                 return RedirectToAction("", ""); //TODO Redirect to worker Panel
             } else
                 return RedirectToAction("", ""); //TODO Redirect to error 500 page Panel.
         }
+
+        [HttpGet]
+        public ActionResult AccountSettings()
+        {
+            if (User == null || User.Identity == null || !User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            EditViewModel model;
+            if (User.IsInRole(Properties.Settings.Default.PassengerRole)) {
+                GetPassengerInfoResponse response = AccountService.GetPassengerInfo(new GetPassengerInfoRequest { AccountId = User.UserId });
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw response.Exception;
+                model = new EditViewModel(response.Passengers);
+            } else if (User.IsInRole(Properties.Settings.Default.CompanyRole)) {
+                GetCompanyInfoResponse response = AccountService.GetComapnyInfo(new GetCompanyInfoRequest { AccountId = User.UserId });
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw response.Exception;
+                model = new EditViewModel(response.Company);
+            } else if (User.IsInRole(Properties.Settings.Default.EmployeeRole)) {
+                model = new EditViewModel() { SelectedAccountType = AccountTypes.EMPLOYEE };
+            } else
+                return HttpNotFound();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [CustomAuthorize(Roles = "Company,Employee,Passenger")]
+        public ActionResult ChangePassword(ChangePassword model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+            ChangePasswordResponse response = 
+                AccountService.ChangePassword(new ChangePasswordRequest
+                {
+                    AccoundId = User.UserId,
+                    OldPassword = model.OldPassword,
+                    NewPassword = model.NewPassword
+                });
+            if (response.StatusCode != HttpStatusCode.OK)
+                ModelState.AddModelError(String.Empty, response.Message);
+            else ViewBag.Message = response.Message;
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [CustomAuthorize(Roles = "Company")]
+        public ActionResult UpdateCompany(CompanyViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            UpdateCompanyResponse  response = AccountService.UpdateCompany(new UpdateCompanyRequest
+            {
+                AkauntId = User.UserId,
+                CompanyId = model.CompanyId,
+                Company = model.ParseToAviokompanii(),
+                Address = model.Address.ParseToAdresi()
+            });
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                ModelState.AddModelError(String.Empty, response.Message);
+                return PartialView(model);
+            }
+            else
+            {
+                ViewBag.Message = response.Message;
+                return PartialView(new CompanyViewModel(response.Company));
+            }
+        }
+
+        [HttpPost]
+        [CustomAuthorize(Roles = "Passenger")]
+        public ActionResult UpdatePassenger(PassengersViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            UpdatePassengerResponse response = AccountService.UpdatePassenger(new UpdatePassengerRequest
+            {
+                AkauntId = User.UserId,
+                PassengerId = model.PassengerId,
+                Passenger = model.ParseToPatnici(),
+                Person = model.ParseToLugje(),
+                Address = model.Address.ParseToAdresi()
+            });
+
+            if (response.StatusCode != HttpStatusCode.OK) {
+                ModelState.AddModelError(String.Empty, response.Message);
+                return PartialView(model);
+            }
+            else
+            {
+                ViewBag.Message = response.Message;
+                return PartialView(new PassengersViewModel(response.Passenger));
+            }
+        }
+
 
         [HttpGet]
         public ActionResult LogOut()

@@ -38,7 +38,7 @@ namespace Bazi_Repository.Implementation
             try
             {
                 CompanyManager companyManager = new CompanyManager(this.Context);
-                RepoBaseResponse<Aviokompanii> companyResponse = companyManager.GetCompanyById(new RepoGetCompanyByIdRequest { Id = request.CompanyAccountId });
+                RepoBaseResponse<Aviokompanii> companyResponse = companyManager.GetCompanyByAccountId(new RepoGetCompanyByAccountIdRequest { AccountId = request.CompanyAccountId });
                 if (companyResponse.Status != HttpStatusCode.OK && companyResponse.ReturnedResult != null)
                     throw companyResponse.Exception;
 

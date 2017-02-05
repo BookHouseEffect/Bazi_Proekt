@@ -4,6 +4,8 @@
     <h3 class="text-primary">Passport Information</h3>
     <hr />
 
+    @Html.HiddenFor(x => x.PassengerId)
+
     <div class="form-group">
         @Html.LabelFor(m => m.PassportNumber, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">
@@ -15,8 +17,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.DateOfIssue, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">
-            <div class='input-group date ' id="date-of-issue-datetimepicker">
-                @Html.TextBoxFor(m => m.DateOfIssue, new { @Class = "form-control" })
+            <div class="input-group date date-of-issue-datetimepicker">
+                @Html.TextBoxFor(m => m.DateOfIssue, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control" })
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -36,8 +38,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.DateOfExpire, new { @Class = "control-label col-md-3" })
         <div class="col-md-9">
-            <div class='input-group date' id="date-of-expire-datetimepicker">
-                @Html.TextBoxFor(m => m.DateOfExpire, new { @Class = "form-control" })
+            <div class="input-group date date-of-expire-datetimepicker">
+                @Html.TextBoxFor(m => m.DateOfExpire, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control" })
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>

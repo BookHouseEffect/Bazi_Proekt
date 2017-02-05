@@ -49,7 +49,7 @@
                             <ul class="dropdown-menu">
                                 <li id="user1">
                                     @*TODO Add account settings link configuration*@
-                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Account Settings", "", "", null, "glyphicon glyphicon-cog")
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Account Settings", "AccountSettings", "Account", null, "glyphicon glyphicon-cog")
                                 </li>
 
                                 @if (User.Roles.Contains("Company")) { 
@@ -62,7 +62,6 @@
                         </li>
                         
                         <li>
-                            @**TODO Add log out configuration button*@
                             @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Sign Out", "LogOut", "Account", null, "glyphicon glyphicon-log-out")
                         </li>
                     }
@@ -80,6 +79,7 @@
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>

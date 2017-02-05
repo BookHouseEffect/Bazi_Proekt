@@ -27,13 +27,30 @@ namespace Bazi_Business.Responses
         public Vraboteni RegisteredEmployee { get; set; }
     }
 
-    public class GetRegisterableRolesResponse : BaseResponse
+    public class ChangePasswordResponse : BaseResponse
     {
-        public ICollection<Ulogi> RegistrableRoleList { get; set; }
+        public Akaunti Account { get; set; }
+    }
 
-        public GetRegisterableRolesResponse() : base()
-        {
-            RegistrableRoleList = new List<Ulogi>();
-        }
+    public class GetCompanyInfoResponse : BaseResponse
+    {
+        public Akaunti Account { get; set; }
+        public Aviokompanii Company { get; set; }
+    }
+
+    public class GetPassengerInfoResponse : BaseResponse
+    {
+        public Akaunti Account { get; set; }
+        public ICollection<Patnici> Passengers {get;set;}
+    }
+
+    public class UpdateCompanyResponse : BaseResponse
+    {
+        public Aviokompanii Company { get; set; }
+    }
+
+    public class UpdatePassengerResponse : BaseResponse
+    {
+        public Patnici Passenger { get; set; }
     }
 }

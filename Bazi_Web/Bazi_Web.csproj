@@ -259,6 +259,8 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -307,13 +309,17 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\LogIn.cshtml" />
-    <Content Include="Views\Account\PersonPartialView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PersonEditor.cshtml" />
     <Content Include="Views\Account\RegisterPartialView.cshtml" />
-    <Content Include="Views\Account\PassportPartialView.cshtml" />
-    <Content Include="Views\Account\EmployeePartialView.cshtml" />
-    <Content Include="Views\Account\CompanyPartialView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PassportEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmployeeEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CompanyEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AddressEditor.cshtml" />
-    <Content Include="Views\Account\test.cshtml" />
+    <Content Include="Views\Account\AccountSettings.cshtml" />
+    <Content Include="Views\Account\UpdateCompany.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\UpdatePassenger.cshtml" />
+    <Content Include="Views\Account\PassengersList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

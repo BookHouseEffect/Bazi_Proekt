@@ -177,5 +177,176 @@ namespace Bazi_Business.Implementation
 
             return response;
         }
+
+        public ChangePasswordResponse ChangePassword(ChangePasswordRequest request)
+        {
+            ChangePasswordResponse response = new ChangePasswordResponse();
+            try
+            {
+                RepoBaseResponse<Akaunti> currentAccount = AccountManager.GetAccountById(new RepoGetAccountByIdRequest { Id = request.AccoundId });
+                if (currentAccount.Status != HttpStatusCode.OK || currentAccount.ReturnedResult == null)
+                    throw currentAccount.Exception;
+
+                if (PasswordCryptography.PasswordCompare(
+                    new HashedAndSaltedPassword
+                    {
+                        PasswordHash = currentAccount.ReturnedResult.LozinkaHash,
+                        PasswordSalt = currentAccount.ReturnedResult.BezbednostnaMarka
+                    }
+                    , request.OldPassword))
+                {
+                    HashedAndSaltedPassword newPassHash = PasswordCryptography.CryptPassword(request.NewPassword);
+                    RepoBaseResponse<Akaunti> newAccount = AccountManager.ChangePassword(new RepoChangePasswordRequest
+                    {
+                        Id = request.AccoundId,
+                        PasswordHash = newPassHash.PasswordHash,
+                        SecurityStamp = newPassHash.PasswordSalt
+                    });
+
+                    if (newAccount.Status != HttpStatusCode.OK || newAccount.ReturnedResult == null)
+                        throw newAccount.Exception;
+                    response.Account = newAccount.ReturnedResult;
+                    response.Message = "Password changed successfully";
+                }
+                else
+                    throw new Exception("The password is incorrect.");
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+            return response;
+        }
+
+        public GetCompanyInfoResponse GetComapnyInfo(GetCompanyInfoRequest request)
+        {
+            GetCompanyInfoResponse response = new GetCompanyInfoResponse();
+            try
+            {
+                CompanyManager companyManager = new CompanyManager();
+                RepoBaseResponse<Aviokompanii> comResponse =  companyManager
+                    .GetCompanyByAccountId(new RepoGetCompanyByAccountIdRequest { AccountId = request.AccountId });
+                if (comResponse.Status != HttpStatusCode.OK || comResponse.ReturnedResult == null)
+                {
+                    RepoBaseResponse<Akaunti> acResponse = AccountManager.GetAccountById(new RepoGetAccountByIdRequest { Id = request.AccountId });
+                    if (acResponse.Status != HttpStatusCode.OK || acResponse.ReturnedResult == null)
+                        throw acResponse.Exception;
+                    else
+                        response.Account = acResponse.ReturnedResult;
+                } else
+                {
+                    response.Company = comResponse.ReturnedResult;
+                    response.Account = comResponse.ReturnedResult.Akaunti_AkauntId;
+                }
+
+            } catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+            return response;
+        }
+
+        public GetPassengerInfoResponse GetPassengerInfo(GetPassengerInfoRequest request)
+        {
+            GetPassengerInfoResponse response = new GetPassengerInfoResponse();
+            try
+            {
+                RepoBaseResponse<Akaunti> acResponse = AccountManager.GetAccountById(new RepoGetAccountByIdRequest { Id = request.AccountId });
+                if (acResponse.Status != HttpStatusCode.OK || acResponse.ReturnedResult == null)
+                    throw acResponse.Exception;
+                else
+                    response.Account = acResponse.ReturnedResult;
+
+                PassengerManager passengerManager = new PassengerManager();
+                RepoBaseResponse<ICollection<Patnici>> passResponse = passengerManager
+                    .GetPassengersByAccount(new RepoGetPassengersByAccountRequest { AccountId = request.AccountId });
+                if (passResponse.Status != HttpStatusCode.OK || passResponse.ReturnedResult == null)
+                    response.Passengers = new List<Patnici>();
+                else
+                    response.Passengers = passResponse.ReturnedResult;
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+            return response;
+        }
+
+        public UpdateCompanyResponse UpdateCompany(UpdateCompanyRequest request)
+        {
+            UpdateCompanyResponse response = new UpdateCompanyResponse();
+            try
+            {
+                CompanyManager companyManager = new CompanyManager();
+                RepoBaseResponse<Aviokompanii> responseInfo =  companyManager.UpdateCompanyInfo(new RepoUpdateCompanyInfoRequest
+                {
+                    AccountId = request.AkauntId,
+                    CompanyId = request.CompanyId,
+                    NewCompanyName = request.Company.ImeNaKompanija
+                });
+                if (responseInfo.Status != HttpStatusCode.OK || responseInfo.ReturnedResult == null)
+                    throw responseInfo.Exception;
+
+                RepoBaseResponse<Aviokompanii> responseAddress = companyManager.UpdateCompanyAddressInfo(new RepoUpdateCompanyAddressInfoRequest
+                {
+                    AccountId = request.AkauntId,
+                    CompanyId = request.CompanyId,
+                    NewAddress = request.Address
+                });
+                if (responseAddress.Status != HttpStatusCode.OK || responseAddress.ReturnedResult == null)
+                    throw responseAddress.Exception;
+
+                response.Company = responseAddress.ReturnedResult;
+                response.Message = "Company info Successfully Updated.";
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+            return response;
+        }
+
+        public UpdatePassengerResponse UpdatePassenger(UpdatePassengerRequest request)
+        {
+            UpdatePassengerResponse response = new UpdatePassengerResponse();
+            try
+            {
+                PassengerManager passengerManager = new PassengerManager();
+                RepoBaseResponse<Patnici> responsePerson = passengerManager.UpdatePassengerPersonInfo(new RepoUpdatePassengerPersonInfoRequest
+                {
+                    AccountId = request.AkauntId,
+                    PassengerId = request.PassengerId,
+                    NewPerson = request.Person
+                });
+                if (responsePerson.Status != HttpStatusCode.OK || responsePerson.ReturnedResult == null)
+                    throw responsePerson.Exception;
+
+                RepoBaseResponse<Patnici> responseAddress = passengerManager.UpdatePassengerAddressInfo(new RepoUpdatePassengerAddressInfoRequest
+                {
+                    AccountId = request.AkauntId,
+                    PassengerId = request.PassengerId, 
+                    NewAddress = request.Address
+                });
+                if (responseAddress.Status != HttpStatusCode.OK || responseAddress.ReturnedResult == null)
+                    throw responseAddress.Exception;
+
+                RepoBaseResponse<Patnici> resposeInfo = passengerManager.UpdatePassengerInfo(new RepoUpdatePassengerInfoRequest
+                {
+                    AccountId = request.AkauntId,
+                    PassengerId = request.PassengerId,
+                    NewPassenger = request.Passenger
+                });
+                if (resposeInfo.Status != HttpStatusCode.OK || resposeInfo.ReturnedResult == null)
+                    throw resposeInfo.Exception;
+
+                response.Passenger = resposeInfo.ReturnedResult;
+                response.Message = "Personal info Successfully Updated.";
+            }
+            catch (Exception ex)
+            {
+                response.SetInternalServerErrorMessage(ex);
+            }
+            return response;
+        }
     }
 }
