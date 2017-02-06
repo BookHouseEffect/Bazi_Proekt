@@ -32,6 +32,8 @@ namespace Bazi_Repository.RepositoryRequests
     public class RepoGetCompanyAirplanesRequest : RepoBaseRequest
     {
         public Int32 CompanyId { get; set; }
+        public Int32 PageNumber { get; set; }
+        public Int32 PageSize { get; set; }
     }
 
     public class RepoUpdateCompanyAirplaneNameRequest : RepoBaseRequest

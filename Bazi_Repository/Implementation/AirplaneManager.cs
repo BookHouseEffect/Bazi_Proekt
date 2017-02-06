@@ -9,7 +9,7 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class AirplaneManager : BaseManager, IAirplaneManager
+    public class AirplaneManager : BaseManager, IAirplaneManager
     {
         public RepoBaseResponse<Avioni> AddCompanyAirplane(RepoAddCompanyAirplaneRequest request)
         {
@@ -28,7 +28,15 @@ namespace Bazi_Repository.Implementation
 
         public RepoBaseResponse<ICollection<Avioni>> GetCompanyAirplanes(RepoGetCompanyAirplanesRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<ICollection<Avioni>> response = new RepoBaseResponse<ICollection<Avioni>>();
+            try
+            {
+                response.ReturnedResult = Context.Avioni.Where(x => x.KompanijaId == request.CompanyId).Skip((request.PageNumber-1)*request.PageSize).Take(request.PageSize).ToList();
+            } catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
         public RepoBaseResponse<ICollection<Avioni>> GetCompanyAirplanesByType(RepoGetCompanyAirplanesByTypeRequest request)

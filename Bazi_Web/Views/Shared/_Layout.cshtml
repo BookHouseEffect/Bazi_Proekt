@@ -18,7 +18,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (User == null)
+                {
+                    Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" });
+                }
+                else
+                {
+                    if (User.IsInRole("Company"))
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Company", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">

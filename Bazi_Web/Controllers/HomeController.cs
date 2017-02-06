@@ -11,7 +11,14 @@ namespace Bazi_Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            if (User == null)
+                return View();
+            if (!User.Identity.IsAuthenticated)
+                return View();
+            if (User.IsInRole("Company"))
+                RedirectToAction("Index", "Company");
             return View();
+            
         }
     }
 }

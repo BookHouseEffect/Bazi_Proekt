@@ -151,7 +151,7 @@ namespace Bazi_Web.Controllers
             if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.PassengerRole))) {
                 return RedirectToAction("", ""); //TODO Redirect to passenger Panel
             } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.CompanyRole))) {
-                return RedirectToAction("", ""); //TODO Redirect to company Panel
+                return RedirectToAction("Index", "Company");
             } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.EmployeeRole))) {
                 return RedirectToAction("", ""); //TODO Redirect to worker Panel
             } else

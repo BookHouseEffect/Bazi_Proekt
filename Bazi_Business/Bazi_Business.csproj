@@ -41,10 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\AccountService.cs" />
+    <Compile Include="Implementation\AirplaneService.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\IAirplaneService.cs" />
     <Compile Include="PasswordCryptography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\AccountRequest.cs" />
+    <Compile Include="Requests\AirplaneRequest.cs" />
+    <Compile Include="Responses\AirplaneResponse.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
     <Compile Include="Responses\AccountResponse.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
