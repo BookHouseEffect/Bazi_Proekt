@@ -6,12 +6,9 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Web.Models
 {
-    public class AirplaneListViewModel
+    public class AirplaneListViewModel : ListViewModels
     {
         public ICollection<Avioni> Airplanes { get; set; }
-
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
 
         public AirplaneListViewModel()
         {

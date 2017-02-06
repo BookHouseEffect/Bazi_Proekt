@@ -121,6 +121,12 @@
     <Compile Include="RnabDataModel.Patnici.cs">
       <DependentUpon>RnabDataModel.lqml</DependentUpon>
     </Compile>
+    <Compile Include="RnabDataModel.PatniciStoLetaleSoSiteAviokompanii.cs">
+      <DependentUpon>RnabDataModel.lqml</DependentUpon>
+    </Compile>
+    <Compile Include="RnabDataModel.PatnikKojNajmnoguPotrpsil.cs">
+      <DependentUpon>RnabDataModel.lqml</DependentUpon>
+    </Compile>
     <Compile Include="RnabDataModel.PlanoviNaLetanje.cs">
       <DependentUpon>RnabDataModel.lqml</DependentUpon>
     </Compile>

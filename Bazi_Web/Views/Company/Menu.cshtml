@@ -1,5 +1,7 @@
 ﻿<div class="panel panel-body">
     <div class="btn-group btn-group-justified">
         @Html.ActionLink("Airplane Management", "ViewAirplanes", "Company", new { pageNumber = 1, pageSize = 10 }, new { @Class = "btn btn-primary" })
+        @Html.ActionLink("Add Flight", "AddFlight", "Company", null, new { @Class = "btn btn-primary" })
+        @Html.ActionLink("Flight Management", "ViewFlights", "Company", new { pageNumber = 1, pageSize = 10 }, new { @Class = "btn btn-primary" })
     </div>
 </div>

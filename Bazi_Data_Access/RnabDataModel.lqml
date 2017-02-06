@@ -11,6 +11,7 @@
       <Association Name="Aviokompanii_Avioni" ed:AssociationGuid="d4777b87-b619-4238-a4f5-9737c0970740" Member="Avionis_KompanijaId" ed:Guid="ba98091c-f462-42b6-9acd-2c52bfbd3e7d" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Avioni" />
       <Association Name="Aviokompanii_Vraboteni" ed:AssociationGuid="8f012a2b-1735-4d4a-8797-a44e73a88678" Member="Vrabotenis_KompanijaId" ed:Guid="8c850c6f-6064-42a8-bdd2-72cbcaa3cbbc" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Vraboteni" />
       <Association Name="Akaunti_Aviokompanii" ed:AssociationGuid="64b3a35a-fd8c-443d-a315-d902ac9cedf9" Member="Akaunti_AkauntId" ed:Guid="d9af7162-fbd6-4df5-b3a0-90766eddeefa" ThisKey="AkauntId" OtherKey="AkauntId" Type="Akaunti" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aviokompanii_Letovi" ed:AssociationGuid="3891ef10-3d3b-4a53-a731-28abbbedb123" Member="Letovis_KompanijaId" ed:Guid="704ea133-f8ad-4423-8074-53d0b7a4ee78" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Letovi" />
     </Type>
   </Table>
   <Table Name="public.tip_na_avioni" Member="TipNaAvioni">
@@ -38,8 +39,10 @@
     <Type Name="Letovi" ed:Guid="c31f9add-6101-47f6-8a74-a9719402be31">
       <Column Name="let_id" Member="LetId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="849cd2fe-774b-475b-9da1-07a84a030914" />
       <Column Name="status" Member="Status" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="041a160e-9c2a-4e76-a106-60232945dbbe" />
+      <Column Name="kompanija_id" Member="KompanijaId" Type="System.Int32" DbType="INT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="fe7de4d9-520a-469f-a452-d2b1bb68e1a8" />
       <Association Name="Letovi_Megjuletovi" ed:AssociationGuid="c9519c22-e729-48ca-a918-f9fd13c9895a" Member="Megjuletovis_LetId" ed:Guid="ec422194-6abd-4cea-8ea6-2012259c7af6" ThisKey="LetId" OtherKey="LetId" Type="Megjuletovi" />
       <Association Name="Letovi_DenoviNaLetanje" ed:AssociationGuid="9828c748-7d85-487a-8255-93d88cc13107" Member="DenoviNaLetanjes_LetId" ed:Guid="6e1c80b5-945d-4def-85ab-55a88d02b000" ThisKey="LetId" OtherKey="LetId" Type="DenoviNaLetanje" />
+      <Association Name="Aviokompanii_Letovi" ed:AssociationGuid="3891ef10-3d3b-4a53-a731-28abbbedb123" Member="Aviokompanii_KompanijaId" ed:Guid="5d734b02-a00c-4b13-920d-28f6ef3d35c2" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Aviokompanii" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="public.klasi" Member="Klasi">
@@ -267,6 +270,18 @@
       <Column Name="komp" Member="Komp" Type="System.Int32" DbType="INT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="a0e85d26-b727-4f5c-9ea6-3284f97d58d2" />
       <Column Name="drzhava" Member="Drzhava" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="a668ea34-dfe6-43e1-ba06-87e0d92cf7e2" />
       <Column Name="broj" Member="Broj" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="18a15185-1d1e-4e13-a092-b93d9609a5e3" />
+    </Type>
+  </Table>
+  <Table Name="public.patnici_sto_letale_so_site_aviokompanii" Member="PatniciStoLetaleSoSiteAviokompanii">
+    <Type Name="PatniciStoLetaleSoSiteAviokompanii" ed:Guid="bb173695-0907-4baa-9943-232ee9277b4e">
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="5b11f5c2-38ea-497c-9778-08b5848ef4ee" />
+      <Column Name="&quot;count&quot;" Member="Count" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="0f29b64a-3dad-432e-bfac-feb37627c23c" />
+    </Type>
+  </Table>
+  <Table Name="public.patnik_koj_najmnogu_potrpsil" Member="PatnikKojNajmnoguPotrpsil">
+    <Type Name="PatnikKojNajmnoguPotrpsil" ed:Guid="418931e4-3450-4c0d-ad0a-9cd818f503ca">
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="b15e7f74-374c-4ecb-8825-7a560db827b9" />
+      <Column Name="potroshil" Member="Potroshil" Type="System.Single" DbType="FLOAT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="21bf12ca-60de-46ed-9e41-2c66ef5ce239" />
     </Type>
   </Table>
 </Database>

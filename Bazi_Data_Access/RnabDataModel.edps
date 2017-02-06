@@ -28,6 +28,8 @@
         <File Name="RnabDataModel.Brojac.cs" />
         <File Name="RnabDataModel.AviokompanijaSoNajgolemProfit.cs" />
         <File Name="RnabDataModel.DrzhaviSoNajvekePatuvanja.cs" />
+        <File Name="RnabDataModel.PatniciStoLetaleSoSiteAviokompanii.cs" />
+        <File Name="RnabDataModel.PatnikKojNajmnoguPotrpsil.cs" />
       </GeneratedFiles>
     </Generation>
     <DatabaseFirstNamingRules>

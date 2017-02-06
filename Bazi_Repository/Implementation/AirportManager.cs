@@ -9,7 +9,7 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class AirportManager : BaseManager, IAirportManager
+    public class AirportManager : BaseManager, IAirportManager
     {
         public RepoBaseResponse<Aerodromi> AddNewAirport(RepoAddNewAirportRequest request)
         {
@@ -44,6 +44,11 @@ namespace Bazi_Repository.Implementation
         public RepoBaseResponse<Aerodromi> UpdateAirportNameInfo(RepoUpdateAirportNameInfoRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public ICollection<Aerodromi> GetAirports()
+        {
+            return Context.Aerodromi.ToList();
         }
     }
 }

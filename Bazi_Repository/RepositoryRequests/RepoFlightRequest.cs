@@ -9,8 +9,10 @@ namespace Bazi_Repository.RepositoryRequests
 {
     public class RepoAddNewFlightRequest : RepoBaseRequest
     {
+        public int CompanyId { get; set; }
         public ICollection<Megjuletovi> SubFlightList { get; set; }
-        public ICollection<DenoviNaLetanje> FlightDayList { get; set; }
+        public ICollection<Int32> FlightDayList { get; set; }
+        public ICollection<TimeSpan> DeparturesTime { get; set; }
     }
 
     public class RepoGetFlightByIdRequest : RepoBaseRequest

@@ -22,16 +22,16 @@ namespace Db201617zVaProektRnabContext
 {
 
     /// <summary>
-    /// There are no comments for Db201617zVaProektRnabContext.AviokompanijaSoNajgolemProfit in the schema.
+    /// There are no comments for Db201617zVaProektRnabContext.PatnikKojNajmnoguPotrpsil in the schema.
     /// </summary>
-    [Table(Name = @"public.aviokompanija_so_najgolem_profit")]
-    public partial class AviokompanijaSoNajgolemProfit
+    [Table(Name = @"public.patnik_koj_najmnogu_potrpsil")]
+    public partial class PatnikKojNajmnoguPotrpsil
     {
         #pragma warning disable 0649
 
-        private string _Aviokompanija;
+        private int _PatnikId;
 
-        private System.Nullable<float> _Profit;
+        private System.Nullable<float> _Potroshil;
         #pragma warning restore 0649
     
         #region Extensibility Method Definitions
@@ -52,71 +52,71 @@ namespace Db201617zVaProektRnabContext
         partial void OnCreated();
 
         /// <summary>
-        /// There are no comments for OnAviokompanijaChanging method in the schema.
+        /// There are no comments for OnPatnikIdChanging method in the schema.
         /// </summary>
-        partial void OnAviokompanijaChanging(string value);
+        partial void OnPatnikIdChanging(int value);
 
         /// <summary>
-        /// There are no comments for OnAviokompanijaChanged method in the schema.
+        /// There are no comments for OnPatnikIdChanged method in the schema.
         /// </summary>
-        partial void OnAviokompanijaChanged();
+        partial void OnPatnikIdChanged();
 
         /// <summary>
-        /// There are no comments for OnProfitChanging method in the schema.
+        /// There are no comments for OnPotroshilChanging method in the schema.
         /// </summary>
-        partial void OnProfitChanging(System.Nullable<float> value);
+        partial void OnPotroshilChanging(System.Nullable<float> value);
 
         /// <summary>
-        /// There are no comments for OnProfitChanged method in the schema.
+        /// There are no comments for OnPotroshilChanged method in the schema.
         /// </summary>
-        partial void OnProfitChanged();
+        partial void OnPotroshilChanged();
         #endregion
 
         /// <summary>
-        /// There are no comments for AviokompanijaSoNajgolemProfit constructor in the schema.
+        /// There are no comments for PatnikKojNajmnoguPotrpsil constructor in the schema.
         /// </summary>
-        public AviokompanijaSoNajgolemProfit()
+        public PatnikKojNajmnoguPotrpsil()
         {
             OnCreated();
         }
 
     
         /// <summary>
-        /// There are no comments for Aviokompanija in the schema.
+        /// There are no comments for PatnikId in the schema.
         /// </summary>
-        [Column(Name = @"aviokompanija", Storage = "_Aviokompanija", DbType = "VARCHAR(100)", UpdateCheck = UpdateCheck.Never)]
-        [System.ComponentModel.DataAnnotations.StringLength(100)]
-        public string Aviokompanija
+        [Column(Name = @"patnik_id", Storage = "_PatnikId", CanBeNull = false, DbType = "INT4 NOT NULL", UpdateCheck = UpdateCheck.Never)]
+        [System.ComponentModel.DataAnnotations.Required()]
+        public int PatnikId
         {
             get
             {
-                return this._Aviokompanija;
+                return this._PatnikId;
             }
             set
             {
-                if (this._Aviokompanija != value)
+                if (this._PatnikId != value)
                 {
-                    this._Aviokompanija = value;
+                    this._PatnikId = value;
                 }
             }
         }
 
     
         /// <summary>
-        /// There are no comments for Profit in the schema.
+        /// There are no comments for Potroshil in the schema.
         /// </summary>
-        [Column(Name = @"profit", Storage = "_Profit", DbType = "FLOAT4", UpdateCheck = UpdateCheck.Never)]
-        public System.Nullable<float> Profit
+        [Column(Name = @"potroshil", Storage = "_Potroshil", DbType = "FLOAT4", UpdateCheck = UpdateCheck.Never)]
+        public System.Nullable<float> Potroshil
         {
             get
             {
-                return this._Profit;
+                return this._Potroshil;
             }
             set
             {
-                if (this._Profit != value)
+                if (this._Potroshil != value)
                 {
-                    this._Profit = value;
+                    this._Potroshil = value;
                 }
             }
         }
