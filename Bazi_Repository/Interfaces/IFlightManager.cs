@@ -8,6 +8,6 @@ namespace Bazi_Repository.Interfaces
     {
         RepoBaseResponse<Letovi> AddNewFlight(RepoAddNewFlightRequest request);
         RepoBaseResponse<Letovi> GetFlightById(RepoGetFlightByIdRequest request);
-        RepoBaseResponse<Boolean> RemoveFlightIfNotAssigned(RepoRemoveFlightIfNotAssignedRequest request);
+        RepoBaseResponse<Letovi> RemoveFlightIfNotAssigned(RepoRemoveFlightIfNotAssignedRequest request);
     }
 }

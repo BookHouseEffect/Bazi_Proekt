@@ -7,8 +7,8 @@ namespace Bazi_Repository.RepositoryRequests
     {
         public String Name { get; set; }
         public Adresi Address { get; set; }
-        public Double Latitude { get; set; }
-        public Double longitute { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
     }
 
     public class RepoGetAirportByIdRequest : RepoBaseRequest
@@ -41,7 +41,7 @@ namespace Bazi_Repository.RepositoryRequests
     public class RepoUpdateAirportLocationInfoRequest : RepoBaseRequest
     {
         public Int32 AirportId { get; set; }
-        public Double NewLongitute { get; set; }
-        public Double NewLatitude { get; set; }
+        public float NewLongitute { get; set; }
+        public float NewLatitude { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<ICollection<Lugje>> GetPersonByNameOrSurname(RepoGetPersonByNameOrSurnameRequest request);
         RepoBaseResponse<Lugje> GetPersonByIdCardNumber(RepoGetPersonByIdCardNumberRequest request);
         RepoBaseResponse<Lugje> UpdatePersonInfo(RepoUpdatePersonInfoRequest request);
+        RepoBaseResponse<Lugje> RemoveUnlinkedPerson(RepoRemoveUnlinkedPersonRequest request);
     }
 }

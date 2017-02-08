@@ -28,39 +28,40 @@ namespace Bazi_Repository.Implementation
 
         public RepoBaseResponse<Vraboteni> AddEmployeeAccount(RepoAddEmployeeAccountRequest request)
         {
-            RoleManager roleManager = new RoleManager(this.Context);
-            RepoBaseResponse<Ulogi> employeeRole = roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = "Employee" });
-            if (employeeRole.Status != HttpStatusCode.OK || employeeRole.ReturnedResult == null)
-                throw employeeRole.Exception;
-
             RepoBaseResponse<Vraboteni> response = new RepoBaseResponse<Vraboteni>();
-            bool accountCreated = false, personAdded = false, employeeCreated = false;
+
+            PersonManager personManager = new PersonManager(this.Context);
+            RepoBaseResponse<Lugje> personResponse = null;
+
+            AccountManager accountManager = new AccountManager(this.Context);
+            RepoBaseResponse<Akaunti> accountResponse = null;
+
             try
             {
+                RoleManager roleManager = new RoleManager(this.Context);
+                RepoBaseResponse<Ulogi> employeeRole = roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = "Employee" });
+                if (employeeRole.HasError())
+                    throw employeeRole.Exception;
+
+
                 CompanyManager companyManager = new CompanyManager(this.Context);
                 RepoBaseResponse<Aviokompanii> companyResponse = companyManager.GetCompanyByAccountId(new RepoGetCompanyByAccountIdRequest { AccountId = request.CompanyAccountId });
-                if (companyResponse.Status != HttpStatusCode.OK && companyResponse.ReturnedResult != null)
+                if (companyResponse.HasError())
                     throw companyResponse.Exception;
 
-                AccountManager accountManager = new AccountManager(this.Context);
-                RepoBaseResponse<Akaunti> accountResponse =
-                    accountManager.RegisterAccount(new RepoRegisterAccountRequest
-                    {
+
+                personResponse = personManager.AddNewPerson(new RepoAddNewPersonRequest() { Person = request.Person });
+                if (personResponse.HasError())
+                    throw personResponse.Exception;
+
+                accountResponse = accountManager.RegisterAccount(new RepoRegisterAccountRequest {
                         Account = request.Account,
                         Role = employeeRole.ReturnedResult,
                         PasswordHash = request.PasswordHash,
                         SecurityStamp = request.SecurityStamp
                     });
-                if (accountResponse.Status != HttpStatusCode.OK ||
-                     accountResponse.ReturnedResult == null)
+                if (accountResponse.HasError())
                     throw accountResponse.Exception;
-                accountCreated = true;
-
-                PersonManager personManager = new PersonManager(this.Context);
-                RepoBaseResponse<Lugje> personResponse = personManager.AddNewPerson(new RepoAddNewPersonRequest() { Person = request.Person });
-                if (personResponse.Status != HttpStatusCode.OK || personResponse.ReturnedResult == null)
-                    throw personResponse.Exception;
-                personAdded = true;
 
                 Vraboteni employee = new Vraboteni
                 {
@@ -70,22 +71,23 @@ namespace Bazi_Repository.Implementation
                 };
                 Context.Vraboteni.InsertOnSubmit(employee);
                 Context.SubmitChanges();
-                employeeCreated = true;
                 response.ReturnedResult = employee;
             }
             catch (Exception ex)
             {
                 response.SetResponseProcessingFailed(ex);
-                if (!accountCreated)
-                    response.Message += "\nThe account couldn't be created.";
-                else
-                    response.Message += "\nThe account is created.";
 
-                if (accountCreated && !personAdded)
-                    response.Message += "\nThe person information was not saved. Log in to insert the data again";
+                if (personResponse != null)
+                {
+                    RepoBaseResponse<Lugje> removedPerson = personManager.RemoveUnlinkedPerson(new RepoRemoveUnlinkedPersonRequest { PersonId = personResponse.ReturnedResult.CovekId });
+                    if (removedPerson.HasError()) response.Message += removedPerson.Message;
+                }
 
-                if (accountCreated && !employeeCreated)
-                    response.Message += "\nThe employee information was not saved. Log in to insert the data again";
+                if (accountResponse != null)
+                {
+                    RepoBaseResponse<Akaunti> removeAccount = accountManager.RemoveUnlinkedAccount(new RepoRemoveUnlinkedAccountRequest { Id = accountResponse.ReturnedResult.AkauntId });
+                    if (removeAccount.HasError()) response.Message += removeAccount.Message;
+                }
             }
 
             return response;
@@ -136,7 +138,7 @@ namespace Bazi_Repository.Implementation
                     NewPerson = request.NewPerson
                 });
 
-                if (updatePerson.Status != System.Net.HttpStatusCode.OK || updatePerson.ReturnedResult == null)
+                if (updatePerson.HasError())
                     throw updatePerson.Exception;
 
                 currentEmployee.CovekId = updatePerson.ReturnedResult.CovekId;

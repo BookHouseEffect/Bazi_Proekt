@@ -14,6 +14,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<ICollection<Avioni>> GetCompanyAirplanes(RepoGetCompanyAirplanesRequest request);
         RepoBaseResponse<Avioni> UpdateCompanyAirplaneName(RepoUpdateCompanyAirplaneNameRequest request);
         RepoBaseResponse<Avioni> UpdateCompanyAirplaneRegistry(RepoUpdateCompanyAirplaneRegistryRequest request);
-        RepoBaseResponse<Boolean> TransferAirplaneToNewCompany(RepoTransferAirplaneToNewCompanyRequest request);
+        RepoBaseResponse<Avioni> TransferAirplaneToNewCompany(RepoTransferAirplaneToNewCompanyRequest request);
     }
 }

@@ -5,7 +5,7 @@ namespace Bazi_Repository.RepositoryRequests
 {
     public class RepoAddNewSeatRequest : RepoBaseRequest
     {
-        public Klasi ClassId { get; set; }
+        public Int32 ClassId { get; set; }
         public Int32 SeatNumber { get; set; }
     }
 

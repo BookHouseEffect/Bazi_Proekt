@@ -12,6 +12,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<ICollection<Rezervacii>> GetAllTicketsForPassenger(RepoGetAllTicketsForPassengerRequest request);
         RepoBaseResponse<ICollection<Rezervacii>> GetAllTicketsForFlightScheme(RepoGetAllTicketsForFlightSchemeRequest request);
         RepoBaseResponse<ICollection<Sedishta>> GetAvailabelSeatsForFlightSCheme(RepoGetAvailabelSeatsForFlightSChemeRequest request);
-        RepoBaseResponse<Boolean> CancelTicket(RepoCancelTicketRequest request);
+        RepoBaseResponse<Rezervacii> CancelTicket(RepoCancelTicketRequest request);
     }
 }

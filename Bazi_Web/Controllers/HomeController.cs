@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Db201617zVaProektRnabContext;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Bazi_Repository.Implementation;
 
 namespace Bazi_Web.Controllers
 {
@@ -11,13 +13,15 @@ namespace Bazi_Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            Bazi_Repository.RepoBaseResponse<ICollection<Brojac>> response = (new ViewManagement()).GetCounter();
+
             if (User == null)
-                return View();
+                return View(response.ReturnedResult);
             if (!User.Identity.IsAuthenticated)
-                return View();
+                return View(response.ReturnedResult);
             if (User.IsInRole("Company"))
                 RedirectToAction("Index", "Company");
-            return View();
+            return View(response.ReturnedResult);
             
         }
     }

@@ -9,26 +9,89 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class SubFlightManager : BaseManager, ISubFlightManager
+    public class SubFlightManager : BaseManager, ISubFlightManager
     {
-        public RepoBaseResponse<Megjuletovi> AddNewSubFlight(RepoAddNewSubFlightRequest request)
+        public SubFlightManager(): base() { }
+
+        public SubFlightManager(Db201617zVaProektRnabDataContext e): base(e) { }
+
+        private Megjuletovi GetById(Int32 id)
         {
-            throw new NotImplementedException();
+            return Context.Megjuletovi.Where(x => x.MegjuletId == id).SingleOrDefault();
+        }
+
+        public RepoBaseResponse<ICollection<Megjuletovi>> AddNewSubFlights(RepoAddNewSubFlightsRequest request)
+        {
+            RepoBaseResponse<ICollection<Megjuletovi>> response = new RepoBaseResponse<ICollection<Megjuletovi>>();
+            try
+            {
+                foreach (Megjuletovi m in request.SubFlights)
+                    m.LetId = request.FlightId;
+
+                Context.Megjuletovi.InsertAllOnSubmit(request.SubFlights);
+                Context.SubmitChanges();
+                response.ReturnedResult = request.SubFlights;
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+
+            return response;
         }
 
         public RepoBaseResponse<Megjuletovi> GetSubFlightById(RepoGetSubFlightByIdRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<Megjuletovi> response = new RepoBaseResponse<Megjuletovi>();
+            try
+            {
+                response.ReturnedResult = GetById(request.SubFlightId);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+
+            return response;
         }
 
-        public RepoBaseResponse<bool> RemoveSubFlightIfUnassigned(RepoRemoveSubFlightIfUnassignedRequest request)
+        public RepoBaseResponse<Megjuletovi> RemoveSubFlightIfUnassigned(RepoRemoveSubFlightIfUnassignedRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<Megjuletovi> response = new RepoBaseResponse<Megjuletovi>();
+            try
+            {
+                Megjuletovi subflight = GetById(request.SubFlightId);
+                if (subflight == null)
+                    throw new Exception("The subflight does not exist");
+
+                if (subflight.PlanoviNaLetanjes_MegjuletId.Count != 0
+                    || subflight.Rasporedis_MegjuletoviId.Count != 0 )
+                    throw new Exception("The subflight is not deletable");
+
+                this.Context.Megjuletovi.DeleteOnSubmit(subflight);
+                Context.SubmitChanges();
+                response.ReturnedResult = subflight;
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
-        public RepoBaseResponse<Megjuletovi> UpdateSubFlightTimeAndDistance(RepoUpdateSubFlightTimeAndDistanceRequest request)
+        public RepoBaseResponse<ICollection<Megjuletovi>> GetSubFlightByFlightId(RepoGetSubFlightByFlightIdRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<ICollection<Megjuletovi>> response = new RepoBaseResponse<ICollection<Megjuletovi>>();
+            try
+            {
+                response.ReturnedResult = Context.Megjuletovi.Where(x => x.LetId == request.FlightId).ToList();
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+
+            return response;
         }
     }
 }

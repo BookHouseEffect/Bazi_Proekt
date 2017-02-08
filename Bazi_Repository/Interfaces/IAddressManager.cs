@@ -14,5 +14,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<ICollection<String>> GetAllStreets(RepoGetAllStreetsRequest request);
         RepoBaseResponse<Adresi> CheckIfAddressExist(RepoCheckIfAddressExistRequest request);
         RepoBaseResponse<Adresi> UpdateAddressInfo(RepoUpdateAddressInfoRequest request);
+        RepoBaseResponse<Adresi> RemoveUnlikedAddress(RepoRemoveUnlikedAddressRequest request);
     }
 }

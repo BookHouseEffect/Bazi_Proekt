@@ -29,4 +29,9 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 PersonId { get; set; }
         public Lugje NewPerson { get; set; }
     }
+
+    public class RepoRemoveUnlinkedPersonRequest : RepoBaseRequest
+    {
+        public Int32 PersonId { get; set; }
+    }
 }

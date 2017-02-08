@@ -36,4 +36,9 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 AddressId { get; set; }
         public Adresi NewAddress { get; set; }
     }
+
+    public class RepoRemoveUnlikedAddressRequest : RepoBaseRequest
+    {
+        public Int32 AddressId { get; set; }
+    }
 }

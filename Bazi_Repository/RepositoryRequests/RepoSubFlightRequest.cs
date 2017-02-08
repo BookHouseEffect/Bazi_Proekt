@@ -1,11 +1,13 @@
 ﻿using Db201617zVaProektRnabContext;
 using System;
+using System.Collections.Generic;
 
 namespace Bazi_Repository.RepositoryRequests
 {
-    public class RepoAddNewSubFlightRequest : RepoBaseRequest
+    public class RepoAddNewSubFlightsRequest : RepoBaseRequest
     {
-        public Megjuletovi SubFlight { get; set; }
+        public ICollection<Megjuletovi> SubFlights { get; set; }
+        public Int32 FlightId { get; set; }
     }
 
     public class RepoGetSubFlightByIdRequest : RepoBaseRequest
@@ -13,14 +15,13 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 SubFlightId { get; set; }
     }
 
-    public class RepoUpdateSubFlightTimeAndDistanceRequest : RepoBaseRequest
-    {
-        public TimeSpan NewFlightTime { get; set; }
-        public Single NewDistance { get; set; }
-    }
-
     public class RepoRemoveSubFlightIfUnassignedRequest : RepoBaseRequest
     {
         public Int32 SubFlightId { get; set; }
+    }
+
+    public class RepoGetSubFlightByFlightIdRequest : RepoBaseRequest
+    {
+        public Int32 FlightId { get; set; }
     }
 }

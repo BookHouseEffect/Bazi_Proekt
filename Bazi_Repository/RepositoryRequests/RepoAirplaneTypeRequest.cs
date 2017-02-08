@@ -28,4 +28,9 @@ namespace Bazi_Repository.RepositoryRequests
     {
         public Int32 TypeId { get; set; }
     }
+
+    public class RepoGetAllTypesRequest : RepoPagingBaseRequest
+    {
+
+    }
 }

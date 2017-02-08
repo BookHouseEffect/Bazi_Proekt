@@ -1,14 +1,15 @@
 ﻿using Bazi_Repository.RepositoryRequests;
 using Db201617zVaProektRnabContext;
 using System;
+using System.Collections.Generic;
 
 namespace Bazi_Repository.Interfaces
 {
     interface ISubFlightManager
     {
-        RepoBaseResponse<Megjuletovi> AddNewSubFlight(RepoAddNewSubFlightRequest request);
+        RepoBaseResponse<ICollection<Megjuletovi>> AddNewSubFlights(RepoAddNewSubFlightsRequest request);
         RepoBaseResponse<Megjuletovi> GetSubFlightById(RepoGetSubFlightByIdRequest request);
-        RepoBaseResponse<Megjuletovi> UpdateSubFlightTimeAndDistance(RepoUpdateSubFlightTimeAndDistanceRequest request);
-        RepoBaseResponse<Boolean> RemoveSubFlightIfUnassigned(RepoRemoveSubFlightIfUnassignedRequest request);
+        RepoBaseResponse<ICollection<Megjuletovi>> GetSubFlightByFlightId(RepoGetSubFlightByFlightIdRequest request);
+        RepoBaseResponse<Megjuletovi> RemoveSubFlightIfUnassigned(RepoRemoveSubFlightIfUnassignedRequest request);
     }
 }

@@ -1,12 +1,15 @@
 ﻿using Db201617zVaProektRnabContext;
 using System;
+using System.Collections.Generic;
 
 namespace Bazi_Repository.RepositoryRequests
 {
     public class RepoAddNewScheduleRequest : RepoBaseRequest
     {
-        public Int32 SubFlightId { get; set; }
-        public Rasporedi Schedule { get; set; }
+        public ICollection<Megjuletovi> SubFlights { get; set; }
+        public ICollection<TimeSpan> DeparturesTime { get; set; }
+        public ICollection<Int32> FlightDayList { get; set; }
+        public TimeSpan RequiredWaitingInterval { get; set; }
     }
 
     public class RepoGetScheduleByIdRequest : RepoBaseRequest

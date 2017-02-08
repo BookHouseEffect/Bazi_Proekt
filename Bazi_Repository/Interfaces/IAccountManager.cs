@@ -12,5 +12,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<Akaunti> GetAccountByEmailAddress(RepoGetAccountByEmailAddressRequest request);
         RepoBaseResponse<Akaunti> UpdateEmailAddress(RepoUpdateEmailAddressRequest request);
         RepoBaseResponse<Akaunti> ChangePassword(RepoChangePasswordRequest request);
+        RepoBaseResponse<Akaunti> RemoveUnlinkedAccount(RepoRemoveUnlinkedAccountRequest request);
     }
 }

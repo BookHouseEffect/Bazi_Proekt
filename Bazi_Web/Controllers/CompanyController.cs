@@ -86,8 +86,8 @@ namespace Bazi_Web.Controllers
         {
             Airports model = new Airports
             {
-                Number = Index,
-                Airs = (new AirportManager()).GetAirports()
+                Number = Index
+                //Airs = (new AirportManager()).GetAirports()
             };
             return PartialView(model);
         }

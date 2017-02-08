@@ -138,5 +138,10 @@ namespace Bazi_Repository.Implementation
             }
             return response;
         }
+
+        public RepoBaseResponse<Lugje> RemoveUnlinkedPerson(RepoRemoveUnlinkedPersonRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

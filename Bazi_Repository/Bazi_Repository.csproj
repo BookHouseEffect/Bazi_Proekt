@@ -49,6 +49,7 @@
     <Compile Include="Implementation\BaseManager.cs" />
     <Compile Include="Implementation\CompanyManager.cs" />
     <Compile Include="Implementation\EmployeeManager.cs" />
+    <Compile Include="Implementation\FlightDaysManager.cs" />
     <Compile Include="Implementation\FlightManager.cs" />
     <Compile Include="Implementation\FlightSchemeManager.cs" />
     <Compile Include="Implementation\PassengerManager.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Implementation\SeatsManager.cs" />
     <Compile Include="Implementation\SubFlightManager.cs" />
     <Compile Include="Implementation\TicketsManager.cs" />
+    <Compile Include="Implementation\ViewManagement.cs" />
     <Compile Include="Interfaces\IAccountManager.cs" />
     <Compile Include="Interfaces\IAddressManager.cs" />
     <Compile Include="Interfaces\IAirplaneManager.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Interfaces\IClassManager.cs" />
     <Compile Include="Interfaces\ICompanyManager.cs" />
     <Compile Include="Interfaces\IEmployeeManager.cs" />
+    <Compile Include="Interfaces\IFlightDaysManager.cs" />
     <Compile Include="Interfaces\IFlightManager.cs" />
     <Compile Include="Interfaces\IFlightSchemeManager.cs" />
     <Compile Include="Interfaces\IPassengerManager.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="RepositoryRequests\RepoClassRequest.cs" />
     <Compile Include="RepositoryRequests\RepoCompanyRequest.cs" />
     <Compile Include="RepositoryRequests\RepoEmployeeRequest.cs" />
+    <Compile Include="RepositoryRequests\RepoFlightDaysRequest.cs" />
     <Compile Include="RepositoryRequests\RepoFlightRequest.cs" />
     <Compile Include="RepositoryRequests\RepoFlightSchemeRequest.cs" />
     <Compile Include="RepositoryRequests\RepoPassengerRequest.cs" />

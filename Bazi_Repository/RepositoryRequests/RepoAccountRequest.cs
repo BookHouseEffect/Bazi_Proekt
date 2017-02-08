@@ -38,4 +38,9 @@ namespace Bazi_Repository.RepositoryRequests
     {
         public Int32 Id { get; set; }
     }
+
+    public class RepoRemoveUnlinkedAccountRequest:RepoBaseRequest
+    {
+        public Int32 Id { get; set; }
+    }
 }

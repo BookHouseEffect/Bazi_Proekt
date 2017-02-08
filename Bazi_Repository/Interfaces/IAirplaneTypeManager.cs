@@ -10,8 +10,8 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<TipNaAvioni> AddNewType(RepoAddNewTypeRequest request);
         RepoBaseResponse<TipNaAvioni> GetTypeById(RepoGetTypeByIdRequest request);
         RepoBaseResponse<TipNaAvioni> CheckIfTypeExist(RepoCheckIfTypeExistRequest request);
-        RepoBaseResponse<ICollection<TipNaAvioni>> GetAllTypes();
+        RepoBaseResponse<ICollection<TipNaAvioni>> GetAllTypes(RepoGetAllTypesRequest request);
         RepoBaseResponse<TipNaAvioni> UpdateTypeInfoIfNotAssigned(RepoUpdateTypeInfoIfNotAssignedRequest request);
-        RepoBaseResponse<Boolean> RemoveTypeIfNotAssigned(RepoRemoveTypeIfNotAssignedRequest request);
+        RepoBaseResponse<TipNaAvioni> RemoveTypeIfNotAssigned(RepoRemoveTypeIfNotAssignedRequest request);
     }
 }

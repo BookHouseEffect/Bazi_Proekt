@@ -25,5 +25,20 @@ namespace Bazi_Repository
             this.Message = ex.Message;
             this.Status = System.Net.HttpStatusCode.InternalServerError;
         }
+
+        public bool IsResultNull()
+        {
+            return ReturnedResult == null;
+        }
+
+        public bool IsStatusOk()
+        {
+            return Status == HttpStatusCode.OK;
+        }
+
+        public bool HasError()
+        {
+            return !IsStatusOk() || IsResultNull();
+        }
     }
 }

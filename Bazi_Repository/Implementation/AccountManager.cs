@@ -79,7 +79,7 @@ namespace Bazi_Repository.Implementation
             try
             {
                 RepoBaseResponse<Ulogi> currentRoleResponse = roleManager.GetRoleById(new RepoGetRoleByIdRequest { RoleId = request.Role.UlogaId });
-                if (currentRoleResponse.Status != System.Net.HttpStatusCode.OK)
+                if (!currentRoleResponse.IsStatusOk())
                     throw currentRoleResponse.Exception;
                 if (!Object.Equals(request.Role, currentRoleResponse.ReturnedResult))
                     throw new Exception("Inconsistent Role Received.");
@@ -130,6 +130,32 @@ namespace Bazi_Repository.Implementation
             try
             {
                 response.ReturnedResult = GetById(request.Id);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
+        }
+
+        public RepoBaseResponse<Akaunti> RemoveUnlinkedAccount(RepoRemoveUnlinkedAccountRequest request)
+        {
+            RepoBaseResponse<Akaunti> response = new RepoBaseResponse<Akaunti>();
+            try
+            {
+                Akaunti account = GetById(request.Id);
+                if (account == null)
+                    throw new Exception("The account does not exist");
+
+                if (account.Aviokompaniis_AkauntId.Count != 0
+                    || account.Vrabotenis_AkauntId.Count != 0
+                    || account.Patnicis_AkauntId.Count != 0
+                    || account.Aviokompaniis_AkauntId.Count != 0)
+                    throw new Exception("The account is not deletable");
+
+                this.Context.Akaunti.DeleteOnSubmit(account);
+                Context.SubmitChanges();
+                response.ReturnedResult = account;
             }
             catch (Exception ex)
             {

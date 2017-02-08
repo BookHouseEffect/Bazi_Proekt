@@ -11,6 +11,6 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<Klasi> GetTypeClassById(RepoGetTypeClassByIdRequest request);
         RepoBaseResponse<ICollection<Klasi>> GetTypeClasses(RepoGetTypeClassesRequest request);
         RepoBaseResponse<Klasi> UpdateTypeClassName(RepoUpdateTypeClassNameRequest request);
-        RepoBaseResponse<Boolean> TransferTypeSeatsIfNotAssigned(RepoTransferTypeSeatsIfNotAssignedRequest request);
+        RepoBaseResponse<KeyValuePair<Klasi, Klasi>> TransferTypeSeatsIfNotAssigned(RepoTransferTypeSeatsIfNotAssignedRequest request);
     }
 }

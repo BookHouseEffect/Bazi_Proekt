@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Bazi_Repository.RepositoryRequests;
 using Db201617zVaProektRnabContext;
-using System.Net;
 
 namespace Bazi_Repository.Implementation
 {
@@ -24,7 +23,7 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<Aviokompanii> response = new RepoBaseResponse<Aviokompanii>();
             try
             {
-                response.ReturnedResult = GetById(request.Id);
+                response.ReturnedResult = GetById(request.CompanyId);
             }
             catch (Exception ex)
             {
@@ -38,7 +37,9 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<ICollection<Aviokompanii>> response = new RepoBaseResponse<ICollection<Aviokompanii>>();
             try
             {
-                response.ReturnedResult = Context.Aviokompanii.Where(x => x.ImeNaKompanija.Contains(request.CompanyName)).ToList();
+                response.ReturnedResult = Context.Aviokompanii.Where(x => x.ImeNaKompanija.Contains(request.CompanyName))
+                    .Skip((request.PageNumber - 1) * request.PageSize)
+                    .Take(request.PageSize).ToList();
             }
             catch (Exception ex)
             {
@@ -65,37 +66,32 @@ namespace Bazi_Repository.Implementation
 
         public RepoBaseResponse<Aviokompanii> RegisterCompany(RepoRegisterCompanyRequest request)
         {
-            RoleManager roleManager = new RoleManager(this.Context);
-            RepoBaseResponse<Ulogi> companyRole = roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = "Company" });
-            if (companyRole.Status != HttpStatusCode.OK || companyRole.ReturnedResult == null)
-                throw companyRole.Exception;
-
             RepoBaseResponse<Aviokompanii> response = new RepoBaseResponse<Aviokompanii>();
-            bool accountCreated = false, addressAdded = false, companyCreated = false;
+
+            AccountManager accountManager = new AccountManager(this.Context);
+            RepoBaseResponse<Akaunti> accountResponse = null;
+
+            AddressManager addressManager = new AddressManager(this.Context);
+            RepoBaseResponse<Adresi> addressResponse = null;
             try
             {
-                AccountManager accountManager = new AccountManager(this.Context);
-                RepoBaseResponse<Akaunti> accountResponse =
-                    accountManager.RegisterAccount(new RepoRegisterAccountRequest
-                    {
+                RoleManager roleManager = new RoleManager(this.Context);
+                RepoBaseResponse<Ulogi> companyRole = roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = "Company" });
+                if (companyRole.HasError())
+                    throw companyRole.Exception;
+
+                accountResponse = accountManager.RegisterAccount(new RepoRegisterAccountRequest {
                         Account = request.Account,
                         Role = companyRole.ReturnedResult,
                         PasswordHash = request.PasswordHash,
                         SecurityStamp = request.SecurityStamp
                     });
-                if (accountResponse.Status != HttpStatusCode.OK ||
-                     accountResponse.ReturnedResult == null)
+                if (accountResponse.HasError())
                     throw accountResponse.Exception;
-                accountCreated = true;
 
-                AddressManager addressManager = new AddressManager(this.Context);
-                RepoBaseResponse<Adresi> addressResponse =
-                    addressManager.AddNewAddress(new RepoAddNewAddressRequest
-                    { Address = request.Address });
-                if (accountResponse.Status != HttpStatusCode.OK ||
-                     accountResponse.ReturnedResult == null)
+                addressResponse = addressManager.AddNewAddress(new RepoAddNewAddressRequest { Address = request.Address });
+                if (accountResponse.HasError())
                     throw accountResponse.Exception;
-                addressAdded = true;
 
                 Aviokompanii company = new Aviokompanii
                 {
@@ -106,21 +102,22 @@ namespace Bazi_Repository.Implementation
                 Context.Aviokompanii.InsertOnSubmit(company);
                 Context.SubmitChanges();
                 response.ReturnedResult = company;
-                companyCreated = true;
             }
             catch (Exception ex)
             {
                 response.SetResponseProcessingFailed(ex);
-                if (!accountCreated)
-                    response.Message += "\nThe account couldn't be created.";
-                else
-                    response.Message += "\nThe account is created.";
 
-                if (accountCreated && !addressAdded)
-                    response.Message += "\nThe address information was not saved. Log in to insert data again.";
+                if (accountResponse != null)
+                {
+                    RepoBaseResponse<Akaunti> removeAccount = accountManager.RemoveUnlinkedAccount(new RepoRemoveUnlinkedAccountRequest { Id = accountResponse.ReturnedResult.AkauntId });
+                    if (removeAccount.HasError()) response.Message += removeAccount.Message;
+                }
 
-                if (accountCreated && !companyCreated)
-                    response.Message += "\nThe company information was not saved. Log in to insert data again";
+                if (addressResponse != null)
+                {
+                    RepoBaseResponse<Adresi> removeAddress = addressManager.RemoveUnlikedAddress(new RepoRemoveUnlikedAddressRequest { AddressId = addressResponse.ReturnedResult.AdresaId });
+                    if (removeAddress.HasError()) response.Message += removeAddress.Message;
+                }
             }
 
             return response;
@@ -144,7 +141,7 @@ namespace Bazi_Repository.Implementation
                     NewAddress = request.NewAddress
                 });
 
-                if (updatedAddress.Status != System.Net.HttpStatusCode.OK || updatedAddress.ReturnedResult == null)
+                if (updatedAddress.HasError())
                     throw updatedAddress.Exception;
 
                 currentCompany.AdresaId = updatedAddress.ReturnedResult.AdresaId;

@@ -1,14 +1,15 @@
 ﻿using Db201617zVaProektRnabContext;
 using System;
+using System.Collections.Generic;
 
 namespace Bazi_Repository.RepositoryRequests
 {
 
     public class RepoAddNewFlightPriceRequest : RepoBaseRequest
     {
-        public PlanoviNaLetanje FlightScheme { get; set; }
-        public Klasi AirplaneClass { get; set; }
-        public Cenovnici PriceList { get; set; }
+        public Int32 FlightSchemeId { get; set; }
+        public ICollection<Klasi> AirplaneClass { get; set; }
+        public ICollection<ICollection<Cenovnici>> PriceList { get; set; }
     }
 
     public class RepoUpdatePriceInfoRequest : RepoBaseRequest

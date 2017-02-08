@@ -14,7 +14,7 @@ namespace Bazi_Repository.RepositoryRequests
 
     public class RepoGetCompanyByIdRequest : RepoBaseRequest
     {
-        public Int32 Id { get; set; }
+        public Int32 CompanyId { get; set; }
     }
 
     public class RepoGetCompanyByAccountIdRequest : RepoBaseRequest
@@ -22,15 +22,13 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 AccountId { get; set; }
     }
 
-    public class RepoGetCompaniesByNameRequest : RepoBaseRequest
+    public class RepoGetCompaniesByNameRequest : RepoPagingBaseRequest
     {
         public String CompanyName { get; set; }
     }
 
-    public class RepoGetCompanyListRequest : RepoBaseRequest
+    public class RepoGetCompanyListRequest : RepoPagingBaseRequest
     {
-        public int PageSize { get; set; } = 10;
-        public int PageNumber { get; set; } = 1;
     }
 
     public class RepoUpdateCompanyInfoRequest : RepoBaseRequest

@@ -11,19 +11,59 @@ namespace Bazi_Repository.Implementation
 {
     class PriceManager : BaseManager, IPriceManager
     {
-        public RepoBaseResponse<Cenovnici> AddNewFlightPrice(RepoAddNewFlightPriceRequest request)
+        public RepoBaseResponse<ICollection<Cenovnici>> AddNewFlightPrice(RepoAddNewFlightPriceRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<ICollection<Cenovnici>> response = new RepoBaseResponse<ICollection<Cenovnici>>();
+            try
+            {
+                List<Cenovnici> prices = new List<Cenovnici>();
+                for (int i=0; i<request.AirplaneClass.Count; i++)
+                {
+                    foreach(Cenovnici c in request.PriceList.ElementAt(i))
+                    {
+                        c.KlasaId = request.AirplaneClass.ElementAt(i).KlasaId;
+                        c.PlanId = request.FlightSchemeId;
+                        prices.Add(c);
+                    }
+                }
+
+                Context.Cenovnici.InsertAllOnSubmit(prices);
+                Context.SubmitChanges();
+                response.ReturnedResult = prices;
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
-        public RepoBaseResponse<Cenovnici> GetPriceListByFlightSCheme(RepoGetPriceListByFlightSChemeRequest request)
+        public RepoBaseResponse<ICollection<Cenovnici>> GetPriceListByFlightSCheme(RepoGetPriceListByFlightSChemeRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<ICollection<Cenovnici>> response = new RepoBaseResponse<ICollection<Cenovnici>>();
+            try
+            {
+                response.ReturnedResult = Context.Cenovnici.Where(x => x.PlanId == request.FlightSchemeId).ToList();
+            }
+            catch (Exception ex )
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
         public RepoBaseResponse<Cenovnici> GetPriceListById(RepoGetPriceListByIdRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<Cenovnici> response = new RepoBaseResponse<Cenovnici>();
+            try
+            {
+                response.ReturnedResult = Context.Cenovnici.Where(x => x.CenovnikId == request.PriceListId).SingleOrDefault();
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
         public RepoBaseResponse<Cenovnici> UpdatePriceInfo(RepoUpdatePriceInfoRequest request)

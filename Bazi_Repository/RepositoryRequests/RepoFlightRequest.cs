@@ -17,11 +17,11 @@ namespace Bazi_Repository.RepositoryRequests
 
     public class RepoGetFlightByIdRequest : RepoBaseRequest
     {
-        public Int32 flightId { get; set; }
+        public Int32 FlightId { get; set; }
     }
 
     public class RepoRemoveFlightIfNotAssignedRequest : RepoBaseRequest
     {
-        public Int32 flightId { get; set; }
+        public Int32 FlightId { get; set; }
     }
 }

@@ -17,17 +17,17 @@ namespace Bazi_Repository.RepositoryRequests
         public DateTime NewDateTime { get; set; }
     }
 
-    public class RepoGetAllTicketsForPassengerRequest : RepoBaseRequest
+    public class RepoGetAllTicketsForPassengerRequest : RepoPagingBaseRequest
     {
         public Int32 PassengerId { get; set; }
     }
 
-    public class RepoGetAllTicketsForFlightSchemeRequest : RepoBaseRequest
+    public class RepoGetAllTicketsForFlightSchemeRequest : RepoPagingBaseRequest
     {
         public Int32 FlightSchemeId { get; set; }
     }
 
-    public class RepoGetAvailabelSeatsForFlightSChemeRequest : RepoBaseRequest
+    public class RepoGetAvailabelSeatsForFlightSChemeRequest : RepoPagingBaseRequest
     {
         public Int32 FlightSChemeId { get; set; }
     }

@@ -24,41 +24,39 @@ namespace Bazi_Repository.Implementation
         {
             RoleManager roleManager = new RoleManager(this.Context);
             RepoBaseResponse<Ulogi> passengerRole = roleManager.GetRoleByName(new RepoGetRoleByNameRequest { RoleName = "Passenger" });
-            if (passengerRole.Status != HttpStatusCode.OK || passengerRole.ReturnedResult == null)
+            if (passengerRole.HasError())
                 throw passengerRole.Exception;
 
             RepoBaseResponse<Patnici> response = new RepoBaseResponse<Patnici>();
-            bool accountCreated = false, addressAdded = false, personAdded = false, passengerCreated = false;
+
+            PersonManager personManager = new PersonManager(this.Context);
+            RepoBaseResponse<Lugje> personResponse = null;
+
+            AddressManager addressManager = new AddressManager(this.Context);
+            RepoBaseResponse<Adresi> addressResponse = null;
+
+            AccountManager accountManager = new AccountManager(this.Context);
+            RepoBaseResponse<Akaunti> accountResponse = null;
+
             try
             {
-                AccountManager accountManager = new AccountManager(this.Context);
-                RepoBaseResponse<Akaunti> accountResponse =
-                    accountManager.RegisterAccount(new RepoRegisterAccountRequest
-                    {
-                        Account = request.Account,
-                        Role = passengerRole.ReturnedResult,
-                        PasswordHash = request.PasswordHash,
-                        SecurityStamp = request.SecurityStamp
-                    });
-                if (accountResponse.Status != HttpStatusCode.OK ||
-                     accountResponse.ReturnedResult == null)
-                    throw accountResponse.Exception;
-                accountCreated = true;
-
-                AddressManager addressManager = new AddressManager(this.Context);
-                RepoBaseResponse<Adresi> addressResponse =
-                    addressManager.AddNewAddress(new RepoAddNewAddressRequest
-                    { Address = request.Address });
-                if (accountResponse.Status != HttpStatusCode.OK ||
-                     accountResponse.ReturnedResult == null)
-                    throw accountResponse.Exception;
-                addressAdded = true;
-
-                PersonManager personManager = new PersonManager(this.Context);
-                RepoBaseResponse<Lugje> personResponse = personManager.AddNewPerson(new RepoAddNewPersonRequest() { Person = request.Person });
-                if (personResponse.Status != HttpStatusCode.OK || personResponse.ReturnedResult == null)
+                personResponse = personManager.AddNewPerson(new RepoAddNewPersonRequest() { Person = request.Person });
+                if (personResponse.HasError())
                     throw personResponse.Exception;
-                personAdded = true;
+
+                addressResponse = addressManager.AddNewAddress(new RepoAddNewAddressRequest { Address = request.Address });
+                if (accountResponse.HasError())
+                    throw addressResponse.Exception;
+
+                accountResponse = accountManager.RegisterAccount(new RepoRegisterAccountRequest
+                {
+                    Account = request.Account,
+                    Role = passengerRole.ReturnedResult,
+                    PasswordHash = request.PasswordHash,
+                    SecurityStamp = request.SecurityStamp
+                });
+                if (accountResponse.HasError())
+                    throw accountResponse.Exception;
 
                 Patnici passenger = new Patnici
                 {
@@ -73,25 +71,29 @@ namespace Bazi_Repository.Implementation
                 };
                 Context.Patnici.InsertOnSubmit(passenger);
                 Context.SubmitChanges();
-                passengerCreated = true;
                 response.ReturnedResult = passenger;
             }
             catch (Exception ex)
             {
                 response.SetResponseProcessingFailed(ex);
-                if (!accountCreated)
-                    response.Message += "\nThe account couldn't be created.";
-                else
-                    response.Message += "\nThe account is created.";
 
-                if (accountCreated && !addressAdded)
-                    response.Message += "\nThe address information was not saved. Log in to insert data again.";
+                if (personResponse != null)
+                {
+                    RepoBaseResponse<Lugje> removedPerson = personManager.RemoveUnlinkedPerson(new RepoRemoveUnlinkedPersonRequest { PersonId = personResponse.ReturnedResult.CovekId });
+                    if (removedPerson.HasError()) response.Message += removedPerson.Message;
+                }
 
-                if (accountCreated && !personAdded)
-                    response.Message += "\nThe person information was not saved. Log in to insert data again";
+                if (addressResponse != null)
+                {
+                    RepoBaseResponse<Adresi> removeAddress = addressManager.RemoveUnlikedAddress(new RepoRemoveUnlikedAddressRequest { AddressId = addressResponse.ReturnedResult.AdresaId });
+                    if (removeAddress.HasError()) response.Message += removeAddress.Message;
+                }
 
-                if (accountCreated && !passengerCreated)
-                    response.Message += "\nThe passport information was not saved. Log in to insert data again";
+                if (accountResponse != null)
+                {
+                    RepoBaseResponse<Akaunti> removeAccount = accountManager.RemoveUnlinkedAccount(new RepoRemoveUnlinkedAccountRequest { Id = accountResponse.ReturnedResult.AkauntId });
+                    if (removeAccount.HasError()) response.Message += removeAccount.Message;
+                }
             }
 
             return response;
@@ -156,7 +158,7 @@ namespace Bazi_Repository.Implementation
                     NewAddress = request.NewAddress
                 });
 
-                if (updatedAddress.Status != System.Net.HttpStatusCode.OK || updatedAddress.ReturnedResult == null)
+                if (updatedAddress.HasError())
                     throw updatedAddress.Exception;
 
                 currentPassenger.AdresaId = updatedAddress.ReturnedResult.AdresaId;
@@ -186,7 +188,7 @@ namespace Bazi_Repository.Implementation
                     NewPerson = request.NewPerson
                 });
 
-                if (updatePerson.Status != System.Net.HttpStatusCode.OK || updatePerson.ReturnedResult == null)
+                if (updatePerson.HasError())
                     throw updatePerson.Exception;
 
                 currentPassenger.CovekId = updatePerson.ReturnedResult.CovekId;

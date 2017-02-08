@@ -23,17 +23,16 @@ namespace Bazi_Repository.RepositoryRequests
         public String Registry { get; set; }
     }
 
-    public class RepoGetCompanyAirplanesByTypeRequest : RepoBaseRequest
+    public class RepoGetCompanyAirplanesByTypeRequest : RepoPagingBaseRequest
     {
         public Int32 CompanyId { get; set; }
         public TipNaAvioni Type { get; set; }
     }
 
-    public class RepoGetCompanyAirplanesRequest : RepoBaseRequest
+    public class RepoGetCompanyAirplanesRequest : RepoPagingBaseRequest
     {
         public Int32 CompanyId { get; set; }
-        public Int32 PageNumber { get; set; }
-        public Int32 PageSize { get; set; }
+
     }
 
     public class RepoUpdateCompanyAirplaneNameRequest : RepoBaseRequest

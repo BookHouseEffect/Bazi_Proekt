@@ -6,7 +6,7 @@ namespace Bazi_Repository.Interfaces
 {
     interface IFlightSchemeManager
     {
-        RepoBaseResponse<PlanoviNaLetanje> AddNewFlightScheme(RepoAddNewFlightSchemeRequest request);
+        RepoBaseResponse<ICollection<PlanoviNaLetanje>> AddNewFlightScheme(RepoAddNewFlightSchemeRequest request);
         RepoBaseResponse<PlanoviNaLetanje> GetFlightSchemeById(RepoGetFlightSchemeByIdRequest request);
         RepoBaseResponse<ICollection<PlanoviNaLetanje>> GetFlightSchemesBySubFlight(RepoGetFlightSchemesBySubFlightRequest request);
         RepoBaseResponse<PlanoviNaLetanje> UpdateFlightSchemeInfo(RepoUpdateFlightSchemeInfoRequest request);

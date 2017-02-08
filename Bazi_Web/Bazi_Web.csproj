@@ -343,6 +343,7 @@
     <Content Include="Views\Company\AddFlight.cshtml" />
     <Content Include="Views\Company\SubFlight.cshtml" />
     <Content Include="Views\Company\Departure.cshtml" />
+    <Content Include="Views\Home\StatisticView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

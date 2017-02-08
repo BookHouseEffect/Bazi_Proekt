@@ -6,7 +6,7 @@ namespace Bazi_Repository.Interfaces
 {
     interface IScheduleManager
     {
-        RepoBaseResponse<Rasporedi> AddNewSchedule(RepoAddNewScheduleRequest request);
+        RepoBaseResponse<ICollection<Rasporedi>> AddNewSchedule(RepoAddNewScheduleRequest request);
         RepoBaseResponse<Rasporedi> GetScheduleById(RepoGetScheduleByIdRequest request);
         RepoBaseResponse<ICollection<Rasporedi>> GetScheduleBySubFlight(RepoGetScheduleBySubFlightRequest request);
         RepoBaseResponse<ICollection<Rasporedi>> GetScheduleByFlight(RepoGetScheduleByFlightRequest request);

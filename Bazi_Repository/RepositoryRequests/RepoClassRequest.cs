@@ -23,7 +23,7 @@ namespace Bazi_Repository.RepositoryRequests
         public Int32 ClassId { get; set; }
     }
 
-    public class RepoGetTypeClassesRequest : RepoBaseRequest
+    public class RepoGetTypeClassesRequest : RepoPagingBaseRequest
     {
         public Int32 TypeId { get; set; }
     }
@@ -38,8 +38,8 @@ namespace Bazi_Repository.RepositoryRequests
     public class RepoTransferTypeSeatsIfNotAssignedRequest : RepoBaseRequest
     {
         public Int32 TypeId { get; set; }
-        public Int32 OldClass { get; set; }
-        public Int32 NewClass { get; set; }
+        public Int32 OldClassId { get; set; }
+        public Int32 NewClassId { get; set; }
         public Int32 NumberOfSeatsToTransfer { get; set; }
     }
 }

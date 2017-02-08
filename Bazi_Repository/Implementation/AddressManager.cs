@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Bazi_Repository.RepositoryRequests;
 using Db201617zVaProektRnabContext;
-using System.Reflection;
 
 namespace Bazi_Repository.Implementation
 {
@@ -127,7 +124,6 @@ namespace Bazi_Repository.Implementation
 
         public RepoBaseResponse<ICollection<string>> GetAllStreets(RepoGetAllStreetsRequest request)
         {
-            //TODO check for zip codes
             RepoBaseResponse<ICollection<string>> response = new RepoBaseResponse<ICollection<string>>();
             try
             {
@@ -160,8 +156,9 @@ namespace Bazi_Repository.Implementation
                         response.ReturnedResult = newAddressExistance;
                     else
                     {
-                        int usageCount = address.Aerodromis_AdresaId.Count() + address.Aviokompaniis_AdresaId.Count() + address.Patnicis_AdresaId.Count();
-                        if (usageCount > 1)
+                        if (address.Aerodromis_AdresaId.Count() != 0
+                            || address.Aviokompaniis_AdresaId.Count() != 0
+                            || address.Patnicis_AdresaId.Count() != 0)
                             return AddNewAddress(
                                 new RepoAddNewAddressRequest { Address = request.NewAddress });
                         else
@@ -178,6 +175,31 @@ namespace Bazi_Repository.Implementation
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
+        }
+
+        public RepoBaseResponse<Adresi> RemoveUnlikedAddress(RepoRemoveUnlikedAddressRequest request)
+        {
+            RepoBaseResponse<Adresi> response = new RepoBaseResponse<Adresi>();
+            try
+            {
+                Adresi address = GetById(request.AddressId);
+                if (address == null)
+                    throw new Exception("The address does not exist");
+
+                if (address.Aerodromis_AdresaId.Count != 0
+                    || address.Aviokompaniis_AdresaId.Count != 0
+                    || address.Patnicis_AdresaId.Count != 0)
+                    throw new Exception("The address is not deletable");
+
+                this.Context.Adresi.DeleteOnSubmit(address);
+                Context.SubmitChanges();
+                response.ReturnedResult = address;
             }
             catch (Exception ex)
             {
