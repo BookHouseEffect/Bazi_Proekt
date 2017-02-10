@@ -9,16 +9,22 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class TicketsManager : BaseManager, ITicketsManager
+    public class TicketsManager : BaseManager, ITicketsManager
     {
         public RepoBaseResponse<Rezervacii> AddNewTicket(RepoAddNewTicketRequest request)
         {
             RepoBaseResponse<Rezervacii> response = new RepoBaseResponse<Rezervacii>();
+            SeatsManager seatsManager = new SeatsManager(this.Context);
             try
             {
                 request.Ticket.PlanId = request.FlightScheme.PlanId;
                 request.Ticket.PatnikId = request.Passenger.PatnikId;
-                request.Ticket.SedishteId = request.Seat.SedishteId;
+
+                RepoBaseResponse<Sedishta> seatResponse = seatsManager.AddNewSeat(
+                    new RepoAddNewSeatRequest { ClassId = request.Seat.KlasaId, SeatNumber = request.Seat.BrojNaSediste });
+                if (seatResponse.HasError()) throw seatResponse.Exception;
+
+                request.Ticket.SedishteId = seatResponse.ReturnedResult.SedishteId;
 
                 Context.Rezervacii.InsertOnSubmit(request.Ticket);
                 Context.SubmitChanges();
@@ -59,7 +65,17 @@ namespace Bazi_Repository.Implementation
 
         public RepoBaseResponse<ICollection<Rezervacii>> GetAllTicketsForPassenger(RepoGetAllTicketsForPassengerRequest request)
         {
-            throw new NotImplementedException();
+            RepoBaseResponse<ICollection<Rezervacii>> response = new RepoBaseResponse<ICollection<Rezervacii>>();
+            try
+            {
+                response.ReturnedResult = Context.Rezervacii.Where(x => x.PatnikId == request.PassengerId)
+                    .OrderByDescending(x => x.DatumNaIzdavanje).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
         }
 
         public RepoBaseResponse<ICollection<Sedishta>> GetAvailabelSeatsForFlightSCheme(RepoGetAvailabelSeatsForFlightSChemeRequest request)

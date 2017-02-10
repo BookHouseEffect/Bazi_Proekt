@@ -28,7 +28,21 @@ namespace Bazi_Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            ViewManagement manager = new ViewManagement();
+            var a = manager.GetClassesWithMedianaTicketsByClass();
+            var b = manager.GetCompaniesWithMaxProfit();
+            var c = manager.GetPassengersThatFlightWithAllCompaniess();
+            var d = manager.GetStatesWithMostFlights();
+            var e = manager.PassengerThatSpentTheMost();
+
+            return View(new CompanyIndexViewModel
+            {
+                A = a.ReturnedResult,
+                B = b.ReturnedResult,
+                C = c.ReturnedResult,
+                D = d.ReturnedResult,
+                E = e.ReturnedResult
+            });
         }
 
         [HttpGet]

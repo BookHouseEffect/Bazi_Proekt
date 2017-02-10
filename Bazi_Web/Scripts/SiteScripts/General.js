@@ -6,7 +6,7 @@
             maxDate: new Date(),
             viewMode: 'decades',
             showClose: true,
-            format: 'DD/MM/YYYY',
+            format: 'YYYY-MM-DD',
             date: new Date(text)
         }); 
     });
@@ -19,7 +19,7 @@
             maxDate: new Date(),
             viewMode: 'years',
             showClose: true,
-            format: 'DD/MM/YYYY',
+            format: 'YYYY-MM-DD',
             date: new Date(text)
         }); 
     });
@@ -31,7 +31,7 @@
             minDate: new Date(),
             viewMode: 'years',
             showClose: true,
-            format: 'DD/MM/YYYY',
+            format: 'YYYY-MM-DD',
             date: new Date(text)
         });
     });
@@ -42,5 +42,17 @@
 
     $(".date-of-expire-datetimepicker").on("dp.change", function (e) {
         $('.date-of-issue-datetimepicker').data("DateTimePicker").maxDate(e.date);
+    });
+
+    $('.flight-date-picker').each(function (index, item) {
+        var text = $(item.children).val()
+
+        $(this).datetimepicker({
+            minDate: new Date(),
+            viewMode: 'days',
+            showClose: true,
+            format: 'YYYY-MM-DD',
+            date: new Date(text)
+        });
     });
 });

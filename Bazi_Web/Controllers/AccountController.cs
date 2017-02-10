@@ -149,7 +149,7 @@ namespace Bazi_Web.Controllers
             Response.Cookies.Add(faCookie);
 
             if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.PassengerRole))) {
-                return RedirectToAction("", ""); //TODO Redirect to passenger Panel
+                return RedirectToAction("Index", "Passenger");
             } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.CompanyRole))) {
                 return RedirectToAction("Index", "Company");
             } else if (serializeModel.Roles.Any(r => r.Contains(Properties.Settings.Default.EmployeeRole))) {

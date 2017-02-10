@@ -28,15 +28,23 @@
                     {
                         @Html.ActionLink("Airplane Management System", "Index", "Company", new { area = "" }, new { @Class = "navbar-brand" });
                     }
+                    else if (User.IsInRole("Passenger"))
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Passenger", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
                     else
                     {
                         @Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @Class = "navbar-brand" });
                     }
                 }
+
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     
+                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Search Flights", "Search", "Passenger", null, "glyphicon glyphicon-search")</li>
+
                     @if (User == null)
                     {
                         <li class="dropdown">
@@ -71,6 +79,12 @@
                                         @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Register Employee Account", "Register", "Account",
                                             "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.EMPLOYEE.ToString(), "glyphicon glyphicon-briefcase")
                                     </li>
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Airplane Management", "ViewAirplanes", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-send")</li>
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Add Flight", "AddFlight", "Company",
+                                            null, "glyphicon glyphicon-plus")</li>
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Flight Management", "ViewFlights", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-asterisk")</li>
                                 }
                             </ul>
                         </li>

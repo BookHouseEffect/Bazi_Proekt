@@ -9,15 +9,23 @@ namespace Bazi_Repository.Implementation
 {
     class SeatsManager : BaseManager, ISeatsManager
     {
+        public SeatsManager() : base() { }
+        public SeatsManager(Db201617zVaProektRnabDataContext e) : base(e) { }
+
         public RepoBaseResponse<Sedishta> AddNewSeat(RepoAddNewSeatRequest request)
         {
             RepoBaseResponse<Sedishta> response = new RepoBaseResponse<Sedishta>();
             try
             {
-                Sedishta s = new Sedishta { BrojNaSediste = request.SeatNumber, KlasaId = request.ClassId };
-                Context.Sedishta.InsertOnSubmit(s);
-                Context.SubmitChanges();
-                response.ReturnedResult = s;
+                Sedishta existingSeat = Context.Sedishta.Where(x => x.BrojNaSediste == request.SeatNumber && x.KlasaId == request.ClassId).FirstOrDefault();
+                if (existingSeat != null) response.ReturnedResult = existingSeat;
+                else
+                {
+                    Sedishta newSeat = new Sedishta { BrojNaSediste = request.SeatNumber, KlasaId = request.ClassId };
+                    Context.Sedishta.InsertOnSubmit(newSeat);
+                    Context.SubmitChanges();
+                    response.ReturnedResult = newSeat;
+                }
             }
             catch (Exception ex)
             {

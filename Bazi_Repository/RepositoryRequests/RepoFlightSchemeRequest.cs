@@ -22,6 +22,7 @@ namespace Bazi_Repository.RepositoryRequests
     public class RepoGetFlightSchemesBySubFlightRequest : RepoBaseRequest
     {
         public Int32 SubflightId { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class RepoUpdateFlightSchemeInfoRequest : RepoBaseRequest

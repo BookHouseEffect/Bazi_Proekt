@@ -48,6 +48,7 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Devart.Data.Linq, Version=4.5.1141.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -295,6 +296,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PassengerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -302,7 +304,8 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AirplaneModels.cs" />
     <Compile Include="Models\FlightModels.cs" />
-    <Compile Include="Models\ListViewModels.cs" />
+    <Compile Include="Models\CompanyViewModels.cs" />
+    <Compile Include="Models\SearchViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -338,12 +341,15 @@
     <Content Include="Views\Account\PassengersList.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\ViewAirplanes.cshtml" />
-    <Content Include="Views\Company\Menu.cshtml" />
     <Content Include="Views\Company\ViewFlights.cshtml" />
     <Content Include="Views\Company\AddFlight.cshtml" />
     <Content Include="Views\Company\SubFlight.cshtml" />
     <Content Include="Views\Company\Departure.cshtml" />
     <Content Include="Views\Home\StatisticView.cshtml" />
+    <Content Include="Views\Passenger\Search.cshtml" />
+    <Content Include="Views\Passenger\GetFlights.cshtml" />
+    <Content Include="Views\Passenger\Reserve.cshtml" />
+    <Content Include="Views\Passenger\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

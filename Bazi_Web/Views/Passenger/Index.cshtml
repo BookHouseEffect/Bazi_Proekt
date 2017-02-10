@@ -1,0 +1,96 @@
+﻿@model Bazi_Web.Models.PassengerIndexModel
+@using Db201617zVaProektRnabContext
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="page-header">Passenger Dashboard </h2>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        @using (Html.BeginForm("Index", "Passenger", new { paegNumber = 1, pageSize = 10 }, FormMethod.Get, new { @class = "" }))
+        {
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label text-right col-md-3">Tickets for passenger: </label>
+                    <div class="col-md-6">
+                        <select name="SelectedPassenger" class="form-control" id="SelectedPassenger">
+                            @foreach (Patnici p in Model.Passenger){
+                                <option value="@p.PatnikId" @((Model.PassengerId == p.PatnikId) ? "selected" : "")>
+                                    @p.Lugje_CovekId.Prezime @p.Lugje_CovekId.Ime (Passport number: @p.BrojNaPasosh )
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="submit" value="Get info" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Ticket</th>
+                    <th>Type</th>
+                    <th>Issue date</th>
+                    <th>Price</th>
+                    <th>Return ticket valid untill</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Rezervacii r in Model.Tickets)
+                {
+                    <tr>
+                        <th>
+                            @r.PlanoviNaLetanje_PlanId.Megjuletovi_MegjuletId.Aerodromi_AerodromOdId.Adresi_AdresaId.Grad,
+                            @r.PlanoviNaLetanje_PlanId.Megjuletovi_MegjuletId.Aerodromi_AerodromOdId.Adresi_AdresaId.Drzhava
+                            -->
+                            @r.PlanoviNaLetanje_PlanId.Megjuletovi_MegjuletId.Aerodromi_AerodromDoId.Adresi_AdresaId.Grad,
+                            @r.PlanoviNaLetanje_PlanId.Megjuletovi_MegjuletId.Aerodromi_AerodromDoId.Adresi_AdresaId.Drzhava
+                            @("@")
+                            @r.PlanoviNaLetanje_PlanId.DatumVremeNaPoletuvanje
+                        </th>
+                        <th>@(r.TipNaBilet?"Return ticket":"one way tikcet")</th>
+                        <th>@r.DatumNaIzdavanje</th>
+                        <th>@r.PlatenaCena</th>
+                        <th>@r.ValidenDo</th>
+                        <td>
+                            @if (r.PlanoviNaLetanje_PlanId.DatumVremeNaPoletuvanje > DateTime.Now)
+                            {
+                                @Html.ActionLink("Cancel ticket", "CancelTicket", "Passenger",
+                                        new { ticketId = r.BiletId, passengerId = Model.PassengerId, flightId = r.PlanId },
+                                        new { @class = "btn btn-danger" })
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <thead>
+                <tr>
+                    <td colspan="6">
+                        <div class="row">
+                            <div class="col-xs-4 text-right">
+                                @if (Model.PageNumber != 1)
+                                {
+                                    @Html.ActionLink("Previous", "Index", "Passenger",
+                                     new { pageNumber = (Model.PageNumber - 1), pageSize = Model.PageSize, passengerId = Model.PassengerId },
+                                     new { @class = "btn btn-primary" })
+                                }
+                            </div>
+                            <div class="col-xs-4 text-center">Page #@Model.PageNumber</div>
+                            <div class="col-xs-4 text-left">
+                                @Html.ActionLink("Next", "Index", "Passenger",
+                                new { pageNumber = (Model.PageNumber + 1), pageSize = Model.PageSize, passengerId = Model.PassengerId },
+                                new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

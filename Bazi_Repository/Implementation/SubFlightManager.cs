@@ -20,6 +20,11 @@ namespace Bazi_Repository.Implementation
             return Context.Megjuletovi.Where(x => x.MegjuletId == id).SingleOrDefault();
         }
 
+        public ICollection<Megjuletovi> GetSubFlightByAirports(int idFrom, int idTo)
+        {
+            return Context.Megjuletovi.Where(x => x.AerodromOdId == idFrom && x.AerodromDoId == idTo).ToList();
+        }
+
         public RepoBaseResponse<ICollection<Megjuletovi>> AddNewSubFlights(RepoAddNewSubFlightsRequest request)
         {
             RepoBaseResponse<ICollection<Megjuletovi>> response = new RepoBaseResponse<ICollection<Megjuletovi>>();

@@ -15,6 +15,11 @@ namespace Bazi_Repository.Implementation
             return Context.Aerodromi.Where(x => x.AerodromId == id).SingleOrDefault();
         }
 
+        public ICollection<Aerodromi> GetAirportsList()
+        {
+            return this.Context.Aerodromi.ToList();
+        }
+
         public RepoBaseResponse<Aerodromi> AddNewAirport(RepoAddNewAirportRequest request)
         {
             RepoBaseResponse<Aerodromi> response = new RepoBaseResponse<Aerodromi>();

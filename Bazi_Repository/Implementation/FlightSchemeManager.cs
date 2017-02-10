@@ -7,7 +7,7 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class FlightSchemeManager : BaseManager, IFlightSchemeManager
+    public class FlightSchemeManager : BaseManager, IFlightSchemeManager
     {
         public RepoBaseResponse<ICollection<PlanoviNaLetanje>> AddNewFlightScheme(RepoAddNewFlightSchemeRequest request)
         {
@@ -74,7 +74,7 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<ICollection<PlanoviNaLetanje>> response = new RepoBaseResponse<ICollection<PlanoviNaLetanje>>();
             try
             {
-                response.ReturnedResult = Context.PlanoviNaLetanje.Where(x => x.MegjuletId == request.SubflightId).ToList();
+                response.ReturnedResult = Context.PlanoviNaLetanje.Where(x => x.MegjuletId == request.SubflightId && x.DatumVremeNaPoletuvanje.Date.Equals(request.Date.Date)).ToList();
             }
             catch (Exception ex)
             {

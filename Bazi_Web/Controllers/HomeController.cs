@@ -20,9 +20,11 @@ namespace Bazi_Web.Controllers
             if (!User.Identity.IsAuthenticated)
                 return View(response.ReturnedResult);
             if (User.IsInRole("Company"))
-                RedirectToAction("Index", "Company");
+                return RedirectToAction("Index", "Company");
+            if (User.IsInRole("Passenger"))
+                return RedirectToAction("Index", "Passenger");
+
             return View(response.ReturnedResult);
-            
         }
     }
 }

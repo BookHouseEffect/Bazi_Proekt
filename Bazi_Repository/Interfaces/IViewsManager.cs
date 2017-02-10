@@ -9,5 +9,7 @@ namespace Bazi_Repository.Interfaces
         RepoBaseResponse<ICollection<AviokompanijaSoNajgolemProfit>> GetCompaniesWithMaxProfit();
         RepoBaseResponse<ICollection<DrzhaviSoNajvekePatuvanja>> GetStatesWithMostFlights();
         RepoBaseResponse<ICollection<KlasiSoMedianaRezervaciiPoKlasa>> GetClassesWithMedianaTicketsByClass();
+        RepoBaseResponse<ICollection<PatniciStoLetaleSoSiteAviokompanii>> GetPassengersThatFlightWithAllCompaniess ();
+        RepoBaseResponse<ICollection<PatnikKojNajmnoguPotrpsil>> PassengerThatSpentTheMost();
     }
 }
