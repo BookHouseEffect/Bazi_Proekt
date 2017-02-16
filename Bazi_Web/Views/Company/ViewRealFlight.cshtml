@@ -11,6 +11,7 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Airport</th>
                     <th>Flight</th>
                     <th>Departure time</th>
@@ -25,6 +26,7 @@
                 @foreach (var item in Model.Schemes)
             {
                     <tr>
+                        <th>@item.PlanId</th>
                         <td>@item.Avioni_AvionId.ImeNaAvion (@item.Avioni_AvionId.Registracija)</td>
                         <td>
                             @item.Megjuletovi_MegjuletId.Aerodromi_AerodromOdId.ImeNaAerodrom,

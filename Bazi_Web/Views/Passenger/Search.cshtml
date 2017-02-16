@@ -20,13 +20,29 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Source Airport</label>
-                        @Html.DropDownListFor(x => x.SourceAirport, new SelectList(Model.airports, "AerodromId", "ImeNaAerodrom"), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.SourceAirport)
+                        <select name="SourceAirport" id="SourceAirport" class="form-control">
+                            @foreach(var item in Model.airports)
+                            {
+                                <option value="@item.AerodromId">
+                                    @item.ImeNaAerodrom,
+                                    @item.Adresi_AdresaId.Grad,
+                                    @item.Adresi_AdresaId.Drzhava
+                                </option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Destination Airport</label>
-                        @Html.DropDownListFor(x => x.DestinationAirport, new SelectList(Model.airports, "AerodromId", "ImeNaAerodrom"), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.DestinationAirport)
+                        <select name="DestinationAirport" id="DestinationAirport" class="form-control">
+                            @foreach (var item in Model.airports)
+                            {
+                                <option value="@item.AerodromId">
+                                    @item.ImeNaAerodrom,
+                                    @item.Adresi_AdresaId.Grad,
+                                    @item.Adresi_AdresaId.Drzhava
+                                </option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Date</label>
