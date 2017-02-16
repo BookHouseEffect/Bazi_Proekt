@@ -9,27 +9,16 @@ using Db201617zVaProektRnabContext;
 
 namespace Bazi_Repository.Implementation
 {
-    class PriceManager : BaseManager, IPriceManager
+    public class PriceManager : BaseManager, IPriceManager
     {
         public RepoBaseResponse<ICollection<Cenovnici>> AddNewFlightPrice(RepoAddNewFlightPriceRequest request)
         {
             RepoBaseResponse<ICollection<Cenovnici>> response = new RepoBaseResponse<ICollection<Cenovnici>>();
             try
             {
-                List<Cenovnici> prices = new List<Cenovnici>();
-                for (int i=0; i<request.AirplaneClass.Count; i++)
-                {
-                    foreach(Cenovnici c in request.PriceList.ElementAt(i))
-                    {
-                        c.KlasaId = request.AirplaneClass.ElementAt(i).KlasaId;
-                        c.PlanId = request.FlightSchemeId;
-                        prices.Add(c);
-                    }
-                }
-
-                Context.Cenovnici.InsertAllOnSubmit(prices);
+                Context.Cenovnici.InsertAllOnSubmit(request.PriceList);
                 Context.SubmitChanges();
-                response.ReturnedResult = prices;
+                response.ReturnedResult = request.PriceList;
             }
             catch (Exception ex)
             {

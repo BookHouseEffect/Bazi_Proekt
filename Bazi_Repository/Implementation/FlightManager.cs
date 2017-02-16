@@ -19,7 +19,7 @@ namespace Bazi_Repository.Implementation
             RepoBaseResponse<Letovi> response = new RepoBaseResponse<Letovi>();
 
             FlightDaysManager flightDaysManager = new FlightDaysManager(this.Context);
-            RepoBaseResponse<DenoviNaLetanje> flightDaysResponse = null;
+            RepoBaseResponse<ICollection<DenoviNaLetanje>> flightDaysResponse = null;
 
             SubFlightManager subFlightManager = new SubFlightManager(this.Context);
             RepoBaseResponse<ICollection<Megjuletovi>> subFlightsResponse = null;
@@ -33,7 +33,7 @@ namespace Bazi_Repository.Implementation
                 Context.Letovi.InsertOnSubmit(flight);
                 Context.SubmitChanges();
 
-                flightDaysResponse = flightDaysManager.AssignFlightDays(new RepoAssignFlightDaysRequest { FlightId = flight.LetId });
+                flightDaysResponse = flightDaysManager.AssignFlightDays(new RepoAssignFlightDaysRequest { FlightId = flight.LetId, FlightDayList = request.FlightDayList });
                 if (flightDaysResponse.HasError()) throw flightDaysResponse.Exception;
 
                 subFlightsResponse = subFlightManager.AddNewSubFlights(
@@ -41,8 +41,11 @@ namespace Bazi_Repository.Implementation
                 if (subFlightsResponse.HasError()) throw subFlightsResponse.Exception;
 
                 scheduleResponse = scheduleManager.AddNewSchedule(
-                    new RepoAddNewScheduleRequest { SubFlights = subFlightsResponse.ReturnedResult, DeparturesTime = request.DeparturesTime });
+                    new RepoAddNewScheduleRequest { SubFlights = subFlightsResponse.ReturnedResult, DeparturesTime = request.DeparturesTime,
+                        FlightDayList = request.FlightDayList, RequiredWaitingInterval = new TimeSpan(0, 30, 0)});
                 if (scheduleResponse.HasError()) throw scheduleResponse.Exception;
+
+                response.ReturnedResult = flight;
 
             }
             catch (Exception ex)
@@ -76,9 +79,13 @@ namespace Bazi_Repository.Implementation
                 if (flight == null)
                     throw new Exception("The flight does not exist");
 
-                if (flight.DenoviNaLetanjes_LetId.Count != 0
-                    || flight.Megjuletovis_LetId.Count != 0)
+                if (flight.Megjuletovis_LetId.Count != 0)
                     throw new Exception("The flight is not deletable");
+
+                if (flight.DenoviNaLetanjes_LetId.Count != 0) {
+                    FlightDaysManager mng = new FlightDaysManager(this.Context);
+                    mng.RemoveFlightDays(new RepoRemoveFlightDaysRequest() { FlightId = request.FlightId });
+                }
 
                 this.Context.Letovi.DeleteOnSubmit(flight);
                 Context.SubmitChanges();

@@ -60,4 +60,12 @@ namespace Bazi_Web.Models
             TickerList.Add("Return ticket");
         }
     }
+
+    public class ScheduleViewModel
+    {
+        public IEnumerable<Aerodromi> AirportList { get; set; }
+        public List<Rasporedi> ScheduleList { get; set; }
+
+        public Int32 SourceAirport { get; set; }
+    }
 }

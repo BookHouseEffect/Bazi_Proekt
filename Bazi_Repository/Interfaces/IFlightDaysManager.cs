@@ -10,6 +10,6 @@ namespace Bazi_Repository.Interfaces
 {
     interface IFlightDaysManager
     {
-        RepoBaseResponse<DenoviNaLetanje> AssignFlightDays(RepoAssignFlightDaysRequest request);
+        RepoBaseResponse<ICollection<DenoviNaLetanje>> AssignFlightDays(RepoAssignFlightDaysRequest request);
     }
 }

@@ -11,4 +11,9 @@ namespace Bazi_Repository.RepositoryRequests
         public int FlightId { get; set; }
         public ICollection<Int32> FlightDayList { get; set; }
     }
+
+    public class RepoRemoveFlightDaysRequest : RepoBaseRequest
+    {
+        public int FlightId { get; set; }
+    }
 }

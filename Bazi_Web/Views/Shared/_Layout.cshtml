@@ -43,6 +43,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     
+                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "View Schedule", "Schedule", "Passenger", null, "glyphicon glyphicon-calendar")</li>
                     <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Search Flights", "Search", "Passenger", null, "glyphicon glyphicon-search")</li>
 
                     @if (User == null)
@@ -81,6 +82,8 @@
                                     </li>
                                     <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Airplane Management", "ViewAirplanes", "Company",
                                             "pageNumber=1&pageSize=10", "glyphicon glyphicon-send")</li>
+                                    @*<li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Airport Management", "ViewAirports", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-header")</li>*@
                                     <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Add Flight", "AddFlight", "Company",
                                             null, "glyphicon glyphicon-plus")</li>
                                     <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Flight Management", "ViewFlights", "Company",

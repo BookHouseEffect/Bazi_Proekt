@@ -8,7 +8,6 @@
     <h2>ViewFlights</h2>
 </div>
 
-@Html.Partial("Menu")
 <div class="panel panel-info">
     <div class="panel-heading">
         <h3>Page: @Model.PageNumber</h3>
@@ -27,7 +26,51 @@
                 </tr>
             </thead>
             <tbody>
-
+                @foreach(Letovi let in Model.Flights)
+                {
+                    <tr>
+                        <td colspan="5">@let.Status</td>
+                        <td></td>
+                        <td>
+                            @if (let.Megjuletovis_LetId.Count == 0)
+                            {
+                                @Html.ActionLink("Remove", "RemoveFlight", "Company", new { id = let.LetId }, new { @class = "btn btn-danger" })
+                            }
+                        </td>
+                    </tr>
+                    
+                    foreach(Megjuletovi m in let.Megjuletovis_LetId)
+                    {
+                        <tr>
+                            <td class="text-center">|=></td>
+                            <td>
+                                @m.Aerodromi_AerodromOdId.ImeNaAerodrom, 
+                                @m.Aerodromi_AerodromOdId.Adresi_AdresaId.Grad,
+                                 @m.Aerodromi_AerodromOdId.Adresi_AdresaId.Drzhava
+                            </td>
+                            <td>
+                                @m.Aerodromi_AerodromDoId.ImeNaAerodrom, 
+                                @m.Aerodromi_AerodromDoId.Adresi_AdresaId.Grad, 
+                                @m.Aerodromi_AerodromDoId.Adresi_AdresaId.Drzhava
+                            </td>
+                            <td>
+                                @m.VremeNaLetanje
+                            </td>
+                            <td>
+                                @m.Rastojanie
+                            </td>
+                            <td>
+                                @Html.ActionLink("View real flights", "ViewRealFlight", "Company", new { id = m.MegjuletId }, new { @class = "btn btn-success" })
+                            </td>
+                            <td>
+                                @*@if (m.PlanoviNaLetanjes_MegjuletId.Count == 0)
+                                {
+                                    @Html.ActionLink("Remove", "RemoveSubFlight", "Company", new { id = m.MegjuletId }, new { @class = "btn btn-danger" })
+                                }*@
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
             <tfoot>
                 <tr>
@@ -35,9 +78,9 @@
                         <div class="btn-group btn-group-justified">
                             @if (Model.PageNumber != 1)
                             {
-                                @Html.ActionLink("Previous page", "ViewAirplanes", "Company", new { pageNumber = (Model.PageNumber - 1), pageSize = Model.PageSize }, new { @Class = "btn btn-primary" });
+                                @Html.ActionLink("Previous page", "ViewFlights", "Company", new { pageNumber = (Model.PageNumber - 1), pageSize = Model.PageSize }, new { @Class = "btn btn-primary" });
                             }
-                            @Html.ActionLink("NextPage", "ViewAirplanes", "Company", new { pageNumber = (Model.PageNumber + 1), pageSize = Model.PageSize }, new { @Class = "btn btn-primary" })
+                            @Html.ActionLink("NextPage", "ViewFlights", "Company", new { pageNumber = (Model.PageNumber + 1), pageSize = Model.PageSize }, new { @Class = "btn btn-primary" })
                         </div>
                     </td>
                 </tr>

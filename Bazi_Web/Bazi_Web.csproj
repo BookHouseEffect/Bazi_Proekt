@@ -274,13 +274,14 @@
     <Content Include="Scripts\knockback-full-stack.min.js" />
     <Content Include="Scripts\knockback.js" />
     <Content Include="Scripts\knockback.min.js" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\SiteScripts\DistanceCalculator.js" />
     <Content Include="Scripts\SiteScripts\General.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
@@ -343,13 +344,13 @@
     <Content Include="Views\Company\ViewAirplanes.cshtml" />
     <Content Include="Views\Company\ViewFlights.cshtml" />
     <Content Include="Views\Company\AddFlight.cshtml" />
-    <Content Include="Views\Company\SubFlight.cshtml" />
-    <Content Include="Views\Company\Departure.cshtml" />
     <Content Include="Views\Home\StatisticView.cshtml" />
     <Content Include="Views\Passenger\Search.cshtml" />
     <Content Include="Views\Passenger\GetFlights.cshtml" />
     <Content Include="Views\Passenger\Reserve.cshtml" />
     <Content Include="Views\Passenger\Index.cshtml" />
+    <Content Include="Views\Passenger\Schedule.cshtml" />
+    <Content Include="Views\Company\ViewRealFlight.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

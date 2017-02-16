@@ -7,9 +7,7 @@ namespace Bazi_Repository.RepositoryRequests
 
     public class RepoAddNewFlightPriceRequest : RepoBaseRequest
     {
-        public Int32 FlightSchemeId { get; set; }
-        public ICollection<Klasi> AirplaneClass { get; set; }
-        public ICollection<ICollection<Cenovnici>> PriceList { get; set; }
+        public ICollection<Cenovnici> PriceList { get; set; }
     }
 
     public class RepoUpdatePriceInfoRequest : RepoBaseRequest

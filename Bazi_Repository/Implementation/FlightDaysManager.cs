@@ -15,9 +15,9 @@ namespace Bazi_Repository.Implementation
         public FlightDaysManager() : base(){ }
         public FlightDaysManager(Db201617zVaProektRnabDataContext e) : base(e) { }
 
-        public RepoBaseResponse<DenoviNaLetanje> AssignFlightDays(RepoAssignFlightDaysRequest request)
+        public RepoBaseResponse<ICollection<DenoviNaLetanje>> AssignFlightDays(RepoAssignFlightDaysRequest request)
         {
-            RepoBaseResponse<DenoviNaLetanje> response = new RepoBaseResponse<DenoviNaLetanje>();
+            RepoBaseResponse<ICollection<DenoviNaLetanje>> response = new RepoBaseResponse<ICollection<DenoviNaLetanje>>();
             try
             {
                 List<DenoviNaLetanje> flightDays = new List<DenoviNaLetanje>();
@@ -26,6 +26,26 @@ namespace Bazi_Repository.Implementation
 
                 Context.DenoviNaLetanje.InsertAllOnSubmit(flightDays);
                 Context.SubmitChanges();
+
+                response.ReturnedResult = flightDays;
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseProcessingFailed(ex);
+            }
+            return response;
+        }
+
+        public RepoBaseResponse<ICollection<DenoviNaLetanje>> RemoveFlightDays(RepoRemoveFlightDaysRequest request)
+        {
+            RepoBaseResponse<ICollection<DenoviNaLetanje>> response = new RepoBaseResponse<ICollection<DenoviNaLetanje>>();
+            try
+            {
+                var data = Context.DenoviNaLetanje.Where(x => x.LetId == request.FlightId).ToList();
+                Context.DenoviNaLetanje.DeleteAllOnSubmit(data);
+                Context.SubmitChanges();
+
+                response.ReturnedResult = data;
             }
             catch (Exception ex)
             {

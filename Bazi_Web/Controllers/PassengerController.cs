@@ -134,5 +134,27 @@ namespace Bazi_Web.Controllers
 
             return model;
         }
+
+        [HttpGet]
+        public ActionResult Schedule(Int32? sourceAirport)
+        {
+            ScheduleViewModel model = new ScheduleViewModel();
+            model.AirportList = (new AirportManager()).GetAirportsList();
+
+            model.ScheduleList = new List<Rasporedi>();
+            if (sourceAirport.HasValue)
+            {
+                model.SourceAirport = sourceAirport.Value;
+                SubFlightManager manager = new SubFlightManager();
+                ICollection<Megjuletovi> subflights = manager.GetSubFlightByAirports(sourceAirport.Value);
+                foreach(Megjuletovi m in subflights)
+                {
+                    model.ScheduleList.AddRange(m.Rasporedis_MegjuletoviId.ToList());
+                }
+            }
+            model.ScheduleList = model.ScheduleList.OrderBy(x => x.MegjuletoviId).ToList();
+
+            return View(model);
+        }
     }
 }

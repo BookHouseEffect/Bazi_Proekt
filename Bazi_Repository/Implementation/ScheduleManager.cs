@@ -40,9 +40,9 @@ namespace Bazi_Repository.Implementation
 
                         schedules.Add(new Rasporedi() {
                             MegjuletoviId = m.MegjuletId,
-                            DenNaPoletuvanje = day,
-                            VremeNaPoletuvanje = departureTime,
-                            DenNaSletuvanje = arrivalTime.Days == 1 ? day % 7 + 1 : day,
+                            DenNaPoletuvanje = departureTime.Days >= 1 ? day % 7 + 1 : day,
+                            VremeNaPoletuvanje = departureTime.Subtract(new TimeSpan(departureTime.Days, 0, 0, 0)),
+                            DenNaSletuvanje = arrivalTime.Days >= 1 ? day % 7 + 1 : day,
                             VremeNaSletuvanje = arrivalTime.Subtract(new TimeSpan(arrivalTime.Days, 0, 0, 0))
                         });
                     }
