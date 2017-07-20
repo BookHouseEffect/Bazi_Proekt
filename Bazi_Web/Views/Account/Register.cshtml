@@ -1,0 +1,42 @@
+﻿@model Bazi_Web.Models.RegisterViewModel
+@using Bazi_Web.Models
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="row well-lg">
+    <div class="panel panel-info col-md-offset-2 col-md-8">
+        <div class="panel panel-heading">
+            <h2>Plase register the @(Model.SelectedAccountType) account</h2>
+        </div>
+        <div class="panel panel-body">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "registerForm", @Class = "", role = "form" }))
+            {
+                <div class="form-horizontal">
+
+                    @Html.Hidden("ModelType", Model.Infomation.GetType())
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @Class = "text-danger", style = "list-style-type: none;" })
+
+                    @Html.Partial("RegisterPartialView", (RegisterViewModel) Model)
+                    @switch (((RegisterViewModel)Model).SelectedAccountType) {
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER:
+                            @Html.EditorFor(x => x.Infomation, "PersonEditor")
+                            @Html.EditorFor(x => x.Infomation, "PassportEditor")
+                            break;
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.EMPLOYEE:
+                            @Html.EditorFor(x => x.Infomation, "PersonEditor")
+                            @Html.EditorFor(x => x.Infomation, "EmployeeEditor")
+                            break;
+                        case Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY:
+                            @Html.EditorFor(x => x.Infomation, "CompanyEditor")
+                            break;
+                    }
+
+                    <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Register</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

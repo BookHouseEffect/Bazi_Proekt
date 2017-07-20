@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database Name="db_201617z_va_proekt_rnab" EntityNamespace="Db201617zVaProektRnabContext" ContextNamespace="Db201617zVaProektRnabContext" Class="Db201617zVaProektRnabDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="ee8387ac-3d97-456b-9947-d101d25179fc" Provider="Devart.Data.PostgreSql.Linq.Provider.PgSqlDataProvider, Devart.Data.PostgreSql.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
+  <Connection Mode="ConnectionString" ConnectionString="User Id=db_201617z_va_proekt_rnab_owner;Password=darko05gjorche21;Host=127.0.0.1;Database=db_201617z_va_proekt_rnab;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+  <Table Name="public.aviokompanii" Member="Aviokompanii">
+    <Type Name="Aviokompanii" ed:Guid="7137f93b-e0ae-45fe-967f-43508e04f203">
+      <Column Name="kompanija_id" Member="KompanijaId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="6a5b92cd-1653-41c2-baf8-27eec18e5cda" />
+      <Column Name="ime_na_kompanija" Member="ImeNaKompanija" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="8e0d4e41-d553-4c3c-aa79-b2a7bd786016" />
+      <Column Name="adresa_id" Member="AdresaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="6a4020fe-4ecc-40d8-934a-a3e86aa468e1" />
+      <Column Name="akaunt_id" Member="AkauntId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="b0fe9473-f8ff-4d64-ab95-75ba9262084d" />
+      <Association Name="Adresi_Aviokompanii" ed:AssociationGuid="d4a57c2f-f2ac-4230-84f9-d06b7c73593c" Member="Adresi_AdresaId" ed:Guid="d057be0f-a3ed-422a-82a0-a6da9dfba317" ThisKey="AdresaId" OtherKey="AdresaId" Type="Adresi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aviokompanii_Avioni" ed:AssociationGuid="d4777b87-b619-4238-a4f5-9737c0970740" Member="Avionis_KompanijaId" ed:Guid="ba98091c-f462-42b6-9acd-2c52bfbd3e7d" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Avioni" />
+      <Association Name="Aviokompanii_Vraboteni" ed:AssociationGuid="8f012a2b-1735-4d4a-8797-a44e73a88678" Member="Vrabotenis_KompanijaId" ed:Guid="8c850c6f-6064-42a8-bdd2-72cbcaa3cbbc" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Vraboteni" />
+      <Association Name="Akaunti_Aviokompanii" ed:AssociationGuid="64b3a35a-fd8c-443d-a315-d902ac9cedf9" Member="Akaunti_AkauntId" ed:Guid="d9af7162-fbd6-4df5-b3a0-90766eddeefa" ThisKey="AkauntId" OtherKey="AkauntId" Type="Akaunti" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aviokompanii_Letovi" ed:AssociationGuid="3891ef10-3d3b-4a53-a731-28abbbedb123" Member="Letovis_KompanijaId" ed:Guid="704ea133-f8ad-4423-8074-53d0b7a4ee78" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Letovi" />
+    </Type>
+  </Table>
+  <Table Name="public.tip_na_avioni" Member="TipNaAvioni">
+    <Type Name="TipNaAvioni" ed:Guid="244e60f0-ce23-40b3-bcc1-15b6ae86c869">
+      <Column Name="tip_id" Member="TipId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="31cbcd2b-27ec-48c6-bf77-4e42ce1b15b4" />
+      <Column Name="broj_na_patnici" Member="BrojNaPatnici" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="1f139cba-f338-424d-9509-5b475044f8b2" />
+      <Column Name="max_masa_badazh" Member="MaxMasaBadazh" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="403a5a21-b1ae-4675-858b-08b42d878bd1" />
+      <Column Name="max_dimenzii_visina" Member="MaxDimenziiVisina" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="c1ae2b85-6097-4467-88dc-8812430a8407" />
+      <Column Name="max_dimenzii_shirina" Member="MaxDimenziiShirina" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="65e5f3d1-0f05-45ba-be93-9eb771ca95be" />
+      <Column Name="max_dimenzii_dolzhina" Member="MaxDimenziiDolzhina" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="c2992eeb-cd39-4a87-a81a-de44fbb4012c" />
+      <Association Name="TipNaAvioni_Klasi" ed:AssociationGuid="4c47e0da-c55c-40ba-a620-9d3c7f46a520" Member="Klasis_TipId" ed:Guid="a6287317-b615-4825-b163-d24f914f8309" ThisKey="TipId" OtherKey="TipId" Type="Klasi" />
+      <Association Name="TipNaAvioni_Avioni" ed:AssociationGuid="65700477-c742-4895-84d0-cb6bff49c8b7" Member="Avionis_TipId" ed:Guid="0d188b6d-88e9-4395-b9a7-1ef55ae661dd" ThisKey="TipId" OtherKey="TipId" Type="Avioni" />
+    </Type>
+  </Table>
+  <Table Name="public.sedishta" Member="Sedishta">
+    <Type Name="Sedishta" ed:Guid="05c9de77-6d17-48ef-95a4-b6680a658402">
+      <Column Name="sedishte_id" Member="SedishteId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="3fdf6439-188b-4459-8002-33e46e6b6083" />
+      <Column Name="broj_na_sediste" Member="BrojNaSediste" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="484f601d-ea4a-4c94-8502-d2c7bb33a854" />
+      <Column Name="klasa_id" Member="KlasaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="626279f4-008a-43a6-87e5-369299c914cb" />
+      <Association Name="Klasi_Sedishta" ed:AssociationGuid="6c0c92bf-6178-4ef2-8c5d-5f2c69c7e261" Member="Klasi_KlasaId" ed:Guid="de0ca6c8-e703-470b-96a3-02e678c3398a" ThisKey="KlasaId" OtherKey="KlasaId" Type="Klasi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Sedishta_Rezervacii" ed:AssociationGuid="0c4057f9-abeb-4535-a0fe-ffc713975ff2" Member="Rezervaciis_SedishteId" ed:Guid="4fdb7294-01d9-47db-9a99-fd1a41df5d0c" ThisKey="SedishteId" OtherKey="SedishteId" Type="Rezervacii" />
+    </Type>
+  </Table>
+  <Table Name="public.letovi" Member="Letovi">
+    <Type Name="Letovi" ed:Guid="c31f9add-6101-47f6-8a74-a9719402be31">
+      <Column Name="let_id" Member="LetId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="849cd2fe-774b-475b-9da1-07a84a030914" />
+      <Column Name="status" Member="Status" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="041a160e-9c2a-4e76-a106-60232945dbbe" />
+      <Column Name="kompanija_id" Member="KompanijaId" Type="System.Int32" DbType="INT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="fe7de4d9-520a-469f-a452-d2b1bb68e1a8" />
+      <Association Name="Letovi_Megjuletovi" ed:AssociationGuid="c9519c22-e729-48ca-a918-f9fd13c9895a" Member="Megjuletovis_LetId" ed:Guid="ec422194-6abd-4cea-8ea6-2012259c7af6" ThisKey="LetId" OtherKey="LetId" Type="Megjuletovi" />
+      <Association Name="Letovi_DenoviNaLetanje" ed:AssociationGuid="9828c748-7d85-487a-8255-93d88cc13107" Member="DenoviNaLetanjes_LetId" ed:Guid="6e1c80b5-945d-4def-85ab-55a88d02b000" ThisKey="LetId" OtherKey="LetId" Type="DenoviNaLetanje" />
+      <Association Name="Aviokompanii_Letovi" ed:AssociationGuid="3891ef10-3d3b-4a53-a731-28abbbedb123" Member="Aviokompanii_KompanijaId" ed:Guid="5d734b02-a00c-4b13-920d-28f6ef3d35c2" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Aviokompanii" DeleteRule="NO ACTION" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.klasi" Member="Klasi">
+    <Type Name="Klasi" ed:Guid="e18bfb2d-e6da-4d2f-9ed0-48390d038e5f">
+      <Column Name="klasa_id" Member="KlasaId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="8889b593-32e8-4df0-9239-1e94ba3bd978" />
+      <Column Name="tip_id" Member="TipId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f52875d6-6e51-42f3-ad07-3d63584e20c0" />
+      <Column Name="ime_na_klasa" Member="ImeNaKlasa" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="ef820be3-860f-4e9a-9d4a-826f76fd79a4" />
+      <Column Name="broj_na_sedista_vo_klasa" Member="BrojNaSedistaVoKlasa" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="eee37aee-98ba-4bee-b453-26aa0c41eb18" />
+      <Association Name="TipNaAvioni_Klasi" ed:AssociationGuid="4c47e0da-c55c-40ba-a620-9d3c7f46a520" Member="TipNaAvioni_TipId" ed:Guid="ee82d1d8-52e2-4faf-9af1-1d0f145f22a5" ThisKey="TipId" OtherKey="TipId" Type="TipNaAvioni" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Klasi_Sedishta" ed:AssociationGuid="6c0c92bf-6178-4ef2-8c5d-5f2c69c7e261" Member="Sedishtas_KlasaId" ed:Guid="871be5d0-72b6-4abc-bcf6-31e247ffc840" ThisKey="KlasaId" OtherKey="KlasaId" Type="Sedishta" />
+      <Association Name="Klasi_Cenovnici" ed:AssociationGuid="ad1c7709-7678-460b-a5f1-19d50ff183d4" Member="Cenovnicis_KlasaId" ed:Guid="13680b38-b561-483e-849a-a7eccbed7be7" ThisKey="KlasaId" OtherKey="KlasaId" Type="Cenovnici" />
+    </Type>
+  </Table>
+  <Table Name="public.rezervacii" Member="Rezervacii">
+    <Type Name="Rezervacii" ed:Guid="9b0b105c-a193-4977-823e-fda6b130a6b1">
+      <Column Name="bilet_id" Member="BiletId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="99d6225e-b51f-462a-9503-f45f571284d7" />
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="6bbb6907-d2f0-40ac-b519-36b5f1f837d1" />
+      <Column Name="sedishte_id" Member="SedishteId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="78bd1faf-94ef-437b-8a5a-3ff837c55676" />
+      <Column Name="plan_id" Member="PlanId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="e06a92f0-12bf-4ae5-acdb-56c9a142d2ef" />
+      <Column Name="tip_na_bilet" Member="TipNaBilet" Type="System.Boolean" DbType="BOOL NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="7bad431d-9aa0-4f89-849e-111a434be1f1" />
+      <Column Name="datum_na_izdavanje" Member="DatumNaIzdavanje" Type="System.DateTime" DbType="TIMESTAMP NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="902ceef1-f666-41d2-bf5a-167949331c01" />
+      <Column Name="platena_cena" Member="PlatenaCena" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="754380b2-8d1a-45fd-adb5-88d458d3721d" />
+      <Column Name="validen_do" Member="ValidenDo" Type="System.DateTime" DbType="DATE" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="f0e043bc-04d7-4e6c-9f80-9171fec47b47" />
+      <Association Name="Sedishta_Rezervacii" ed:AssociationGuid="0c4057f9-abeb-4535-a0fe-ffc713975ff2" Member="Sedishta_SedishteId" ed:Guid="a6dbbd57-c01d-4bbc-bc30-f41f81d32aa7" ThisKey="SedishteId" OtherKey="SedishteId" Type="Sedishta" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="PlanoviNaLetanje_Rezervacii" ed:AssociationGuid="affaee90-f029-49b2-86c1-f95da20e61c9" Member="PlanoviNaLetanje_PlanId" ed:Guid="6f2a7415-afab-4cab-ba27-ac83a6633c23" ThisKey="PlanId" OtherKey="PlanId" Type="PlanoviNaLetanje" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Patnici_Rezervacii" ed:AssociationGuid="c1199e10-28e2-4de0-bcea-f96a9c66199a" Member="Patnici_PatnikId" ed:Guid="0fb74464-1752-4234-bb09-f455887dd012" ThisKey="PatnikId" OtherKey="PatnikId" Type="Patnici" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.adresi" Member="Adresi">
+    <Type Name="Adresi" ed:Guid="f8438e03-27e9-4cf1-8a05-890c1a836fa6">
+      <Column Name="adresa_id" Member="AdresaId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="0384a6bb-a5ba-492d-9bc4-bf4e7497e9ef" />
+      <Column Name="ime_na_ulica" Member="ImeNaUlica" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="4bbbdb4d-bd6d-462d-8532-daedba3d8cd1" />
+      <Column Name="broj" Member="Broj" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="921b6610-d4d7-4580-ae47-cb1b578b1782" />
+      <Column Name="grad" Member="Grad" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="dc66e18e-7e48-4162-92a8-df1f8ecc1595" />
+      <Column Name="oblast" Member="Oblast" Type="System.String" DbType="VARCHAR(255)" CanBeNull="true" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="false" ed:Guid="33bfcadb-43bd-41e0-b690-da0bac5d4925" />
+      <Column Name="drzhava" Member="Drzhava" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="15fa4602-b6c5-4323-b8c0-52596d67b040" />
+      <Column Name="poshtenski_broj" Member="PoshtenskiBroj" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="7baf698b-399e-4884-b21c-8cdf3da6a56f" />
+      <Association Name="Adresi_Aviokompanii" ed:AssociationGuid="d4a57c2f-f2ac-4230-84f9-d06b7c73593c" Member="Aviokompaniis_AdresaId" ed:Guid="1df4a7af-67dd-4509-8d11-aeb785cff692" ThisKey="AdresaId" OtherKey="AdresaId" Type="Aviokompanii" />
+      <Association Name="Adresi_Patnici" ed:AssociationGuid="4d8208ab-3d7d-48b2-be9d-d949ad909521" Member="Patnicis_AdresaId" ed:Guid="5bc958fb-4f7b-4e30-8005-ba611ca6c575" ThisKey="AdresaId" OtherKey="AdresaId" Type="Patnici" />
+      <Association Name="Adresi_Aerodromi" ed:AssociationGuid="d1f46af1-cf4c-48ff-b77f-72cc375f06cd" Member="Aerodromis_AdresaId" ed:Guid="799cc921-e46e-4def-8f50-f636a2a427a5" ThisKey="AdresaId" OtherKey="AdresaId" Type="Aerodromi" />
+    </Type>
+  </Table>
+  <Table Name="public.megjuletovi" Member="Megjuletovi">
+    <Type Name="Megjuletovi" ed:Guid="35a0eb21-92e1-4588-ba3f-bd96fdbc1295">
+      <Column Name="megjulet_id" Member="MegjuletId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="ed1d7855-661b-4932-90fd-bfaeff785ac4" />
+      <Column Name="let_id" Member="LetId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="6afe5d2b-b554-4c7f-afab-c0a76589e679" />
+      <Column Name="aerodrom_od_id" Member="AerodromOdId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="898bbd45-2525-4514-98cc-574724df1c98" />
+      <Column Name="aerodrom_do_id" Member="AerodromDoId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="e9656204-036d-4f82-a70a-d3b34e9ddf84" />
+      <Column Name="vreme_na_letanje" Member="VremeNaLetanje" Type="System.TimeSpan" DbType="TIME NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="6" ed:ValidateRequired="true" ed:Guid="c6c956ec-8c53-4006-ae56-67e260b9a265" />
+      <Column Name="rastojanie" Member="Rastojanie" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="8bd994ee-e9d6-4889-951c-8d70c4815417" />
+      <Association Name="Letovi_Megjuletovi" ed:AssociationGuid="c9519c22-e729-48ca-a918-f9fd13c9895a" Member="Letovi_LetId" ed:Guid="bb963322-81ca-4eac-83d2-852b1535d8ec" ThisKey="LetId" OtherKey="LetId" Type="Letovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aerodromi_Megjuletovi" ed:AssociationGuid="db431576-299e-4f74-83a9-79c3555088cc" Member="Aerodromi_AerodromOdId" ed:Guid="5e5aaa23-501f-4673-b17f-44f454a97a4f" ThisKey="AerodromOdId" OtherKey="AerodromId" Type="Aerodromi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aerodromi_Megjuletovi1" ed:AssociationGuid="43ce19b6-6184-4d48-8dba-5ed7aefba837" Member="Aerodromi_AerodromDoId" ed:Guid="cb07a2cb-5185-456b-8ac8-a79a397b0193" ThisKey="AerodromDoId" OtherKey="AerodromId" Type="Aerodromi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Megjuletovi_Rasporedi" ed:AssociationGuid="8d40a5a2-c5fe-49a2-8dce-95f4777573d3" Member="Rasporedis_MegjuletoviId" ed:Guid="04be5046-194a-4bab-be25-3e490bd75826" ThisKey="MegjuletId" OtherKey="MegjuletoviId" Type="Rasporedi" />
+      <Association Name="Megjuletovi_PlanoviNaLetanje" ed:AssociationGuid="8babbcd8-87c0-4456-824a-9c70a4802dea" Member="PlanoviNaLetanjes_MegjuletId" ed:Guid="33c657c0-59c2-4c19-a05c-a207faf23168" ThisKey="MegjuletId" OtherKey="MegjuletId" Type="PlanoviNaLetanje" />
+    </Type>
+  </Table>
+  <Table Name="public.patnici" Member="Patnici">
+    <Type Name="Patnici" ed:Guid="4c99920e-0142-4bb6-b06f-d62252e3d5de">
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="f37e0266-b8ed-4200-bad3-fd3704e2a24a" />
+      <Column Name="akaunt_id" Member="AkauntId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="9267a4cd-2287-4351-963b-431a82e870f5" />
+      <Column Name="broj_na_pasosh" Member="BrojNaPasosh" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="ddb64b41-59ec-47a2-8fba-77dbe0a02924" />
+      <Column Name="datum_na_izdavanje" Member="DatumNaIzdavanje" Type="System.DateTime" DbType="DATE NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f14c5047-a051-4cbf-9681-a5d225103649" />
+      <Column Name="izdadenod" Member="Izdadenod" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="dee2b769-88c9-458c-aa5c-8a46a82f3085" />
+      <Column Name="datum_na_istekuvanje" Member="DatumNaIstekuvanje" Type="System.DateTime" DbType="DATE NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f849b015-6898-45b2-bb43-f360e589c5b7" />
+      <Column Name="status" Member="Status" Type="System.Boolean" DbType="BOOL NOT NULL" CanBeNull="false" UpdateCheck="Never" DefaultValue="true" ed:ValidateRequired="true" ed:Guid="5c5c8caf-21f3-42f7-a126-d8da7bdbac84" />
+      <Column Name="adresa_id" Member="AdresaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="9b894645-23a0-439d-b0ed-58d60e779482" />
+      <Column Name="covek_id" Member="CovekId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="019d857e-e020-4727-8295-46ff47ef6e70" />
+      <Association Name="Patnici_Rezervacii" ed:AssociationGuid="c1199e10-28e2-4de0-bcea-f96a9c66199a" Member="Rezervaciis_PatnikId" ed:Guid="f83665da-91e5-484f-b74a-27a78faf8c83" ThisKey="PatnikId" OtherKey="PatnikId" Type="Rezervacii" />
+      <Association Name="Adresi_Patnici" ed:AssociationGuid="4d8208ab-3d7d-48b2-be9d-d949ad909521" Member="Adresi_AdresaId" ed:Guid="34766eb2-ffd9-4d9d-adbb-8f6a45c9ed08" ThisKey="AdresaId" OtherKey="AdresaId" Type="Adresi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Lugje_Patnici" ed:AssociationGuid="579d3845-8bb0-499f-9854-981e2e132b64" Member="Lugje_CovekId" ed:Guid="335af456-6aeb-4c29-b820-3918107ad724" ThisKey="CovekId" OtherKey="CovekId" Type="Lugje" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Akaunti_Patnici" ed:AssociationGuid="e463a74f-2706-42af-bd85-d12be22fe8ea" Member="Akaunti_AkauntId" ed:Guid="bdc3b8c2-3263-4e32-adb2-f8d656ea9940" ThisKey="AkauntId" OtherKey="AkauntId" Type="Akaunti" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.cenovnici" Member="Cenovnici">
+    <Type Name="Cenovnici" ed:Guid="373d5abd-498f-461d-bf9e-adc0ff033694">
+      <Column Name="cenovnik_id" Member="CenovnikId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="52c18262-cc21-4537-b849-ee5d2029d285" />
+      <Column Name="plan_id" Member="PlanId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="0bd017b0-ceff-4ef7-862a-927d0aa71ef8" />
+      <Column Name="klasa_id" Member="KlasaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="bd5eb2cd-3926-4d69-8779-ba40c46bb89c" />
+      <Column Name="cena_vo_eden_pravec" Member="CenaVoEdenPravec" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="1309f3cd-eaba-4508-81a3-bba2f71f8cdc" />
+      <Column Name="cena_povraten" Member="CenaPovraten" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="6143a920-1eb1-456e-a62c-784539dde05c" />
+      <Association Name="Klasi_Cenovnici" ed:AssociationGuid="ad1c7709-7678-460b-a5f1-19d50ff183d4" Member="Klasi_KlasaId" ed:Guid="a1470290-d00a-4b9a-afd8-8c44331969db" ThisKey="KlasaId" OtherKey="KlasaId" Type="Klasi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="PlanoviNaLetanje_Cenovnici" ed:AssociationGuid="bd70cb93-933e-41d2-8577-fd0f02103190" Member="PlanoviNaLetanje_PlanId" ed:Guid="f26eb125-d69b-4a1f-b380-d2dfcf484253" ThisKey="PlanId" OtherKey="PlanId" Type="PlanoviNaLetanje" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.rasporedi" Member="Rasporedi">
+    <Type Name="Rasporedi" ed:Guid="e27ca1db-3865-4764-9215-62fd8c6dc20e">
+      <Column Name="raspored_id" Member="RasporedId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="46beb53a-b2c9-4436-83e9-3936bf9ebe54" />
+      <Column Name="megjuletovi_id" Member="MegjuletoviId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="a6f5b082-66bb-4c20-ad30-b7b66d4a62f8" />
+      <Column Name="den_na_poletuvanje" Member="DenNaPoletuvanje" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="cc762f83-b497-42dc-903b-8d8027b24623" />
+      <Column Name="vreme_na_poletuvanje" Member="VremeNaPoletuvanje" Type="System.TimeSpan" DbType="TIME NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="6" ed:ValidateRequired="true" ed:Guid="de065bb2-5160-40b1-89bd-de946da66d4b" />
+      <Column Name="den_na_sletuvanje" Member="DenNaSletuvanje" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="7cd38877-6988-415a-b872-e3a3ea2369de" />
+      <Column Name="vreme_na_sletuvanje" Member="VremeNaSletuvanje" Type="System.TimeSpan" DbType="TIME NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="6" ed:ValidateRequired="true" ed:Guid="698b6976-ce33-4efe-a8d3-5bdcd1a177bb" />
+      <Association Name="Megjuletovi_Rasporedi" ed:AssociationGuid="8d40a5a2-c5fe-49a2-8dce-95f4777573d3" Member="Megjuletovi_MegjuletoviId" ed:Guid="bf8583f5-ee37-4c56-a0ec-d7da3a364072" ThisKey="MegjuletoviId" OtherKey="MegjuletId" Type="Megjuletovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Denovi_Rasporedi" ed:AssociationGuid="00a5124c-d244-409d-8c64-605e2ee9c704" Member="Denovi_DenNaPoletuvanje" ed:Guid="057dad05-c0ba-454b-927a-8a71f82d402f" ThisKey="DenNaPoletuvanje" OtherKey="DenId" Type="Denovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Denovi_Rasporedi1" ed:AssociationGuid="54ebc375-954a-4916-9c85-1a989f9e67a1" Member="Denovi_DenNaSletuvanje" ed:Guid="e230f2c8-2a77-4aa1-a065-bcf28007e761" ThisKey="DenNaSletuvanje" OtherKey="DenId" Type="Denovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.avioni" Member="Avioni">
+    <Type Name="Avioni" ed:Guid="d8620cb9-92be-4aeb-a540-209aab9d4b75">
+      <Column Name="avion_id" Member="AvionId" Type="System.Int32" DbType="INT4 NOT NULL" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" DefaultValue="nextval('avioni_avion_id_seq'::regclass)" ed:ValidateRequired="true" ed:Guid="21a3b95e-5248-4d15-9e1d-8cbb7c0cf4da" />
+      <Column Name="kompanija_id" Member="KompanijaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="61c24304-ef24-40a9-9916-15c4792737ad" />
+      <Column Name="tip_id" Member="TipId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="150c4938-bc64-4f13-9ce8-b1f408279a07" />
+      <Column Name="ime_na_avion" Member="ImeNaAvion" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="4f5a0e28-4d5e-4264-b086-1bcb61a1a989" />
+      <Column Name="registracija" Member="Registracija" Type="System.String" DbType="VARCHAR(10) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="true" ed:Guid="c829e67e-78f9-4632-9d85-755e226b438b" />
+      <Association Name="Aviokompanii_Avioni" ed:AssociationGuid="d4777b87-b619-4238-a4f5-9737c0970740" Member="Aviokompanii_KompanijaId" ed:Guid="139efb02-13fe-473f-a46c-7aeb902f9235" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Aviokompanii" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="TipNaAvioni_Avioni" ed:AssociationGuid="65700477-c742-4895-84d0-cb6bff49c8b7" Member="TipNaAvioni_TipId" ed:Guid="06c964c6-4e26-46fa-8895-e1fe58d362b0" ThisKey="TipId" OtherKey="TipId" Type="TipNaAvioni" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Avioni_PlanoviNaLetanje" ed:AssociationGuid="59a87a2a-14d1-476d-b96f-716bfd837151" Member="PlanoviNaLetanjes_AvionId" ed:Guid="7bbb0b2f-4713-476d-82c2-e7448257bdd3" ThisKey="AvionId" OtherKey="AvionId" Type="PlanoviNaLetanje" />
+    </Type>
+  </Table>
+  <Table Name="public.planovi_na_letanje" Member="PlanoviNaLetanje">
+    <Type Name="PlanoviNaLetanje" ed:Guid="484bfc61-6097-481b-8983-07c99f42d669">
+      <Column Name="plan_id" Member="PlanId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="a5c827e3-04e7-474d-b9bd-97454792e3eb" />
+      <Column Name="avion_id" Member="AvionId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="0250fa36-61d3-464f-886e-27d52ee96d9c" />
+      <Column Name="megjulet_id" Member="MegjuletId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="9a401b93-5eee-4e2c-8ed0-b0df17781eb8" />
+      <Column Name="datum_vreme_na_poletuvanje" Member="DatumVremeNaPoletuvanje" Type="System.DateTime" DbType="TIMESTAMP NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="edabb8ad-97f2-4d6c-861e-b690b737e218" />
+      <Column Name="datum_vreme_na_sletuvanje" Member="DatumVremeNaSletuvanje" Type="System.DateTime" DbType="TIMESTAMP NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="c119a4cb-c55f-48cc-9275-8c830ff6776a" />
+      <Column Name="status_na_letot" Member="StatusNaLetot" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="03822954-74d1-461e-b88f-05c90a0701d5" />
+      <Column Name="vremetraenje" Member="Vremetraenje" Type="System.TimeSpan" DbType="TIME NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="6" ed:ValidateRequired="true" ed:Guid="2ad79cf1-d8ad-488e-9ee9-832023c608eb" />
+      <Association Name="PlanoviNaLetanje_Rezervacii" ed:AssociationGuid="affaee90-f029-49b2-86c1-f95da20e61c9" Member="Rezervaciis_PlanId" ed:Guid="721d6327-ec7e-4f82-be6d-648707969738" ThisKey="PlanId" OtherKey="PlanId" Type="Rezervacii" />
+      <Association Name="Megjuletovi_PlanoviNaLetanje" ed:AssociationGuid="8babbcd8-87c0-4456-824a-9c70a4802dea" Member="Megjuletovi_MegjuletId" ed:Guid="19ac4796-662b-402b-8028-51a95e6f62b6" ThisKey="MegjuletId" OtherKey="MegjuletId" Type="Megjuletovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="PlanoviNaLetanje_Cenovnici" ed:AssociationGuid="bd70cb93-933e-41d2-8577-fd0f02103190" Member="Cenovnicis_PlanId" ed:Guid="af114036-d630-4d51-a425-09b36737c6d1" ThisKey="PlanId" OtherKey="PlanId" Type="Cenovnici" />
+      <Association Name="Avioni_PlanoviNaLetanje" ed:AssociationGuid="59a87a2a-14d1-476d-b96f-716bfd837151" Member="Avioni_AvionId" ed:Guid="36131ba9-a47e-4fcc-ba57-7917817ebb03" ThisKey="AvionId" OtherKey="AvionId" Type="Avioni" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.aerodromi" Member="Aerodromi">
+    <Type Name="Aerodromi" ed:Guid="bd04fb25-d1d8-4509-9048-8df56e0a6247">
+      <Column Name="aerodrom_id" Member="AerodromId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="1553d5f7-1c0a-41d6-981f-7ec9b226d2aa" />
+      <Column Name="ime_na_aerodrom" Member="ImeNaAerodrom" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="b056b76e-7525-4806-82e3-94d524cf3d3b" />
+      <Column Name="adresa_id" Member="AdresaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="da20b43e-4606-4972-ac20-4c9be7d95cea" />
+      <Column Name="geografska_sirina" Member="GeografskaSirina" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="6b700d99-abfe-4723-ac43-0f8b23aa5833" />
+      <Column Name="geografska_dolzina" Member="GeografskaDolzina" Type="System.Single" DbType="FLOAT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="87e8bcff-a45a-4777-85e1-6f405b44f537" />
+      <Association Name="Adresi_Aerodromi" ed:AssociationGuid="d1f46af1-cf4c-48ff-b77f-72cc375f06cd" Member="Adresi_AdresaId" ed:Guid="16e361f2-c79e-4e70-8702-65ed8cb368a7" ThisKey="AdresaId" OtherKey="AdresaId" Type="Adresi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Aerodromi_Megjuletovi" ed:AssociationGuid="db431576-299e-4f74-83a9-79c3555088cc" Member="Megjuletovis_AerodromOdId" ed:Guid="026801c2-c5a4-4df8-a4a7-005ad34de638" ThisKey="AerodromId" OtherKey="AerodromOdId" Type="Megjuletovi" />
+      <Association Name="Aerodromi_Megjuletovi1" ed:AssociationGuid="43ce19b6-6184-4d48-8dba-5ed7aefba837" Member="Megjuletovis_AerodromDoId" ed:Guid="e7e458bb-f802-4ac5-b000-f30adf2fd121" ThisKey="AerodromId" OtherKey="AerodromDoId" Type="Megjuletovi" />
+    </Type>
+  </Table>
+  <Table Name="public.denovi" Member="Denovi">
+    <Type Name="Denovi" ed:Guid="1e66e5c9-e1f2-4791-bd24-edfdb1ee9b9e">
+      <Column Name="den_id" Member="DenId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="71725c86-9974-4938-b52d-e3ebc165b684" />
+      <Column Name="reden_broj" Member="RedenBroj" Type="System.Int16" DbType="INT2 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="c4ae2c54-dffe-4110-b0c6-ee665a85e90e" />
+      <Column Name="ime_na_den" Member="ImeNaDen" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="31d3896f-bbe9-4929-b4b2-aed445a94e33" />
+      <Association Name="Denovi_Rasporedi" ed:AssociationGuid="00a5124c-d244-409d-8c64-605e2ee9c704" Member="Rasporedis_DenNaPoletuvanje" ed:Guid="8fb3c2e2-6fbd-4b0f-bc4f-844b75be303b" ThisKey="DenId" OtherKey="DenNaPoletuvanje" Type="Rasporedi" />
+      <Association Name="Denovi_Rasporedi1" ed:AssociationGuid="54ebc375-954a-4916-9c85-1a989f9e67a1" Member="Rasporedis_DenNaSletuvanje" ed:Guid="b1c1b1b0-77af-4c0d-b64a-a93656033ede" ThisKey="DenId" OtherKey="DenNaSletuvanje" Type="Rasporedi" />
+      <Association Name="Denovi_DenoviNaLetanje" ed:AssociationGuid="d930f991-ff7c-4728-ab49-79e81750e027" Member="DenoviNaLetanjes_DenId" ed:Guid="dc25c2a0-ab91-4112-8b0c-46fa5c79400f" ThisKey="DenId" OtherKey="DenId" Type="DenoviNaLetanje" />
+    </Type>
+  </Table>
+  <Table Name="public.vraboteni" Member="Vraboteni">
+    <Type Name="Vraboteni" ed:Guid="f75d1ec4-bb79-4c91-9c3f-8936201f8747">
+      <Column Name="vraboten_id" Member="VrabotenId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="d3905f0e-f600-46fd-86aa-19e64851daf7" />
+      <Column Name="covek_id" Member="CovekId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="d645335f-562e-4b01-b0a2-d99125e4ff25" />
+      <Column Name="akaunt_id" Member="AkauntId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="686baf25-2f2c-4269-b478-8948add48612" />
+      <Column Name="kompanija_id" Member="KompanijaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="32807a83-b4b1-4319-8a01-e5db9daf083f" />
+      <Association Name="Aviokompanii_Vraboteni" ed:AssociationGuid="8f012a2b-1735-4d4a-8797-a44e73a88678" Member="Aviokompanii_KompanijaId" ed:Guid="7b672223-bb38-47e4-bee1-30b76451e146" ThisKey="KompanijaId" OtherKey="KompanijaId" Type="Aviokompanii" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Lugje_Vraboteni" ed:AssociationGuid="561145e6-eb8a-434a-a7fc-f2fc088577fd" Member="Lugje_CovekId" ed:Guid="e6a9a8b7-ef35-4185-a3c3-66d756535e6f" ThisKey="CovekId" OtherKey="CovekId" Type="Lugje" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Akaunti_Vraboteni" ed:AssociationGuid="5396dc94-856e-474a-aefc-6ef0106f5376" Member="Akaunti_AkauntId" ed:Guid="30e72fa8-b8ad-44ee-854a-55e2e5e21f5c" ThisKey="AkauntId" OtherKey="AkauntId" Type="Akaunti" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.denovi_na_letanje" Member="DenoviNaLetanje">
+    <Type Name="DenoviNaLetanje" ed:Guid="2306557a-c25a-44f3-9dde-dd0acda3fb99">
+      <Column Name="aktiven_den_id" Member="AktivenDenId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="1636be7b-26f8-4b92-b931-0b996d4c2536" />
+      <Column Name="let_id" Member="LetId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f9b2296c-f2ae-4ce2-86d6-41bea23a2891" />
+      <Column Name="den_id" Member="DenId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="4ce8739f-c2ca-4ec1-b8ae-f9c1d188bb61" />
+      <Association Name="Letovi_DenoviNaLetanje" ed:AssociationGuid="9828c748-7d85-487a-8255-93d88cc13107" Member="Letovi_LetId" ed:Guid="62a6cc15-2d14-4c70-bc88-88c8dcfef2d8" ThisKey="LetId" OtherKey="LetId" Type="Letovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+      <Association Name="Denovi_DenoviNaLetanje" ed:AssociationGuid="d930f991-ff7c-4728-ab49-79e81750e027" Member="Denovi_DenId" ed:Guid="c93cea3c-9125-4cfb-b701-4b732662245a" ThisKey="DenId" OtherKey="DenId" Type="Denovi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.ulogi" Member="Ulogi">
+    <Type Name="Ulogi" ed:Guid="d9ebbf72-42c6-4a65-99d5-4cba1509f62a">
+      <Column Name="uloga_id" Member="UlogaId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="5be4b7b0-1ea7-4935-a93f-fa6382911b2a" />
+      <Column Name="uloga_ime" Member="UlogaIme" Type="System.String" DbType="VARCHAR(64) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="64" Unicode="true" ed:ValidateMaxLength="64" ed:ValidateRequired="true" ed:Guid="0a01e9fc-98ff-4f01-b45b-84d65e89839a" />
+      <Association Name="Ulogi_Akaunti" ed:AssociationGuid="630d56ea-2901-499d-bf0c-5fefb9449792" Member="Akauntis_UlogaId" ed:Guid="501b99fc-0655-4355-96d7-bb6df77709de" ThisKey="UlogaId" OtherKey="UlogaId" Type="Akaunti" />
+    </Type>
+  </Table>
+  <Table Name="public.akaunti" Member="Akaunti">
+    <Type Name="Akaunti" ed:Guid="64173811-0ab8-4217-bbe0-a3065b01bfe8">
+      <Column Name="akaunt_id" Member="AkauntId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" DefaultValue="nextval('patnici_patnik_id_seq'::regclass)" ed:ValidateRequired="true" ed:Guid="e336756b-3025-4c18-81e2-16d3a23c4ad3" />
+      <Column Name="email_adresa" Member="EmailAdresa" Type="System.String" DbType="VARCHAR(254) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="254" Unicode="true" ed:ValidateMaxLength="254" ed:ValidateRequired="true" ed:Guid="cfb96dd3-e158-44c6-8eac-b54bee8c31af" />
+      <Column Name="korisnichko_ime" Member="KorisnichkoIme" Type="System.String" DbType="VARCHAR(30) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="30" Unicode="true" ed:ValidateMaxLength="30" ed:ValidateRequired="true" ed:Guid="3358c996-a456-44f0-abc0-07fc6d74a1a8" />
+      <Column Name="lozinka_hash" Member="LozinkaHash" Type="System.String" DbType="CHAR(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" FixedLength="true" MaxLength="128" Unicode="true" ed:ValidateMaxLength="128" ed:ValidateRequired="true" ed:Guid="502f5b66-e99e-47f8-b885-3cb7a7dcf4c9" />
+      <Column Name="bezbednostna_marka" Member="BezbednostnaMarka" Type="System.String" DbType="CHAR(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" FixedLength="true" MaxLength="128" Unicode="true" ed:ValidateMaxLength="128" ed:ValidateRequired="true" ed:Guid="6f5f8a07-3cbd-4bcb-8e71-7c05fb9ff76a" />
+      <Column Name="uloga_id" Member="UlogaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="8fbd51ba-c9de-4dd0-94d3-7b26519cb847" />
+      <Association Name="Akaunti_Aviokompanii" ed:AssociationGuid="64b3a35a-fd8c-443d-a315-d902ac9cedf9" Member="Aviokompaniis_AkauntId" ed:Guid="a14496df-d045-43c8-a214-cb6ab6eefde9" ThisKey="AkauntId" OtherKey="AkauntId" Type="Aviokompanii" />
+      <Association Name="Akaunti_Patnici" ed:AssociationGuid="e463a74f-2706-42af-bd85-d12be22fe8ea" Member="Patnicis_AkauntId" ed:Guid="8f3b9f86-47fc-456d-9c2d-8afb61b1c4e7" ThisKey="AkauntId" OtherKey="AkauntId" Type="Patnici" />
+      <Association Name="Akaunti_Vraboteni" ed:AssociationGuid="5396dc94-856e-474a-aefc-6ef0106f5376" Member="Vrabotenis_AkauntId" ed:Guid="c966cb76-98ad-4a6b-b023-7a13b9cc471c" ThisKey="AkauntId" OtherKey="AkauntId" Type="Vraboteni" />
+      <Association Name="Ulogi_Akaunti" ed:AssociationGuid="630d56ea-2901-499d-bf0c-5fefb9449792" Member="Ulogi_UlogaId" ed:Guid="387c1f9a-1dba-43a7-963c-b2a0394b8f1a" ThisKey="UlogaId" OtherKey="UlogaId" Type="Ulogi" DeleteRule="NO ACTION" DeleteOnNull="true" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="public.lugje" Member="Lugje">
+    <Type Name="Lugje" ed:Guid="2f072613-acb0-4428-b17b-e5899df55840">
+      <Column Name="covek_id" Member="CovekId" Type="System.Int32" AutoSync="OnInsert" DbType="SERIAL NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" ed:ValidateRequired="true" ed:Guid="6f515ee4-4bbf-4ede-90d4-77efd186513e" />
+      <Column Name="ime" Member="Ime" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="cde23b38-154b-4915-8710-ebb7604b7af2" />
+      <Column Name="prezime" Member="Prezime" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="d49ea92f-7e00-476d-8f97-dfadb06b8c6f" />
+      <Column Name="pol" Member="Pol" Type="System.Boolean" DbType="BOOL NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="bf7bce2d-1dd9-4f20-b7f1-a5ab5d6bd662" />
+      <Column Name="data_na_ragjanje" Member="DataNaRagjanje" Type="System.DateTime" DbType="DATE NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="df2bf138-f8ca-4e6e-97f0-30bb2c482200" />
+      <Column Name="broj_na_licna_karta" Member="BrojNaLicnaKarta" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="14ffc811-3451-43b6-9303-e6ffe56f88b9" />
+      <Association Name="Lugje_Patnici" ed:AssociationGuid="579d3845-8bb0-499f-9854-981e2e132b64" Member="Patnicis_CovekId" ed:Guid="ea1709e2-6490-487a-8548-5485ceb19847" ThisKey="CovekId" OtherKey="CovekId" Type="Patnici" />
+      <Association Name="Lugje_Vraboteni" ed:AssociationGuid="561145e6-eb8a-434a-a7fc-f2fc088577fd" Member="Vrabotenis_CovekId" ed:Guid="2210edf8-3410-4459-85ee-7194c0150b11" ThisKey="CovekId" OtherKey="CovekId" Type="Vraboteni" />
+    </Type>
+  </Table>
+  <Table Name="public.klasi_so_mediana_rezervacii_po_klasa" Member="KlasiSoMedianaRezervaciiPoKlasa">
+    <Type Name="KlasiSoMedianaRezervaciiPoKlasa" ed:Guid="739a7985-bfb2-4d26-ba04-79cf2c3a9864">
+      <Column Name="klasa_id" Member="KlasaId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="e30af1b6-3aef-4474-9519-2d42bf30d317" />
+      <Column Name="tip_id" Member="TipId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="19be2bdf-8c5c-4b62-bec2-94215526c874" />
+      <Column Name="ime_na_klasa" Member="ImeNaKlasa" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="1b0f5ab2-03ba-41e5-bf6b-5b5eb390e97a" />
+      <Column Name="broj_na_sedista_vo_klasa" Member="BrojNaSedistaVoKlasa" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="4a7e39dc-e4af-42a1-bfe9-698e8e08bbec" />
+    </Type>
+  </Table>
+  <Table Name="public.brojac" Member="Brojac">
+    <Type Name="Brojac" ed:Guid="d24e760c-eed9-4aa9-89e5-af2bd50c05ec">
+      <Column Name="row_id" Member="RowId" Type="System.Int32" DbType="INT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="46c5f01c-1fd1-4b12-ad3c-db9594cbe960" />
+      <Column Name="broj_razlicni_patnici" Member="BrojRazlicniPatnici" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="f99db66b-0c4d-49ca-83dd-12ed902d3dfb" />
+      <Column Name="broj_izdadeni_bileti" Member="BrojIzdadeniBileti" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="56e02f3a-d1a9-4377-b639-4908a52ad41f" />
+      <Column Name="broj_razlicni_letovi" Member="BrojRazlicniLetovi" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="e308b998-a8c7-4d8e-b73a-2ac1b1430a67" />
+    </Type>
+  </Table>
+  <Table Name="public.aviokompanija_so_najgolem_profit" Member="AviokompanijaSoNajgolemProfit">
+    <Type Name="AviokompanijaSoNajgolemProfit" ed:Guid="e6584f86-2b50-4b80-8df0-34c1499bce03">
+      <Column Name="aviokompanija" Member="Aviokompanija" Type="System.String" DbType="VARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="a7943a34-dbb0-4f42-bfb9-daf19e0d2bfd" />
+      <Column Name="profit" Member="Profit" Type="System.Single" DbType="FLOAT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="7895ac9d-a41a-4fef-ab21-a3b6a4e624c9" />
+    </Type>
+  </Table>
+  <Table Name="public.drzhavi_so_najveke_patuvanja" Member="DrzhaviSoNajvekePatuvanja">
+    <Type Name="DrzhaviSoNajvekePatuvanja" ed:Guid="468df68c-b79e-4c27-81d4-3392ddff807f">
+      <Column Name="komp" Member="Komp" Type="System.Int32" DbType="INT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="a0e85d26-b727-4f5c-9ea6-3284f97d58d2" />
+      <Column Name="drzhava" Member="Drzhava" Type="System.String" DbType="VARCHAR(255) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="true" ed:Guid="a668ea34-dfe6-43e1-ba06-87e0d92cf7e2" />
+      <Column Name="broj" Member="Broj" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="18a15185-1d1e-4e13-a092-b93d9609a5e3" />
+    </Type>
+  </Table>
+  <Table Name="public.patnici_sto_letale_so_site_aviokompanii" Member="PatniciStoLetaleSoSiteAviokompanii">
+    <Type Name="PatniciStoLetaleSoSiteAviokompanii" ed:Guid="bb173695-0907-4baa-9943-232ee9277b4e">
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="5b11f5c2-38ea-497c-9778-08b5848ef4ee" />
+      <Column Name="&quot;count&quot;" Member="Count" Type="System.Int64" DbType="INT8" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="0f29b64a-3dad-432e-bfac-feb37627c23c" />
+    </Type>
+  </Table>
+  <Table Name="public.patnik_koj_najmnogu_potrpsil" Member="PatnikKojNajmnoguPotrpsil">
+    <Type Name="PatnikKojNajmnoguPotrpsil" ed:Guid="418931e4-3450-4c0d-ad0a-9cd818f503ca">
+      <Column Name="patnik_id" Member="PatnikId" Type="System.Int32" DbType="INT4 NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="b15e7f74-374c-4ecb-8825-7a560db827b9" />
+      <Column Name="potroshil" Member="Potroshil" Type="System.Single" DbType="FLOAT4" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="21bf12ca-60de-46ed-9e41-2c66ef5ce239" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,56 @@
+﻿@model Bazi_Web.Models.PassengersViewModel
+
+<div class="panel-group">
+    <h3 class="text-primary">Passport Information</h3>
+    <hr />
+
+    @Html.HiddenFor(x => x.PassengerId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PassportNumber, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.PassportNumber, new { @Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PassportNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateOfIssue, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="input-group date date-of-issue-datetimepicker">
+                @Html.TextBoxFor(m => m.DateOfIssue, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(m => m.DateOfIssue, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Authority, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Authority, new { @Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Authority, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateOfExpire, new { @Class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="input-group date date-of-expire-datetimepicker">
+                @Html.TextBoxFor(m => m.DateOfExpire, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(m => m.DateOfExpire, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <hr />
+    
+    @Html.EditorFor(x => x.Address, "AddressEditor")
+</div>
+    
+    

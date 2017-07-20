@@ -1,0 +1,36 @@
+﻿html {
+    background: url("Images/airplane_background.min.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: rgba(211,211,211,0.4) !important;
+}
+
+.carousel-caption  {
+    text-shadow:0px 1px 5px #000 !important;
+    color:floralwhite !important;
+    background-color:rgba(0,0,0,0.8);
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 75%;
+    margin: auto;
+}
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;    
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 280px;*/
+}

@@ -1,0 +1,613 @@
+﻿@model Bazi_Web.Models.AddFlightViewModel
+@using Db201617zVaProektRnabContext;
+@{
+    ViewBag.Title = "Add Flight";
+}
+
+<div class="page-header">
+    <h2>Add Flight</h2>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="alert alert-danger" data-bind="visible: $root.ModelError">
+            ERROR: Fix the errors to submit the data.
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Select the path of the flight through airports</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger" data-bind="visible: $root.FlightAirportRequiredError">
+                            ERROR: All Airport fields are required. If you do not need any of the fields then remove it, however you must have at least 2.
+                        </div>
+                        <div class="alert alert-danger" data-bind="visible: $root.FlightRepeatingAirportError">
+                            ERROR: The airports in the fields must appear at most once. Repetition is not allowed.
+                        </div>
+                        <div data-bind="foreach: listOfSubFlights">
+                            <div class="form-group-sm">
+                                <div class="row">
+                                    <label class="control-label col-xs-2 text-right">#<span data-bind="text: ($index() + 1)"></span></label>
+                                    <div class="col-xs-8">
+                                        <select data-bind='options: $root.AirportsList, optionsCaption: "Select...", optionsValue: "id",
+                                    optionsText: "name", value: airport' class="form-control" required></select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button class="btn-sm btn-danger" data-bind="click: $parent.removeSubFlight, enable: $root.listOfSubFlights().length > 2">
+                                            <span class="glyphicon glyphicon-remove-circle"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group btn-group-justified">
+                            <a href="#" class="btn btn-primary" data-bind="click: addSubFlight">Add flight</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Flight Summary</h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Source destination</th>
+                                    <th>Target destination</th>
+                                    <th>Duration (h:m)</th>
+                                    <th>Distance (km)</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: table">
+                                <tr>
+                                    <td data-bind="text: ($index() + 1)"></td>
+                                    <td data-bind="text: $root.findAirportById(airportFromId.airport()).name"></td>
+                                    <td data-bind="text: $root.findAirportById(airportToId.airport()).name"></td>
+                                    <td data-bind="text: $root.calculateDurationBetweenAirports(airportFromId.airport(), airportToId.airport())" class="text-right"></td>
+                                    <td data-bind="text: $root.calculateDistanceBetweenAirports(airportFromId.airport(), airportToId.airport())" class="text-right"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">Total:</th>
+                                    <td data-bind="text: $root.computeTotal().duration" class="text-right"></td>
+                                    <td data-bind="text: $root.computeTotal().distance" class="text-right"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Add the schedule days and time</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger" data-bind="visible: $root.ScheduleRequiredError">
+                            ERROR: All schedules are required.
+                        </div>
+
+                        <div class="row">
+                            <span class="col-xs-offset-2 col-xs-4">Day of week</span>
+                            <span class="col-xs-4">Time of day</span>
+                        </div>
+                        <div data-bind="foreach: ScheduleList">
+                            <div class="form-group-sm">
+                                <div class="row">
+                                    <label class="control-label col-xs-2 text-right">#<span data-bind="text: ($index() + 1)"></span></label>
+                                    <div class="col-xs-4">
+                                        <select data-bind="options: $parent.DaySchedule, optionsCaption: 'Select...', optionsValue: 'id', optionsText: 'name', value: day"
+                                                class="form-control" required></select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        @*<div class='input-group date flight-time-picker' data-bind=timePicker: timeValue">*@
+                                        <input type="time" class="form-control" data-bind="value: timeValue" />
+                                        @*<span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>*@
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button class="btn-sm btn-danger" data-bind="click: $parent.removeSchedule, enable: $root.ScheduleList().length > 1">
+                                            <span class="glyphicon glyphicon-remove-circle"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group btn-group-justified">
+                            <a href="#" class="btn btn-primary" data-bind="click: addSchedule">Add schedule</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Manage price validity interval, airplanes and prices</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger" data-bind="visible: $root.DateIntervalRequiredError">
+                            ERROR: The date interval is required.
+                        </div>
+                        <div class="alert alert-danger" data-bind="visible: $root.FromBeforeToError">
+                            ERROR: The &quot;from&quot; date must be before the &quot;to&quot; date.
+                        </div>
+                        <div class="alert alert-danger" data-bind="visible: $root.AirplaneRequiredError">
+                            ERROR: The airplane field id required.
+                        </div>
+                        <div class="alert alert-danger" data-bind="visible: $root.BeforeAfterCurrentError">
+                            ERROR: The "from" date must be after the current date.
+                        </div>
+
+                        <div class="form-group-sm">
+                            <div class="row well-sm">
+                                <label class="col-xs-3 text-right control-label">Interval from</label>
+                                <div class="col-xs-4">
+                                    @*<div class='input-group date start-datepicker'>*@
+                                    <input type='date' class="form-control" data-bind="value: intStart" />
+                                    @*<span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>*@
+                                </div>
+                                <label class="col-xs-1 text-center control-label"> to </label>
+                                <div class="col-xs-4">
+                                    @*<div class='input-group date end-datepicker'>*@
+                                    <input type='date' class="form-control" data-bind="value: intEnd" />
+                                    @*<span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-sm">
+                            <div class="row well-sm">
+                                <label class="col-xs-3 control-label text-right">Airplane</label>
+                                <select data-bind="options: $root.AirplaneList, optionsCaption: 'Select...', optionsValue: 'id', optionsText: 'name', value: airplane" class="form-control-static col-xs-9" required></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="alert alert-warning" data-bind="visible: firstFormValid">
+                                WARNING: Any change in the airplane or flights configuration after setting the prices, can cause loss of price data.
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#priceModal" data-bind="visible: firstFormValid">ASSIGN OR VIEW PRICESS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="priceModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" style="overflow-x: initial !important; overflow-y: initial !important">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Prices per class</h4>
+                        <div class="alert alert-info">The prices are in format: (price of one-way ticket) / (price of return ticket)</div>
+                    </div>
+                    <div class="modal-body" style="overflow-x: auto;overflow-y: auto;">
+                        <ul class="nav nav-tabs" data-bind="foreach: classes">
+                            <li data-bind="attr: {'class' : ($index() == 0?'active':'')}"><a data-toggle="tab" href="#home" data-bind="text: name, attr: {href: '#tab_' + id}"></a></li>
+                        </ul>
+
+                        <div class="tab-content" data-bind="foreach: rowData">
+                            <div data-bind="attr: {id : 'tab_' + classId, 'class': 'tab-pane fade ' + ($index() == 0?'in active':'')}">
+                                <table>
+                                    <thead>
+                                        <tr data-bind="foreach: $root.columnData">
+                                            <th>
+                                                <div data-bind="text: $root.findAirportById(airport()).name"
+                                                     style="min-width:150px !important; width:150px !important; max-width:150px !important; margin:0 2px;"
+                                                     class="text-center"></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: classArray">
+                                        <tr>
+                                            <th class="control-label" data-bind="text: $root.findAirportById(header.airport()).name"></th>
+                                            <td data-bind="foreach: data, attr:{'colspan':$root.listOfSubFlights().length}">
+                                                <div style="min-width:150px !important; width:150px !important; max-width:150px !important; display:inline-block;" class="text-center">
+                                                    <input type="number" min="0" data-bind="value: oneway, enable: visible" style="min-width:40%; max-width:40%" placeholder="1-Way" /> 
+                                                    /
+                                                    <input type="number" min="0" data-bind="value: rreturn, enable: visible" style="min-width:40%; max-width:40%" placeholder="Return" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="text-right">
+            <button class="btn btn-success btn-lg" data-bind="visible: $root.secondFormValid, click:saveData">SUBMIT DATA</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/SiteScripts/DistanceCalculator.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript">
+
+    var AirportParts = function () {
+        var self = this;
+        self.airport = ko.observable();
+    }
+
+    var ScheduleParts = function(){
+        return {
+            day: ko.observable(),
+            timeValue: ko.observable()   
+        };
+    }
+
+    var PriceValues = function(dispay){
+        return {
+            oneway: ko.observable(0),
+            rreturn: ko.observable(0),
+            visible: dispay
+        };
+    }
+
+    var SubFlight = function(findAirportFn){
+        var self = this;
+        self.airportFromId = ko.observable(new AirportParts());
+        self.airportToId = ko.observable(new AirportParts());
+    }
+
+    var Flight = function () {
+        var self = this;
+        self.AirportsList = @Html.Raw(Model.GetAirportJson());
+
+        self.addSubFlight = function () {
+            self.listOfSubFlights.push(new AirportParts());
+        };
+
+        self.removeSubFlight = function(){
+            if (self.listOfSubFlights().length > 2){
+                self.listOfSubFlights.remove(this);
+            }
+        };
+
+        self.listOfSubFlights = ko.observableArray();
+        while (self.listOfSubFlights().length < 2)
+            self.addSubFlight();
+
+        self.findAirportById = function(id) {
+            for (var i=0; i<self.AirportsList.length; i++){
+                if (self.AirportsList[i].id == id)
+                    return self.AirportsList[i];
+            }
+            return {id:"", name:""};
+        };
+
+        self.calculateDistanceBetweenAirports = function(id1, id2){
+            airportFrom = self.findAirportById(id1);
+            airportTo = self.findAirportById(id2);
+            if (airportFrom.latitude && airportTo.latitude &&
+                airportFrom.longitude && airportTo.longitude){
+                return Math.round(DistanceFn(
+                    airportFrom.latitude, airportFrom.longitude, 
+                    airportTo.latitude, airportTo.longitude, 'K'));
+            }
+            return 0;
+        }
+
+        self.airplaneSpeed = 600;
+        self.calculateDurationBetweenAirports = function(id1, id2){
+            var distance = self.calculateDistanceBetweenAirports(id1, id2);
+            if (id1 && id2 && distance){
+                var hours = Math.floor(distance/self.airplaneSpeed);
+                var minutes = Math.round(((distance/self.airplaneSpeed) - hours)*60);
+                return ((hours<10)?'0':'') + hours + ':' + ((minutes < 10)?'0':'') + minutes;
+            }
+            return '00:00';
+        }
+
+        self.table = ko.computed(function(){
+            var array = new Array();
+            for (var i=0; i< self.listOfSubFlights().length - 1; i++){
+                var a = new SubFlight(self.findAirportById);
+                a.airportFromId = self.listOfSubFlights()[i];
+                a.airportToId = self.listOfSubFlights()[i+1];
+                array.push(a);
+            }
+            return array;
+        });
+
+        self.computeTotal = ko.computed(function(){
+            var duration = 0;
+            var distance = 0;
+            for (var i=0; i<self.table().length; i++){
+                if (self.table()[i].airportFromId &&  self.table()[i].airportFromId.airport() && self.table()[i].airportToId  && self.table()[i].airportToId.airport()){
+                    var dis = self.calculateDistanceBetweenAirports(self.table()[i].airportFromId.airport(), self.table()[i].airportToId.airport());
+                    if (dis){
+                        duration += (dis/self.airplaneSpeed);
+                        distance += dis;
+                    }
+                }
+            }
+            var hours = Math.floor(duration);
+            var minutes = Math.round((duration - hours)*60);
+            return {durationInHoures: duration, duration: ((hours<10)?'0':'') + hours + ':' + ((minutes < 10)?'0':'') + minutes, distance: distance};
+        });
+
+        self.DaySchedule = [{id: "1", name:"Monday"},{id: "2", name:"Tuesday"},{id: "3", name:"Wednessday"},
+           {id: "4", name:"Thursday"},{id: "5", name:"Friday"},{id: "6", name:"Saturday"},{id: "7", name:"Sunday"}];
+
+        self.addSchedule = function () {
+            self.ScheduleList.push(new ScheduleParts());
+        };
+
+        self.removeSchedule = function(){
+            self.ScheduleList.remove(this);
+        };
+
+        self.ScheduleList = ko.observableArray();
+        while (self.ScheduleList().length < 1)
+            self.addSchedule();
+
+        self.intStart = ko.observable();
+        self.intEnd = ko.observable();
+
+        self.AirplaneList = @Html.Raw(Model.GetAirplaneJson());
+        self.airplane = ko.observable();
+        self.classes = ko.computed(function(){
+            for (var i=0; i<self.AirplaneList.length; i++){
+                if (self.AirplaneList[i].id == self.airplane()){
+                    return self.AirplaneList[i].class;
+                }
+            }
+        });
+        self.columnData = ko.computed(function(){
+            var array = [new AirportParts()];
+            array.push.apply(array, self.listOfSubFlights());
+            return array;
+        });
+        self.rowData = ko.computed(function(){
+            var array = new Array();
+            if (self.classes()){
+                for (var k=0; k<self.classes().length; k++){
+                    var classArray = new Array();
+                    for (var i=0; i<self.listOfSubFlights().length; i++){
+                        if (self.listOfSubFlights()[i].airport()){
+                            var data = ko.observableArray();
+                            for (var j=0; j<self.listOfSubFlights().length; j++){
+                                if (self.listOfSubFlights()[j].airport()){
+                                    data.push(new PriceValues(i < j))
+                                }
+                            }
+                            classArray.push({header : self.listOfSubFlights()[i], data: data});
+                        }
+                    }
+                    array.push({classId: self.classes()[k].id, classArray: classArray});
+                }
+            }
+            return array;
+        }); 
+
+        self.FlightAirportRequiredError = ko.observable(false);
+        self.FlightRepeatingAirportError = ko.observable(false);
+        self.ScheduleRequiredError = ko.observable(false);
+        self.DateIntervalRequiredError = ko.observable(false);
+        self.FromBeforeToError = ko.observable(false);
+        self.AirplaneRequiredError = ko.observable(false);
+        self.BeforeAfterCurrentError = ko.observable(false);
+
+        self.firstFormValid = ko.computed(function(){
+            self.FlightAirportRequiredError(false);
+            var a = [];
+            for (var i=0; i<self.listOfSubFlights().length; i++){
+                if (self.listOfSubFlights()[i].airport())
+                    a.push(self.listOfSubFlights()[i].airport());
+                else
+                    self.FlightAirportRequiredError(true);
+            }
+
+            a.sort();
+            self.FlightRepeatingAirportError(false);
+            for (var i=0; i<a.length - 1; i++){
+                if (a[i] == a[i+1]){
+                    self.FlightRepeatingAirportError(true);
+                    break;
+                }
+            }
+
+            var b=[];
+            self.ScheduleRequiredError(false);
+            for (var i=0; i<self.ScheduleList().length; i++){
+                if (self.ScheduleList()[i].day() && self.ScheduleList()[i].timeValue()){
+                    b.push({day: self.ScheduleList()[i].day(), time: self.ScheduleList()[i].timeValue()})
+                } else 
+                    self.ScheduleRequiredError(true);
+            }
+
+            self.FromBeforeToError(false);
+            if (!self.intStart() || !self.intEnd())
+                self.DateIntervalRequiredError(true);
+            else {
+                self.DateIntervalRequiredError(false);
+                self.FromBeforeToError(new Date(self.intStart()) > new Date(self.intEnd()));
+            }
+
+            self.BeforeAfterCurrentError(false);
+            if (self.intStart())
+                self.BeforeAfterCurrentError(new Date(self.intStart()) < new Date())
+            
+            self.AirplaneRequiredError(!self.airplane());
+
+
+            return !self.FlightAirportRequiredError() && !self.FlightRepeatingAirportError() 
+                    && !self.ScheduleRequiredError() && !self.DateIntervalRequiredError() 
+                    && !self.BeforeAfterCurrentError() && !self.FromBeforeToError() 
+                    && !self.AirplaneRequiredError();
+        })
+
+        self.secondFormValid = ko.computed(function(){
+            if (!self.rowData().length) return false;
+            for (var i=0; i<self.rowData().length; i++){
+                if (!self.rowData()[i].classArray.length) return false;
+                for (var j=0; j<self.rowData()[i].classArray.length; j++){
+                    if (!self.rowData()[i].classArray[j].data().length) return false;
+                    for (var k=0; k<self.rowData()[i].classArray[j].data().length; k++){
+                        if (self.rowData()[i].classArray[j].data()[k].visible &&
+                            (!self.rowData()[i].classArray[j].data()[k].oneway() ||
+                            !self.rowData()[i].classArray[j].data()[k].rreturn()))  
+                            return false;
+                    }
+                }
+            }
+            return true;
+        });
+
+        self.ModelError = ko.observable(false);
+
+        self.saveData = function(){
+            if (!self.firstFormValid() || !self.secondFormValid()){
+                self.ModelError = ko.observable(true);
+                return false;
+            }
+            var subFlightList = [];
+            for (var i=0; i<self.table().length; i++){
+                var a = self.table()[i].airportFromId;
+                var b = self.table()[i].airportToId;
+                var c = self.calculateDurationBetweenAirports(a.airport(), b.airport());
+                var d = self.calculateDistanceBetweenAirports(a.airport(), b.airport());
+                subFlightList.push({'AerodromOdId': a.airport(), 'AerodromDoId': b.airport(), 
+                    'VremeNaLetanje': c + ':00', 'Rastojanie': d});
+            }
+
+            var days = []; var times = [];
+            for (var i=0; i<self.ScheduleList().length; i++){
+                days.push(self.ScheduleList()[i].day());
+                times.push(self.ScheduleList()[i].timeValue());
+            }
+
+            var startDate = self.intStart();
+            var endDate = self.intEnd();
+            var airplaneId = self.airplane();
+
+            var ceni = [];
+            for (var i=0; i<self.rowData().length; i++){
+                for (var j=0; j<self.rowData()[i].classArray.length; j++){
+                    for (var k=0; k<self.rowData()[i].classArray[j].data().length; k++){
+                        if (self.rowData()[i].classArray[j].data()[k].visible){
+                            var a = {'FromId': self.rowData()[i].classArray[j].header.airport(),
+                                'ToId': self.listOfSubFlights()[k].airport() ,
+                                'ClassId': self.rowData()[i].classId, 
+                                'OneWay' : self.rowData()[i].classArray[j].data()[k].oneway(), 
+                                'Return': self.rowData()[i].classArray[j].data()[k].rreturn() };
+                            ceni.push(a);
+                        }
+                    }
+                }
+            }
+
+            data = {'ListOfSubFlight': subFlightList, 'ListOfDays':days, 'ListOfTimes': times, 
+                'StartDate' : startDate, 'EndDate': endDate, 'AirplaneId': airplaneId, 
+                'Prices' : ceni};
+
+            $.post("/Company/AddFlight", data, 
+                function(data, textStatus, jqXHR){
+                    alert(data);
+                }, "json" );
+        }
+    }
+
+    //ko.bindingHandlers.timePicker = {
+    //    init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    //        allBindings = allBindingsAccessor();
+
+    //        var options = {
+    //            format:'LT',
+    //            showClose: true
+    //        };
+
+    //        ko.utils.extend(options, allBindings.dateTimePickerOptions)
+
+    //        $(element).datetimepicker(options).on("dp.change", function (evntObj) {
+    //            var observable = valueAccessor();
+    //            if (evntObj.timeStamp !== undefined) {
+    //                var picker = $(this).data("DateTimePicker");
+    //                var d = picker.date();
+    //                //observable(d._i);
+    //            }
+    //        });
+    //    },
+    //    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    //        var value = ko.utils.unwrapObservable(valueAccessor());
+    //        $(element).data("DateTimePicker").date(value?value:new Date());
+    //    }
+    //};
+
+    ko.applyBindings(new Flight());
+
+    //$(function(){ 
+    //    //setTimePicker(); 
+    //    $('.start-datepicker').each(function (index, item) {
+    //        var text = $(item.children).val()
+
+    //        $(this).datetimepicker({
+    //            minDate: new Date(),
+    //            viewMode: 'days',
+    //            showClose: true,
+    //            format: 'YYYY-MM-DD',
+    //            date: new Date(text)
+    //        });
+    //    });
+
+    //    $('.end-datepicker').each(function (index, item) {
+    //        var text = $(item.children).val()
+
+    //        $(this).datetimepicker({
+    //            minDate: new Date(),
+    //            viewMode: 'days',
+    //            showClose: true,
+    //            format: 'YYYY-MM-DD',
+    //            date: new Date(text)
+    //        });
+    //    });
+
+    //    $(".start-datepicker").on("dp.change", function (e) {
+    //        $('.end-datepicker').data("DateTimePicker").minDate(e.date);
+    //    });
+
+    //    //$(".end-datepicker").on("dp.change", function (e) {
+    //    //    $('.start-datepicker').data("DateTimePicker").maxDate(e.date);
+    //    //});
+    //});
+
+</script>

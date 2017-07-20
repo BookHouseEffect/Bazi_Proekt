@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Db201617zVaProektRnabContext.Brojac>
+
+<div class="panel panel-info panel-body">
+    <div class="row">
+        <div class="col-xs-4 center-block">
+            <h1 class="text-center">@Model.First().BrojRazlicniPatnici</h1>
+            <p class="text-center">Satisfied Customers</p>
+        </div>
+        <div class="col-xs-4">
+            <h1 class="text-center">@Model.First().BrojRazlicniLetovi</h1>
+            <p class="text-center">Departured Fligth</p>
+        </div>
+        <div class="col-xs-4">
+            <h1 class="text-center">@Model.First().BrojIzdadeniBileti</h1>
+            <p class="text-center">Sold Tickest</p>
+        </div>
+    </div>
+</div>

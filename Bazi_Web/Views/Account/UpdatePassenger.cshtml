@@ -1,0 +1,13 @@
+﻿@model Bazi_Web.Models.PassengersViewModel
+
+<div class="form-horizontal">
+    @Html.Hidden("ModelType", Model.GetType())
+    @Html.AntiForgeryToken()
+    @if (!String.IsNullOrEmpty(ViewBag.Message))
+    {
+        <p class="text text-success">@ViewBag.Message</p>
+    }
+    @Html.ValidationSummary(true, "", new { @Class = "text-danger", style = "list-style-type: none;" })
+    @Html.EditorForModel("PersonEditor")
+    @Html.EditorForModel("PassportEditor")
+</div>

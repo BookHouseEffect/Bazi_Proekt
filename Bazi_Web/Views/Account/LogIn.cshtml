@@ -1,0 +1,39 @@
+﻿@model Bazi_Web.Models.LogInViewModel
+
+@{
+    ViewBag.Title = "Log In";
+}
+
+<div class="row well-lg">
+    <div class="panel panel-info col-md-offset-3  col-md-6">
+        <div class="panel panel-heading">
+            <h2>Plase log in to your account</h2>
+        </div>
+        <div class="panel panel-body">
+            @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { id = "logInForm", @Class = "", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @Class = "text-danger", style = "list-style-type: none;" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Username, new { @Class = "" })
+                    @Html.TextBoxFor(m => m.Username, new { @Class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @Class = "" })
+                    @Html.PasswordFor(m => m.Password, new { @Class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+
+                <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Login</button>
+            }
+        </div>
+    </div>
+</div>

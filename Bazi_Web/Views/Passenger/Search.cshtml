@@ -1,0 +1,91 @@
+﻿@model Bazi_Web.Models.SearchViewModel
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2 class="page-header">Search</h2>
+<div class="row">
+    <div class="col-md-3">
+        @using (Ajax.BeginForm("GetFlights", "Passenger", new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "flightList"
+        }))
+        {
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>Search Flights</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Source Airport</label>
+                        <select name="SourceAirport" id="SourceAirport" class="form-control">
+                            @foreach(var item in Model.airports)
+                            {
+                                <option value="@item.AerodromId">
+                                    @item.ImeNaAerodrom,
+                                    @item.Adresi_AdresaId.Grad,
+                                    @item.Adresi_AdresaId.Drzhava
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination Airport</label>
+                        <select name="DestinationAirport" id="DestinationAirport" class="form-control">
+                            @foreach (var item in Model.airports)
+                            {
+                                <option value="@item.AerodromId">
+                                    @item.ImeNaAerodrom,
+                                    @item.Adresi_AdresaId.Grad,
+                                    @item.Adresi_AdresaId.Drzhava
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div class="input-group date flight-date-picker">
+                            @Html.TextBoxFor(m => m.Date, "{0:yyyy'-'MM'-'dd}", new { @class = "form-control" })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(x => x.Date)
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <input type="submit" class="btn btn-primary col-md-12" value="Search" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Search Results</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Departure Time</th>
+                            <th>Arival Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="flightList">
+                        <tr>
+                            <td colspan="5">No data found for your search.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

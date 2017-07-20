@@ -1,0 +1,75 @@
+﻿@model Bazi_Web.Models.ScheduleViewModel
+@using Db201617zVaProektRnabContext
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2 class="page-header">Schedule</h2>
+
+@using (Html.BeginForm("Schedule", "Passenger", FormMethod.Get, new { }))
+{
+    <div class="row">
+        <label class="control-label col-md-2 text-right">Source Airport:</label>
+        <div class="col-xs-8">
+            <select name="SourceAirport" class="form-control" id="SourceAirport">
+                @foreach (Aerodromi a in Model.AirportList)
+                {
+                    <option value="@a.AerodromId" @(a.AerodromId == Model.SourceAirport ? "selected":"")>@a.ImeNaAerodrom, @a.Adresi_AdresaId.Grad, @a.Adresi_AdresaId.Drzhava</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Get schedule</button>
+        </div>
+    </div>
+}
+
+<hr />
+
+@if (Model.ScheduleList != null)
+{
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Target</th>
+                        <th class="text-center">Monday</th>
+                        <th class="text-center">Tuesday</th>
+                        <th class="text-center">Wednessday</th>
+                        <th class="text-center">Thursday</th>
+                        <th class="text-center">Friday</th>
+                        <th class="text-center">Saturday</th>
+                        <th class="text-center">Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Rasporedi r in Model.ScheduleList.GroupBy(x=>x.MegjuletoviId).Select(x=>x.First()).ToList())
+                    {
+                        <tr>
+                            <td>@r.Megjuletovi_MegjuletoviId.Aerodromi_AerodromDoId.ImeNaAerodrom, 
+                                @r.Megjuletovi_MegjuletoviId.Aerodromi_AerodromDoId.Adresi_AdresaId.Grad,
+                                @r.Megjuletovi_MegjuletoviId.Aerodromi_AerodromDoId.Adresi_AdresaId.Drzhava
+                            </td>
+                            @for (int i = 1; i <= 7; i++)
+                            {
+                                <td class="text-center">
+                                    @if (Model.ScheduleList.Where(x => x.MegjuletoviId == r.MegjuletoviId && x.DenNaPoletuvanje == i).Count() > 0)
+                                    {
+                                        <div class="text-success"><span class="glyphicon glyphicon-ok"></span></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-danger"><span class="glyphicon glyphicon-remove"></span></div>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

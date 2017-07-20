@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (User == null || !User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" });
+                }
+                else
+                {
+                    if (User.IsInRole("Company"))
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Company", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
+                    else if (User.IsInRole("Passenger"))
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Passenger", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Airplane Management System", "Index", "Home", new { area = "" }, new { @Class = "navbar-brand" });
+                    }
+                }
+
+                
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "View Schedule", "Schedule", "Passenger", null, "glyphicon glyphicon-calendar")</li>
+                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Search Flights", "Search", "Passenger", null, "glyphicon glyphicon-search")</li>
+
+                    @if (User == null)
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Passenger Account", "Register", "Account",
+                                        "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER.ToString(), "glyphicon glyphicon-user")
+                                </li>
+                                <li>
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Company Account", "Register", "Account",
+                                        "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY.ToString(), "glyphicon glyphicon-plane")
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Log In", "LogIn", "Account", null, "glyphicon glyphicon-log-in")
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome, @User.UserName<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li id="user1">
+                                    @*TODO Add account settings link configuration*@
+                                    @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Account Settings", "AccountSettings", "Account", null, "glyphicon glyphicon-cog")
+                                </li>
+
+                                @if (User.Roles.Contains("Company")) { 
+                                    <li>
+                                        @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Register Employee Account", "Register", "Account",
+                                            "accountType=" + Bazi_Web.Controllers.AccountController.AccountTypes.EMPLOYEE.ToString(), "glyphicon glyphicon-briefcase")
+                                    </li>
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Airplane Management", "ViewAirplanes", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-send")</li>
+                                    @*<li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Airport Management", "ViewAirports", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-header")</li>*@
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Add Flight", "AddFlight", "Company",
+                                            null, "glyphicon glyphicon-plus")</li>
+                                    <li>@Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Flight Management", "ViewFlights", "Company",
+                                            "pageNumber=1&pageSize=10", "glyphicon glyphicon-asterisk")</li>
+                                }
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            @Bazi_Web.Helpers.ActionLinkExtension.ActionLinkSpan(Html, "Sign Out", "LogOut", "Account", null, "glyphicon glyphicon-log-out")
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Airplace Conpany Management System</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/SiteScripts/General.js"></script>
+</body>
+</html>

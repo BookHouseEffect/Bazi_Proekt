@@ -1,0 +1,99 @@
+﻿@model Bazi_Web.Models.CompanyIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-header">
+    <h2>Company DashBoard</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>Classes that has reservations per class equals to its mediana in last 6 months</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @foreach(var a in Model.A)
+                        {
+                            <tr><td>@a.ImeNaKlasa</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>Companies with most profit in last 6 months</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @foreach (var b in Model.B)
+                        {
+                            <tr><td>@b.Aviokompanija</td><td>@b.Profit</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" >
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>State with most arrivals</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @foreach (var d in Model.D)
+                        {
+                            <tr><td>@d.Drzhava</td><td>@d.Broj</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>Passengers that travelled with each registerd companies</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @foreach (var c in Model.C)
+                        {
+                            <tr><td>@c.PatnikId</td>@c.Count</tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>Passenger that spent most in last year</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @foreach (var e in Model.E)
+                        {
+                            <tr><td>@e.PatnikId</td><td>@e.Potroshil</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

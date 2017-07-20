@@ -1,0 +1,88 @@
+﻿@model Bazi_Web.Models.EditViewModel
+@{
+    ViewBag.Title = "Account Settings";
+}
+@using Bazi_Web.Models
+<div class="container">
+
+    <div class="page-header">
+        <h1>Account Settings</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 panel panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a data-toggle="pill" href="#pass">Change Password</a></li>
+                @if (Model.SelectedAccountType == Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER)
+                {
+                    <li><a data-toggle="pill" href="#info">Edit Personal Information</a></li>
+                }
+                else if (Model.SelectedAccountType == Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY)
+                {
+                    <li><a data-toggle="pill" href="#info">Edit Company Information</a></li>
+                }
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            <div class="tab-content">
+                <div id="pass" class="tab-pane fade in active">
+                    <div class="panel panel-info">
+                        <div class="panel panel-heading">
+                            <h2>Change Password</h2>
+                        </div>
+                        <div class="panel panel-body">
+                            @using (Ajax.BeginForm("ChangePassword", "Account", new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "password-target-id"
+                            }))
+                            {
+                                <div id="password-target-id">
+                                    @Html.Partial("ChangePassword", (ChangePassword)(Model.Passwords))
+                                </div>
+
+                                <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Change Password</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="info" class="tab-pane fade">
+                    <div class="panel panel-info">
+                        @if (Model.SelectedAccountType == Bazi_Web.Controllers.AccountController.AccountTypes.PASSENGER)
+                        {
+                            <div class="panel panel-heading">
+                                <h2>Edit Personal Information</h2>
+                            </div>
+                            <div class="panel panel-body">
+                                @Html.Partial("PassengersList",(Model.Infomation))
+                            </div>
+                        }
+                        else if (Model.SelectedAccountType == Bazi_Web.Controllers.AccountController.AccountTypes.COMPANY)
+                        {
+                            <div class="panel panel-heading">
+                                <h2>Edit Company Information</h2>
+                            </div>
+                            <div class="panel panel-body">
+                                @using (Ajax.BeginForm("UpdateCompany", "Account", new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "company-target-id"
+                                }))
+                                {
+                                    <div id="company-target-id">
+                                        @Html.Partial("UpdateCompany", (CompanyViewModel)(Model.Infomation.First()))
+                                    </div>
+
+                                    <button class="btn btn-primary col-md-offset-8 col-md-4" type="submit" value="Submit">Update</button>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

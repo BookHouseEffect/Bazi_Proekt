@@ -1,0 +1,71 @@
+﻿@model Bazi_Web.Models.SearchResultViewModel
+@using Db201617zVaProektRnabContext;
+
+@if (Model.flight.Count == 0)
+{
+    <tr>
+        <td colspan="5">No data found for your search.</td>
+    </tr>
+}
+else
+{
+    foreach (PlanoviNaLetanje item in Model.flight)
+    {
+    <tr>
+        <td>@item.Megjuletovi_MegjuletId.Aerodromi_AerodromOdId.Adresi_AdresaId.Grad, @item.Megjuletovi_MegjuletId.Aerodromi_AerodromOdId.Adresi_AdresaId.Drzhava</td>
+        <td>@item.Megjuletovi_MegjuletId.Aerodromi_AerodromDoId.Adresi_AdresaId.Grad, @item.Megjuletovi_MegjuletId.Aerodromi_AerodromDoId.Adresi_AdresaId.Drzhava</td>
+        <td>@item.DatumVremeNaPoletuvanje</td>
+        <td>@item.DatumVremeNaSletuvanje</td>
+        <td>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#flight_@item.PlanId">Prices</a>
+            <div id="flight_@item.PlanId" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table-bordered table table-striped table-condensed table-hover">
+                                <tr>
+                                    <th>Class</th>
+                                    <th>One way ticket</th>
+                                    <th>Return Ticker</th>
+                                    <th></th>
+                                </tr>
+                                @foreach (Cenovnici c in item.Cenovnicis_PlanId)
+                                {
+                                    <tr>
+                                        <td>@c.Klasi_KlasaId.ImeNaKlasa</td>
+                                        <td>@c.CenaVoEdenPravec</td>
+                                        <td>@c.CenaPovraten</td>
+                                        <td>
+                                            @if (User != null && User.IsInRole("Passenger"))
+                                            {
+                                                @Html.ActionLink("Make reservation", "Reserve", "Passenger",
+                         new { planId = item.PlanId, classId = c.KlasaId }, new { @class = "btn btn-primary" })
+                                            }
+                                            else
+                                            {
+                                                <span>Make reservation *</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="4">
+                                        <p class="label label-info">* Login with your passenger Account to make reservation</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    }
+}
